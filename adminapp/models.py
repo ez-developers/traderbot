@@ -17,5 +17,5 @@ class Plan(models.Model):
 
 class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    tariff = models.ForeignKey(Tariff, on_delete=models.PROTECT, null=True, blank=True)
+    plan = models.ForeignKey(Plan, on_delete=models.PROTECT, null=True, blank=True)
     paid = models.BooleanField(default=False)
