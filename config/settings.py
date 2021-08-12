@@ -27,8 +27,16 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+ADMIN_IDS = [
+    361516746,
+    15581077,
+    943373513
+]
+DEVELOPER_ID = 361516746
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost', '127.0.0.1', '192.168.1.101', '192.168.1.123'
+]
 
 
 # Application definition
