@@ -1,5 +1,14 @@
+
+# environments
 .env
-.DS_Store
 venv
+
+# Mac trash
+.DS_Store
+
+# Python cache
+__pycache__
 *.pyc
+
+# Django default database
 db.sqlite3
