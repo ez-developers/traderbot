@@ -14,24 +14,22 @@
 		}
 	},
 	"buttons": {
-		"menu": {
-			"my_profile": {
-				"ru": "Moy Profile",
-				"en": "My Profile"
-			},
-			"video_lessons": {
-				"ru": "video zanyatiya",
-				"en": "video",
-				"uz": "darsliklar"
-			},
-			"portfolios": {
-				"ru": "moy portfel'",
-				"en": "portfolio"
-			},
-			"support": {
-				"ru": "pomosh",
-				"en": "support"
-			}
+		"my_profile": {
+			"ru": "Moy Profile",
+			"en": "My Profile"
+		},
+		"video_lessons": {
+			"ru": "video zanyatiya",
+			"en": "video",
+			"uz": "darsliklar"
+		},
+		"portfolios": {
+			"ru": "moy portfel'",
+			"en": "portfolio"
+		},
+		"support": {
+			"ru": "pomosh",
+			"en": "support"
 		},
 		"language_ru": "Russkiy yazik",
 		"language_en": "English",
