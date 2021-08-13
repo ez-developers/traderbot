@@ -52,4 +52,4 @@ class userGet(APIView):
     def get(self, request, pk, format=None):
         user = self.get_object(pk)
         serializer = UserSerializer(user)
-        return Response(JSONRenderer().render(serializer.data), content_type='application/json')
+        return Response(serializer.data, content_type='application/json')
