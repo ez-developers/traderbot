@@ -1,8 +1,7 @@
 from django.utils.crypto import get_random_string
 from django.db import models
-import string
-import random
 from datetime import datetime, timedelta
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -11,6 +10,12 @@ class User(models.Model):
     class Meta:
         verbose_name_plural = "Пользователи"
         verbose_name = "Пользователь"
+    ENGLISH = "en"
+    RUSSIAN = "ru"
+    LANGUAGE_CHOICES = [
+        (ENGLISH, 'English')
+        (RUSSIAN, "Русский")
+    ]
 
     id = models.BigIntegerField(primary_key=True, verbose_name="ID")
     first_name = models.CharField(
@@ -23,8 +28,10 @@ class User(models.Model):
         null=True, verbose_name="Телефон", blank=True)
     subscription_status = models.BooleanField(
         null=False, default=False, verbose_name="Статус подписки")
+    language = models.CharField(choices = LANGUAGE_CHOICES, default=RUSSIAN, null=True, blank=True,)
     date_joined = models.DateField(
         null=True, verbose_name="Дата присоединения", auto_now_add=True)
+    
 
     def __str__(self):
         return str(self.id)
@@ -52,6 +59,6 @@ class Promo(models.Model):
     valid_date = models.DateField(default=datetime.now()+timedelta(days=365))
     used = models.BooleanField(default=False, editable=False)
 
+
     def __str__(self):
         return self.promo_id
-
