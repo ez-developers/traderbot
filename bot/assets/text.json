@@ -1,39 +1,110 @@
 {
 	"texts": {
 		"greeting": {
-			"ru": "Privet bratan",
+			"ru": "Добро пожаловать",
 			"en": "Hello, world"
 		},
 		"choose_language": {
-			"ru": "Privet bratan",
-			"en": "Hello, world"
+			"ru": "Выберите язык",
+			"en": "Choose language"
+		},
+		"request_agreement": { 
+			"ru": "Примите пользовательское соглашение"
+		},
+		"request_name": {
+			"ru": "Введите ваше имя"
+		},
+		"request_phone":{
+			"ru": "Введите ваш номер телефона или нажмите кнопку 'Отправить номер'"
+		},
+		"congratulations": {
+			"ru": "🎉Поздравляем, вы успешно оформили подписку!"
 		},
 		"main_page": {
-			"ru": "Glavnaya",
-			"en": "Main"
+			"ru": "Главная",
+			"en": "Main menu"
+		},
+		"expiry_date": {
+			"ru": "Подписка оплачена до "
+		},
+		"thanks": {
+			"ru":"Спасибо!"
+		},
+		"request_question": {
+			"ru": "Задайте ваш вопрос"
+		},
+		"accept_question": {
+			"ru": "Ваш запрос принят, ожидайте ответ в течение 48 часов"
+		},
+		"request_capital": {
+			"ru": "Назовите ваш капитал"
+		},
+		"request_expectations": {
+			"ru": "Какие у вас ожидания от инвестиций?"
+		},
+		"request_risk": {
+			"ru": "Готовы ли вы к рискам?"
+		},
+		"request_history": {
+			"ru": "Есть ли у вас опыт в инвестициях?"
 		}
+
+		
+		
 	},
 	"buttons": {
-		"language_ru": "Russkiy yazik",
-		"language_en": "English",
+		"language": {
+			"ru": "Русский язык",
+			"en": "English"
+		},
+		"accept_agreement": {
+			"ru": "Принять"
+		},
+		"deny_agreement": {
+			"ru": "Отклонить"
+		},
+		"send_phone": {
+			"ru": "Отправьте номер"
+		},
+		"subscribe": {
+			"ru": "Купить подписку"
+		},
+		"enter_promo": {
+			"ru": "Ввести код активации"
+		},
 		"my_profile": {
-			"ru": "Moy Profile",
+			"ru": "Мой Профиль",
 			"en": "My Profile"
 		},
+		"user_name": {
+			"ru": "Имя Фамилия"
+		},
+		"subscription_status": {
+			"ru": "Статус подписки"
+		},
+		"pay": {
+			"ru": "Оплатить"
+		},
+		"extend_subscription": {
+			"ru": "Продлить подписку"
+		},
 		"video_lessons": {
-			"ru": "video zanyatiya",
-			"en": "video",
-			"uz": "darsliklar"
+			"ru": "Видеоуроки",
+			"en": "Video lessons"
 		},
 		"portfolios": {
-			"ru": "moy portfel'",
-			"en": "portfolio"
+			"ru": "Мой портфель",
+			"en": "Portfolio"
 		},
 		"support": {
-			"ru": "pomosh",
-			"en": "support"
+			"ru": "Поддержка",
+			"en": "Support"
 		},
-		"hello": "Hello",
-		"send_phone": "Send my phone number"
+		"yes": {
+			"ru": "Да"
+		},
+		"no": {
+			"ru": "Нет"
+		}
 	}
 }
