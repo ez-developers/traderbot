@@ -23,7 +23,32 @@
 		"main_page": {
 			"ru": "Главная",
 			"en": "Main menu"
+		},
+		"expiry_date": {
+			"ru": "Подписка оплачена до "
+		},
+		"thanks": {
+			"ru":"Спасибо!"
+		},
+		"request_question": {
+			"ru": "Задайте ваш вопрос"
+		},
+		"accept_question": {
+			"ru": "Ваш запрос принят, ожидайте ответ в течение 48 часов"
+		},
+		"request_capital": {
+			"ru": "Назовите ваш капитал"
+		},
+		"request_expectations": {
+			"ru": "Какие у вас ожидания от инвестиций?"
+		},
+		"request_risk": {
+			"ru": "Готовы ли вы к рискам?"
+		},
+		"request_history": {
+			"ru": "Есть ли у вас опыт в инвестициях?"
 		}
+
 		
 		
 	},
@@ -51,6 +76,18 @@
 			"ru": "Мой Профиль",
 			"en": "My Profile"
 		},
+		"user_name": {
+			"ru": "Имя Фамилия"
+		},
+		"subscription_status": {
+			"ru": "Статус подписки"
+		},
+		"pay": {
+			"ru": "Оплатить"
+		},
+		"extend_subscription": {
+			"ru": "Продлить подписку"
+		},
 		"video_lessons": {
 			"ru": "Видеоуроки",
 			"en": "Video lessons"
@@ -63,17 +100,11 @@
 			"ru": "Поддержка",
 			"en": "Support"
 		},
-		"user_name": {
-			"ru": "Имя Фамилия"
+		"yes": {
+			"ru": "Да"
 		},
-		"subscription_status": {
-			"ru": "Статус подписки"
-		},
-		"pay": {
-			"ru": "Оплатить"
-		},
-		"extend_subscription": {
-			"ru": "Продлить подписку"
+		"no": {
+			"ru": "Нет"
 		}
 	}
 }
