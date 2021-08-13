@@ -39,7 +39,7 @@ GROUP_ID = 1
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1', '192.168.1.101', '192.168.1.123'
 ]
-API_URL = 'http://192.168.1.101:9907/api/'
+API_URL = 'http://192.168.1.123:9907/api/'
 API_AUTHENTICATION = HTTPBasicAuth(username=os.getenv("API_USER"),
                                    password=os.getenv("API_PASSWORD"))
 
