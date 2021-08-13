@@ -57,7 +57,7 @@ class Promo(models.Model):
     promo_id = models.CharField(
         max_length=255, default=unique_id, null=True, blank=True, unique=True)
     valid_date = models.DateField(default=datetime.now()+timedelta(days=365))
-    used = models.BooleanField(default=False, editable=False)
+    is_used = models.BooleanField(default=False, editable=False)
 
     def __str__(self):
         return self.promo_id

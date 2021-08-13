@@ -22,9 +22,11 @@ class UserAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+
 @admin.register(Promo)
 class PromoAdmin(admin.ModelAdmin):
-    list_display = ("promo_id", "valid_date")
+    list_display = ("promo_id", "valid_date", "is_used")
     readonly_fields = ("promo_id",)
+
     def has_delete_permission(self, request, obj=None):
         return False
