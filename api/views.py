@@ -9,7 +9,6 @@ from .serializers import UserSerializer
 from app.models import User
 
 
-
 @permission_classes([IsAuthenticated])
 class userAdd(APIView):
 
@@ -20,9 +19,6 @@ class userAdd(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    
-
 
 
 @permission_classes([IsAuthenticated])
@@ -33,6 +29,7 @@ class usersList(APIView):
         serializer = UserSerializer(queryset, many=True)
 
         return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
+
 
 @permission_classes([IsAuthenticated])
 class userGet(APIView):

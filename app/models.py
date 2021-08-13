@@ -28,10 +28,10 @@ class User(models.Model):
         null=True, verbose_name="Телефон", blank=True)
     subscription_status = models.BooleanField(
         null=False, default=False, verbose_name="Статус подписки")
-    language = models.CharField(choices = LANGUAGE_CHOICES, default=RUSSIAN, null=True, blank=True,)
+    language = models.CharField(
+        choices=LANGUAGE_CHOICES, default=RUSSIAN, null=True, blank=True,)
     date_joined = models.DateField(
         null=True, verbose_name="Дата присоединения", auto_now_add=True)
-    
 
     def __str__(self):
         return str(self.id)
@@ -58,7 +58,6 @@ class Promo(models.Model):
         max_length=255, default=unique_id, null=True, blank=True, unique=True)
     valid_date = models.DateField(default=datetime.now()+timedelta(days=365))
     used = models.BooleanField(default=False, editable=False)
-
 
     def __str__(self):
         return self.promo_id
