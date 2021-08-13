@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from requests.auth import HTTPBasicAuth
 import os
 import dotenv
 
@@ -33,10 +34,14 @@ ADMIN_IDS = [
     943373513
 ]
 DEVELOPER_ID = 361516746
+GROUP_ID = 1
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1', '192.168.1.101', '192.168.1.123'
 ]
+API_URL = 'http://localhost:8000/api/'
+API_AUTHENTICATION = HTTPBasicAuth(username=os.getenv("API_USER"),
+                                   password=os.getenv("API_PASSWORD"))
 
 
 # Application definition
@@ -48,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'app'
 ]
 
 MIDDLEWARE = [
