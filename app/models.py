@@ -13,7 +13,7 @@ class User(models.Model):
     ENGLISH = "en"
     RUSSIAN = "ru"
     LANGUAGE_CHOICES = [
-        (ENGLISH, 'English')
+        (ENGLISH, 'English'),
         (RUSSIAN, "Русский")
     ]
 
@@ -28,7 +28,7 @@ class User(models.Model):
         null=True, verbose_name="Телефон", blank=True)
     subscription_status = models.BooleanField(
         null=False, default=False, verbose_name="Статус подписки")
-    language = models.CharField(choices = LANGUAGE_CHOICES, default=RUSSIAN, null=True, blank=True,)
+    language = models.CharField(max_length = 2, choices = LANGUAGE_CHOICES, default=None, null=True, blank=True,)
     date_joined = models.DateField(
         null=True, verbose_name="Дата присоединения", auto_now_add=True)
     
