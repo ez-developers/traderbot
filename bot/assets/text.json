@@ -1,0 +1,41 @@
+{
+	"texts": {
+		"greeting": {
+			"ru": "Privet bratan",
+			"en": "Hello, world"
+		},
+		"choose_language": {
+			"ru": "Privet bratan",
+			"en": "Hello, world"
+		},
+		"main_page": {
+			"ru": "Glavnaya",
+			"en": "Main"
+		}
+	},
+	"buttons": {
+		"menu": {
+			"my_profile": {
+				"ru": "Moy Profile",
+				"en": "My Profile"
+			},
+			"video_lessons": {
+				"ru": "video zanyatiya",
+				"en": "video",
+				"uz": "darsliklar"
+			},
+			"portfolios": {
+				"ru": "moy portfel'",
+				"en": "portfolio"
+			},
+			"support": {
+				"ru": "pomosh",
+				"en": "support"
+			}
+		},
+		"language_ru": "Russkiy yazik",
+		"language_en": "English",
+		"hello": "Hello",
+		"send_phone": "Send my phone number"
+	}
+}
