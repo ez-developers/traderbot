@@ -21,14 +21,7 @@ class userAdd(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def put(self, request, *args, **kwargs):
-        renderer_classes = [JSONRenderer]
-        user =self.get_object(pk)
-        serializer = UserSerializer(user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 
 
@@ -53,3 +46,12 @@ class userGet(APIView):
         user = self.get_object(pk)
         serializer = UserSerializer(user)
         return Response(serializer.data, content_type='application/json')
+
+    def put(self, request, pk, *args, **kwargs):
+        renderer_classes = [JSONRenderer]
+        user = self.get_object(pk)
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
