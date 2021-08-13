@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User
+from .models import User, Promo
 
 admin.site.site_url = None
 admin.site.index_title = "Добро пожаловать!"
@@ -19,5 +19,12 @@ class UserAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+@admin.register(Promo)
+class PromoAdmin(admin.ModelAdmin):
+    list_display = ("promo_id", "valid_date")
+    readonly_fields = ("promo_id",)
     def has_delete_permission(self, request, obj=None):
         return False

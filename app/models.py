@@ -1,4 +1,8 @@
+from django.utils.crypto import get_random_string
 from django.db import models
+import string
+import random
+from datetime import datetime, timedelta
 
 # Create your models here.
 
@@ -38,3 +42,16 @@ class Subscription(models.Model):
     plan = models.ForeignKey(
         Plan, on_delete=models.PROTECT, null=True, blank=True)
     paid = models.BooleanField(default=False)
+
+
+class Promo(models.Model):
+    RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVXYZ1234567890'
+    unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS)
+    promo_id = models.CharField(
+        max_length=255, default=unique_id, null=True, blank=True, unique=True)
+    valid_date = models.DateField(default=datetime.now()+timedelta(days=365))
+    used = models.BooleanField(default=False, editable=False)
+
+    def __str__(self):
+        return self.promo_id
+
