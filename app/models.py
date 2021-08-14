@@ -23,7 +23,7 @@ class User(models.Model):
     subscription_status = models.BooleanField(
         null=False, default=False, verbose_name="Статус подписки")
     language = models.CharField(
-        max_length=2, default=None, null=True, editable=False)
+        max_length=2, default=None, null=True)
     date_joined = models.DateField(
         null=True, verbose_name="Дата присоединения", auto_now_add=True)
 
