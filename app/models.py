@@ -31,6 +31,7 @@ class User(models.Model):
         max_length=2, choices=LANGUAGES, default=None, null=True, verbose_name="Язык")
     date_joined = models.DateField(
         null=True, verbose_name="Дата присоединения", auto_now_add=True)
+    portfolio = models.ForeignKey('Portfolio', on_delete=models.SET_NULL, null=True, default=None)
 
     def __str__(self):
         return str(self.id)
@@ -63,3 +64,13 @@ class Promo(models.Model):
     class Meta:
         verbose_name_plural = "Промокоды"
         verbose_name = "Промокод"
+
+class Portfolio(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Портфелы"
+        verbose_name = "Портфел"
+    def __str__(self):
+        return self.name
