@@ -1,7 +1,7 @@
 import dotenv
 import os
 import logging
-from telegram.ext import Updater, CommandHandler, ConversationHandler
+from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
 from bot.src.registration import Registration
 from bot.src.error import error_handler
 
@@ -25,7 +25,7 @@ def main():
         ],
         states={
             "LANGUAGE": [
-
+                
             ],
             "MENU_DISPLAYED": [
 
