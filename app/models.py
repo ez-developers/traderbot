@@ -61,3 +61,6 @@ class Promo(models.Model):
 
     def __str__(self):
         return self.promo_id
+    class Meta:
+        verbose_name_plural = "Промокоды"
+        verbose_name = "Промокод"
