@@ -31,6 +31,7 @@ class User(models.Model):
         max_length=2, choices=LANGUAGES, default=None, null=True, verbose_name="Язык")
     date_joined = models.DateField(
         null=True, verbose_name="Дата присоединения", auto_now_add=True)
+    portfolio = models.ManyToManyField('Portfolio')
 
     def __str__(self):
         return str(self.id)
@@ -54,12 +55,22 @@ class Promo(models.Model):
     RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVXYZ1234567890'
     unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS)
     promo_id = models.CharField(
-        max_length=255, default=unique_id, null=True, blank=True, unique=True)
-    valid_date = models.DateField(default=datetime.now()+timedelta(days=365))
-    is_used = models.BooleanField(default=False, editable=False)
+        max_length=255, default=unique_id, null=True, blank=True, unique=True, verbose_name="Промокод")
+    valid_date = models.DateField(default=datetime.now()+timedelta(days=365),  verbose_name="Действителен до")
+    is_used = models.BooleanField(default=False, editable=False, verbose_name="Активный")
 
     def __str__(self):
         return self.promo_id
     class Meta:
         verbose_name_plural = "Промокоды"
         verbose_name = "Промокод"
+
+class Portfolio(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Портфели"
+        verbose_name = "Портфель"
+    def __str__(self):
+        return self.name
