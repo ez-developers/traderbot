@@ -1,12 +1,14 @@
-import dotenv
-import os
-import logging
 from telegram.ext import (Updater,
                           CommandHandler,
                           ConversationHandler,
-                          CallbackQueryHandler)
+                          CallbackQueryHandler,
+                          MessageHandler,
+                          Filters)
 from bot.src.registration import Registration
 from bot.src.error import error_handler
+import dotenv
+import os
+import logging
 
 dotenv.load_dotenv()
 logging.basicConfig(
@@ -32,6 +34,13 @@ def main():
             ],
             "POLICY_AGREEMENT": [
                 CallbackQueryHandler(registration.handle_policy_accept)
+            ],
+            "NAME": [
+                MessageHandler(Filters.text, registration.get_name)
+            ],
+            "REQUESTING_PHONE": [
+                MessageHandler(Filters.text | Filters.contact,
+                               registration.get_phone)
             ],
             "MENU_DISPLAYED": [
 
