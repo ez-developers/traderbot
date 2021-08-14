@@ -10,12 +10,6 @@ class User(models.Model):
     class Meta:
         verbose_name_plural = "Пользователи"
         verbose_name = "Пользователь"
-    ENGLISH = "en"
-    RUSSIAN = "ru"
-    LANGUAGE_CHOICES = [
-        (ENGLISH, 'English'),
-        (RUSSIAN, "Русский")
-    ]
 
     id = models.BigIntegerField(primary_key=True, verbose_name="ID")
     first_name = models.CharField(
@@ -29,7 +23,7 @@ class User(models.Model):
     subscription_status = models.BooleanField(
         null=False, default=False, verbose_name="Статус подписки")
     language = models.CharField(
-        max_length=2, choices=LANGUAGE_CHOICES, default=None, null=True, editable=False)
+        max_length=2, default=None, null=True, editable=False)
     date_joined = models.DateField(
         null=True, verbose_name="Дата присоединения", auto_now_add=True)
 
