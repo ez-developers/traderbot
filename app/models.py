@@ -31,7 +31,7 @@ class User(models.Model):
         max_length=2, choices=LANGUAGES, default=None, null=True, verbose_name="Язык")
     date_joined = models.DateField(
         null=True, verbose_name="Дата присоединения", auto_now_add=True)
-    portfolio = models.ForeignKey('Portfolio', on_delete=models.SET_NULL, null=True, default=None)
+    portfolio = models.ManyToManyField('Portfolio')
 
     def __str__(self):
         return str(self.id)
