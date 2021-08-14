@@ -1,7 +1,10 @@
 import dotenv
 import os
 import logging
-from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
+from telegram.ext import (Updater,
+                          CommandHandler,
+                          ConversationHandler,
+                          CallbackQueryHandler)
 from bot.src.registration import Registration
 from bot.src.error import error_handler
 
@@ -25,7 +28,10 @@ def main():
         ],
         states={
             "LANGUAGE": [
-                
+                CallbackQueryHandler(registration.get_language)
+            ],
+            "POLICY_AGREEMENT": [
+                CallbackQueryHandler(registration.handle_policy_accept)
             ],
             "MENU_DISPLAYED": [
 
