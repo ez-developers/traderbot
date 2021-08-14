@@ -8,13 +8,16 @@
 			"ru": "Выберите язык",
 			"en": "Choose language"
 		},
-		"request_agreement": { 
+		"english_soon": {
+			"en": "English version will be available soon..."
+		},
+		"request_agreement": {
 			"ru": "Примите пользовательское соглашение"
 		},
 		"request_name": {
 			"ru": "Введите ваше имя"
 		},
-		"request_phone":{
+		"request_phone": {
 			"ru": "Введите ваш номер телефона или нажмите кнопку 'Отправить номер'"
 		},
 		"congratulations": {
@@ -28,7 +31,7 @@
 			"ru": "Подписка оплачена до "
 		},
 		"thanks": {
-			"ru":"Спасибо!"
+			"ru": "Спасибо!"
 		},
 		"request_question": {
 			"ru": "Задайте ваш вопрос"
@@ -48,9 +51,6 @@
 		"request_history": {
 			"ru": "Есть ли у вас опыт в инвестициях?"
 		}
-
-		
-		
 	},
 	"buttons": {
 		"language": {
