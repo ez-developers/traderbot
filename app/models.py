@@ -55,9 +55,9 @@ class Promo(models.Model):
     RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVXYZ1234567890'
     unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS)
     promo_id = models.CharField(
-        max_length=255, default=unique_id, null=True, blank=True, unique=True,)
-    valid_date = models.DateField(default=datetime.now()+timedelta(days=365))
-    is_used = models.BooleanField(default=False, editable=False)
+        max_length=255, default=unique_id, null=True, blank=True, unique=True, verbose_name="Промокод")
+    valid_date = models.DateField(default=datetime.now()+timedelta(days=365),  verbose_name="Действителен до")
+    is_used = models.BooleanField(default=False, editable=False, verbose_name="Активный")
 
     def __str__(self):
         return self.promo_id
@@ -71,6 +71,6 @@ class Portfolio(models.Model):
 
     class Meta:
         verbose_name_plural = "Портфели"
-        verbose_name = "Портфел"
+        verbose_name = "Портфель"
     def __str__(self):
         return self.name
