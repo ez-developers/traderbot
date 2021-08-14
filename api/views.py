@@ -32,6 +32,28 @@ class usersList(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class userGet(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class userGet(APIView):
+
+    def get_object(self, pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None, *args, **kwargs):
+        user = self.get_object(pk)
+        serializer = UserSerializer(user)
+        return Response(serializer.data, content_type='application/json')
+
+
+    def put(self, request, pk, format=None):
+        user = self.get_object(pk)
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK, content_type='application/json')
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
