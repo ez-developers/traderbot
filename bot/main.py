@@ -1,7 +1,10 @@
+from bot.src import menu
+from bot.src.text import b
 import dotenv
 import os
 import logging
 from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
+from bot.utils.filter import FilterButton
 from bot.src.registration import Registration
 from bot.src.error import error_handler
 
@@ -29,6 +32,21 @@ def main():
             ],
             "MENU_DISPLAYED": [
 
+            ],
+            "MY_PROFILE": [
+                MessageHandler(Filters.regex(
+                    b["user_name"]), menu.username),
+                MessageHandler(Filters.regex(
+                    b["subscription_status"]), menu.subscription),
+                MessageHandler(Filters.regex(
+                    b["pay"]), menu.pay),
+                MessageHandler(Filters.regex(
+                    b["back"]), menu.display)
+            ],
+            "VIDEOS": [
+                MessageHandler(Filters.regex(
+                    b["back"]), menu.display),
+                    MessageHandler(FilterButton("video_lessons"), menu.video_lessons)
             ]
         },
         fallbacks=[]
