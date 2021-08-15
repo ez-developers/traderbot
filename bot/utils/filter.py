@@ -15,3 +15,11 @@ class FilterButton(MessageFilter):
         return message.text in parser(API_URL=f"{API_URL + self.section_key}/",
                                       API_auth=API_AUTHENTICATION,
                                       key="name")
+
+
+def buttons(key: str):
+    button = j["buttons"][key]
+    __buttons = []
+    for i in button:
+        __buttons.append(button[i])
+    return '|'.join(j for j in __buttons)
