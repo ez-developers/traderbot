@@ -36,10 +36,16 @@ ADMIN_IDS = [
 DEVELOPER_ID = 361516746
 GROUP_ID = 1
 
+# Should be integer (not floats/doubles)
+AMOUNT_TO_PAY = 35000
+CURRENCY = "RUB"
+
+ONE_URL = '192.168.1.114'
+
 ALLOWED_HOSTS = [
-    'localhost', '127.0.0.1', '192.168.1.101', '192.168.1.123'
+    'localhost', '127.0.0.1', ONE_URL, '192.168.1.123'
 ]
-API_URL = 'http://192.168.1.123:9907/api/'
+API_URL = f'http://{ONE_URL}:8000/api/'
 API_AUTHENTICATION = HTTPBasicAuth(username=os.getenv("API_USER"),
                                    password=os.getenv("API_PASSWORD"))
 
