@@ -49,6 +49,12 @@ def main():
                 MessageHandler(Filters.regex(
                     buttons("back")), menu.display)
             ],
+            "PORTFOLIO": [
+                MessageHandler(FilterButton(
+                    buttons("portfolios")), menu.portfolio),
+                MessageHandler(Filters.regex(
+                    buttons("back")), menu.display)
+            ],
             "SUPPORT": [
                 MessageHandler(Filters.text|
                                 Filters.audio|
