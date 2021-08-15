@@ -3,7 +3,7 @@ from bot.src.text import b
 import dotenv
 import os
 import logging
-from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters, filters
 from bot.utils.filter import FilterButton, buttons
 from bot.src.registration import Registration
 from bot.src.error import error_handler
@@ -48,6 +48,14 @@ def main():
                     buttons("video_lessons")), menu.video_lessons),
                 MessageHandler(Filters.regex(
                     buttons("back")), menu.display)
+            ],
+            "SUPPORT": [
+                MessageHandler(Filters.text|
+                                Filters.audio|
+                                Filters.video|
+                                Filters.photo, menu.support),
+                MessageHandler(Filters.regex(
+                    buttons("back")), menu.display)             
             ]
         },
         fallbacks=[]
