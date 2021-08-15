@@ -1,18 +1,21 @@
-import random
-import requests
 import logging
+import dotenv
+import os
+from config.settings import AMOUNT_TO_PAY, CURRENCY
 from bot.utils.language import lang
 from bot.utils.request import get, post, put
 from bot.src.text import t, b
-from bot.src.conversation import Conversation
 from bot.src.menu import Menu
-from config.settings import API_URL, API_AUTHENTICATION
 from telegram.ext import CallbackContext, ConversationHandler
 from telegram import (Update,
                       InlineKeyboardButton,
                       InlineKeyboardMarkup,
                       ReplyKeyboardMarkup,
-                      ReplyKeyboardRemove, KeyboardButton)
+                      ReplyKeyboardRemove,
+                      KeyboardButton,
+                      LabeledPrice)
+
+dotenv.load_dotenv()
 
 
 class Registration:
@@ -56,7 +59,7 @@ class Registration:
     def check_data(self, update, context, chat_id):
         user = get(f'users/{chat_id}')
         if user['subscription_status'] is False:
-            return self.request_language(update, context)
+            return self.choose_subscription(update, context)
         else:
             return Menu().display(update, context)
 
@@ -154,7 +157,8 @@ class Registration:
         else:
             payload = {
                 "id": chat_id,
-                "first_name": name_input
+                "first_name": name_input,
+                "last_name": None
             }
         put(f"users/{chat_id}/", payload)
         context.bot.send_message(chat_id,
@@ -168,7 +172,7 @@ class Registration:
                                  text=t('request_phone', lang(chat_id)),
                                  reply_markup=ReplyKeyboardMarkup([
                                      [KeyboardButton(
-                                         b('send_phone'), request_contact=True)],
+                                         b('send_phone', lang(chat_id)), request_contact=True)],
                                  ], resize_keyboard=True),
                                  parse_mode='HTML')
         logging.info(
@@ -190,4 +194,67 @@ class Registration:
             "id": chat_id,
             "phone_number": phone
         }
-        put(f"users/{chat_id}", payload)
+        put(f"users/{chat_id}/", payload)
+        return self.choose_subscription(update, context)
+
+    def choose_subscription(self, update: Update, context: CallbackContext):
+        chat_id = update.effective_chat.id
+        state = "CHOOSING_SUBSCRIPTION"
+
+        context.bot.send_message(chat_id,
+                                 t('choose_subscription', lang(chat_id)),
+                                 reply_markup=ReplyKeyboardMarkup([
+                                     [KeyboardButton(
+                                         b('subscribe', lang(chat_id)))],
+                                     [KeyboardButton(
+                                         b('enter_promocode', lang(chat_id)))]
+                                 ], resize_keyboard=True),
+                                 parse_mode='HTML')
+        logging.info(
+            f"{chat_id} - is choosing a subscription plan. Returning state: {state}")
+        return state
+
+    def subscribe(self, update: Update, context: CallbackContext):
+        chat_id = update.effective_chat.id
+        state = ConversationHandler.END
+
+        title = "1 x course bundle"
+        description = "This is your invoice for the subscription"
+        payload = "I am paying for the course"
+        provider_token = os.getenv('PAYMENT_TOKEN')
+        currency = CURRENCY
+        price = AMOUNT_TO_PAY
+        prices = [LabeledPrice(b('pay', lang(chat_id)), price * 100)]
+
+        context.bot.send_invoice(
+            chat_id,
+            title,
+            description,
+            payload,
+            provider_token,
+            currency,
+            prices
+        )
+
+        logging.info(f"{chat_id} - paying. Returning state: {state}")
+        return state
+
+    def precheckout(self, update: Update, context: CallbackContext):
+        query = update.pre_checkout_query
+        if query.invoice_payload != 'I am paying for the course':
+            query.answer(ok=False, error_message="Something went wrong...")
+        else:
+            query.answer(ok=True)
+
+    def successful_payment(self, update: Update, context: CallbackContext):
+        chat_id = update.effective_chat.id
+        payload = {
+            "id": chat_id,
+            "subscription_status": True
+        }
+        put(f"users/{chat_id}/", payload)
+        context.bot.send_message(chat_id, t('congratulations', lang(chat_id)))
+        return Menu().display(update, context)
+
+    def enter_promocode(self, update: Update, context: CallbackContext):
+        update.effective_message.reply_text("Entering the promocode")
