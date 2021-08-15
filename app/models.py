@@ -10,7 +10,7 @@ class User(models.Model):
     class Meta:
         verbose_name_plural = "Пользователи"
         verbose_name = "Пользователь"
-    
+
     LANGUAGES = [
         ('en', "English"),
         ('ru', "Русский")
@@ -56,14 +56,17 @@ class Promo(models.Model):
     unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS)
     promo_id = models.CharField(
         max_length=255, default=unique_id, null=True, blank=True, unique=True, verbose_name="Промокод")
-    valid_date = models.DateField(default=datetime.now()+timedelta(days=365),  verbose_name="Действителен до")
-    is_used = models.BooleanField(default=False, editable=False, verbose_name="Активный")
+    valid_date = models.DateField(default=datetime.now(
+    )+timedelta(days=365),  verbose_name="Действителен до")
+    is_active = models.BooleanField(default=True, verbose_name="Активный")
 
     def __str__(self):
         return self.promo_id
+
     class Meta:
         verbose_name_plural = "Промокоды"
         verbose_name = "Промокод"
+
 
 class Portfolio(models.Model):
     id = models.AutoField(primary_key=True)
@@ -72,5 +75,6 @@ class Portfolio(models.Model):
     class Meta:
         verbose_name_plural = "Портфели"
         verbose_name = "Портфель"
+
     def __str__(self):
         return self.name
