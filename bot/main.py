@@ -4,7 +4,7 @@ import dotenv
 import os
 import logging
 from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
-from bot.utils.filter import FilterButton
+from bot.utils.filter import FilterButton, buttons
 from bot.src.registration import Registration
 from bot.src.error import error_handler
 
@@ -35,18 +35,19 @@ def main():
             ],
             "MY_PROFILE": [
                 MessageHandler(Filters.regex(
-                    b["user_name"]), menu.username),
+                    buttons("user_name")), menu.username),
                 MessageHandler(Filters.regex(
-                    b["subscription_status"]), menu.subscription),
+                    buttons("subscription_status")), menu.subscription),
                 MessageHandler(Filters.regex(
-                    b["pay"]), menu.pay),
+                    buttons("pay")), menu.pay),
                 MessageHandler(Filters.regex(
-                    b["back"]), menu.display)
+                    buttons("back")), menu.display)
             ],
             "VIDEOS": [
+                MessageHandler(FilterButton(
+                    buttons("video_lessons")), menu.video_lessons),
                 MessageHandler(Filters.regex(
-                    b["back"]), menu.display),
-                    MessageHandler(FilterButton("video_lessons"), menu.video_lessons)
+                    buttons("back")), menu.display)
             ]
         },
         fallbacks=[]
