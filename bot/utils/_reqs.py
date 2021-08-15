@@ -33,17 +33,31 @@ def video_list(video_lessons_id: int) -> list:
     return output
 
 
-def product_det(product_name: str) -> dict:
-    response = requests.get(API_URL + 'products/',
-                            auth=API_AUTHENTICATION).json()
-    for product in response:
-        if product['name'] == product_name:
-            return product
+def portfolio_id(category_name: str) -> int:
+    for i in get('portfolio/'):
+        if i["name"] == category_name:
+            return i["id"]
 
 
-def notification_on(chat_id) -> bool:
-    user = get(f'users/{chat_id}')
-    if user["notifications"]:
-        return True
-    else:
-        return False
+def portfolio_list(portfolio_list_id: int) -> list:
+    output = []
+    for i in get('portfolio/'):
+        if i['portfolio'] == portfolio_list_id:
+            output.append(i['name'])
+    return output
+
+
+# def product_det(product_name: str) -> dict:
+#     response = requests.get(API_URL + 'products/',
+#                             auth=API_AUTHENTICATION).json()
+#     for product in response:
+#         if product['name'] == product_name:
+#             return product
+
+
+# def notification_on(chat_id) -> bool:
+#     user = get(f'users/{chat_id}')
+#     if user["notifications"]:
+#         return True
+#     else:
+#         return False
