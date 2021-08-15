@@ -12,6 +12,8 @@ from bot.utils.build_menu import build_menu
 from bot.utils._reqs import (parser,
                                target_video_id,
                                video_list,
+                               portfolio_id,
+                               portfolio_list,
                                product_det,
                                notification_on,
                                get)
@@ -69,29 +71,29 @@ class Menu:
         return state
 
 
-    def categories(self, update: Update, context: CallbackContext):
-        chat_id = update.effective_chat.id
-        state = "CATEGORIES"
-        buttons = parser(API_URL=API_URL + "categories/",
-                         API_auth=API_AUTHENTICATION,
-                         key='name')
+    # def categories(self, update: Update, context: CallbackContext):
+    #     chat_id = update.effective_chat.id
+    #     state = "CATEGORIES"
+    #     buttons = parser(API_URL=API_URL + "categories/",
+    #                      API_auth=API_AUTHENTICATION,
+    #                      key='name')
 
-        context.bot.send_message(chat_id,
-                                 f'{text["category"]}',
-                                 reply_markup=ReplyKeyboardMarkup(
-                                     build_menu(
-                                         buttons=[KeyboardButton(
-                                             s) for s in buttons],
-                                         n_cols=2,
-                                         footer_buttons=[
-                                             KeyboardButton(
-                                                 menu_button["back"])]
-                                     ), resize_keyboard=True
-                                 ),
-                                 parse_mode='HTML')
-        logging.info(
-            f"User {chat_id} opened categories. Returned state: {state}")
-        return state
+    #     context.bot.send_message(chat_id,
+    #                              f'{text["category"]}',
+    #                              reply_markup=ReplyKeyboardMarkup(
+    #                                  build_menu(
+    #                                      buttons=[KeyboardButton(
+    #                                          s) for s in buttons],
+    #                                      n_cols=2,
+    #                                      footer_buttons=[
+    #                                          KeyboardButton(
+    #                                              menu_button["back"])]
+    #                                  ), resize_keyboard=True
+    #                              ),
+    #                              parse_mode='HTML')
+    #     logging.info(
+    #         f"User {chat_id} opened categories. Returned state: {state}")
+    #     return state
 
     def video_lessons(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
@@ -100,7 +102,7 @@ class Menu:
         buttons = video_list(target_id)
 
         context.bot.send_message(chat_id,
-                                 f'{text["video_lessons"]}',
+                                 f'{b("video_lessons")}',
                                  reply_markup=ReplyKeyboardMarkup(
                                      build_menu(
                                          buttons=[KeyboardButton(
@@ -117,57 +119,83 @@ class Menu:
             f"User {chat_id} opened video lessons. Returned state: {state}")
         return state
 
-    def product_details(self, update: Update, context: CallbackContext):
+    
+    def portfolio(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
-        requested_product = update.message.text
-        product = product_det(requested_product)
-        product_images = []
-        price = str(product['price'])
-        formatted_price = ' '.join([price[::-1][i:i+3]
-                                   for i in range(0, len(price), 3)])[::-1]
-        caption = f"""<b>{product['name']}</b>
+        target_id = portfolio_id
+        state = "PORTFOLIO"
+        buttons = portfolio_list(target_id)
 
-<b>Тавсиф:</b>
-{product['description']}
+        context.bot.send_message(chat_id,
+                                 f'{b("portfolio")}',
+                                 reply_markup=ReplyKeyboardMarkup(
+                                     build_menu(
+                                         buttons=[KeyboardButton(
+                                             s) for s in buttons],
+                                         n_cols=1,
+                                         footer_buttons=[
+                                             KeyboardButton(
+                                                 menu_button["back"])]
 
-<b>Нархи:</b>
-$ {formatted_price}"""
-        like_button = [
-            InlineKeyboardButton(button['like_it'], callback_data='like')
-        ]
-
-        for i in range(1, 11):
-            product_images.append(product[f'image_{i}'])
-        displayed = []
-        for image in product_images:
-            if image is not None:
-                displayed.append(str(BASE_DIR) + image)
-
-        # context.bot.send_message(chat_id, text['downloading'])
-        context.bot.send_chat_action(chat_id,
-                                     action=ChatAction.UPLOAD_PHOTO)
-        context.bot.send_media_group(chat_id,
-                                     media=[
-                                         InputMediaPhoto(media=open(j, 'rb')) for j in displayed
-                                     ])
-        time.sleep(1)
-        context.bot.send_message(chat_id, caption,
-                                 parse_mode='HTML',
-                                 reply_markup=InlineKeyboardMarkup([
-                                     like_button
-                                 ]))
-
-    def product_like(self, update: Update, context: CallbackContext):
-        chat_id = update.effective_chat.id
-        query = update.callback_query
-        user = get(f"users/{chat_id}")
-        query.answer()
-        update.effective_message.reply_text(
-            "Сизга маҳсулотимиз ёққанидан мамнунмиз 😊")
-        context.bot.send_message(GROUP_ID,
-                                 f"""<b>{user['name']}</b>га қуйидаги маҳсулот ёқди 👇""",
+                                     ), resize_keyboard=True
+                                 ),
                                  parse_mode='HTML')
-        query.copy_message(GROUP_ID)
+        logging.info(
+            f"User {chat_id} opened portfolio. Returned state: {state}")
+        return state
+
+
+#     def product_details(self, update: Update, context: CallbackContext):
+#         chat_id = update.effective_chat.id
+#         requested_product = update.message.text
+#         product = product_det(requested_product)
+#         product_images = []
+#         price = str(product['price'])
+#         formatted_price = ' '.join([price[::-1][i:i+3]
+#                                    for i in range(0, len(price), 3)])[::-1]
+#         caption = f"""<b>{product['name']}</b>
+
+# <b>Тавсиф:</b>
+# {product['description']}
+
+# <b>Нархи:</b>
+# $ {formatted_price}"""
+#         like_button = [
+#             InlineKeyboardButton(button['like_it'], callback_data='like')
+#         ]
+
+#         for i in range(1, 11):
+#             product_images.append(product[f'image_{i}'])
+#         displayed = []
+#         for image in product_images:
+#             if image is not None:
+#                 displayed.append(str(BASE_DIR) + image)
+
+#         # context.bot.send_message(chat_id, text['downloading'])
+#         context.bot.send_chat_action(chat_id,
+#                                      action=ChatAction.UPLOAD_PHOTO)
+#         context.bot.send_media_group(chat_id,
+#                                      media=[
+#                                          InputMediaPhoto(media=open(j, 'rb')) for j in displayed
+#                                      ])
+#         time.sleep(1)
+#         context.bot.send_message(chat_id, caption,
+#                                  parse_mode='HTML',
+#                                  reply_markup=InlineKeyboardMarkup([
+#                                      like_button
+#                                  ]))
+
+#     def product_like(self, update: Update, context: CallbackContext):
+#         chat_id = update.effective_chat.id
+#         query = update.callback_query
+#         user = get(f"users/{chat_id}")
+#         query.answer()
+#         update.effective_message.reply_text(
+#             "Сизга маҳсулотимиз ёққанидан мамнунмиз 😊")
+#         context.bot.send_message(GROUP_ID,
+#                                  f"""<b>{user['name']}</b>га қуйидаги маҳсулот ёқди 👇""",
+#                                  parse_mode='HTML')
+#         query.copy_message(GROUP_ID)
 
     def settings(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
