@@ -145,6 +145,43 @@ class Menu:
         return state
 
 
+    def support(self, update: Update, context: CallbackContext):
+        state = "SUPPORT"
+        chat_id = update.effective_chat.id
+        buttons = [
+            [b('back')]
+        ],
+
+        context.bot.send_message(chat_id,
+                                 t("request_question"),
+                                 reply_markup=ReplyKeyboardMarkup(
+                                     buttons, resize_keyboard=True),
+                                 parse_mode='HTML')
+        logging.info(
+            f"{chat_id} - opened support. Returned state: {state}")
+        return state
+
+
+    def accept_support(self, update: Update, context: CallbackContext):
+        chat_id = update.effective_chat.id
+        user_request = update.effective_message
+        user = get(f"users/{chat_id}")
+        user_name = user['name']
+        user_phone = user['phone_number']
+        msg = context.bot.forward_message(GROUP_ID,
+                                          from_chat_id=chat_id,
+                                          message_id=user_request.message_id)
+        context.bot.send_message(GROUP_ID,
+                                 f"""Пользователь: <b>{user_name}</b>\nТелефон: <b>{user_phone}</b>""",
+                                 parse_mode='HTML')
+        payload = {
+            msg.message_id: chat_id
+        }
+        context.bot_data.update(payload)
+        update.effective_message.reply_text(text[t("accept_question")])
+        return Menu().display(update, context)
+
+        
 #     def product_details(self, update: Update, context: CallbackContext):
 #         chat_id = update.effective_chat.id
 #         requested_product = update.message.text
@@ -197,68 +234,68 @@ class Menu:
 #                                  parse_mode='HTML')
 #         query.copy_message(GROUP_ID)
 
-    def settings(self, update: Update, context: CallbackContext):
-        chat_id = update.effective_chat.id
-        state = "SETTINGS"
-        notif_status = notification_on(chat_id)
-        notifcation_button = button["notification_off"] if notif_status else button["notification_on"]
+    # def settings(self, update: Update, context: CallbackContext):
+    #     chat_id = update.effective_chat.id
+    #     state = "SETTINGS"
+    #     notif_status = notification_on(chat_id)
+    #     notifcation_button = button["notification_off"] if notif_status else button["notification_on"]
 
-        buttons = [
-            [button["change_phone"],
-             button["change_name"]],
-            [notifcation_button],
-            [menu_button['back']]
-        ]
-        context.bot.send_message(chat_id,
-                                 text["settings"],
-                                 reply_markup=ReplyKeyboardMarkup(
-                                     buttons, resize_keyboard=True),
-                                 parse_mode='HTML')
-        logging.info(
-            f"User {chat_id} opened settings. Returned state: {state}")
-        return state
+    #     buttons = [
+    #         [button["change_phone"],
+    #          button["change_name"]],
+    #         [notifcation_button],
+    #         [menu_button['back']]
+    #     ]
+    #     context.bot.send_message(chat_id,
+    #                              text["settings"],
+    #                              reply_markup=ReplyKeyboardMarkup(
+    #                                  buttons, resize_keyboard=True),
+    #                              parse_mode='HTML')
+    #     logging.info(
+    #         f"User {chat_id} opened settings. Returned state: {state}")
+    #     return state
 
-    def change_notification_status(self, update: Update, context: CallbackContext):
-        chat_id = update.effective_chat.id
-        user = get(f'users/{chat_id}')
-        if notification_on(chat_id):
-            user['notifications'] = False
-            update.effective_message.reply_text(
-                "Сиз билдиришномаларни бекор қилдингиз!")
-        else:
-            user['notifications'] = True
-            update.effective_message.reply_text(
-                "Билдиришномаларга обуна янгиланди!")
-        requests.put(API_URL + f'users/{chat_id}',
-                     auth=API_AUTHENTICATION,
-                     json=user,
-                     headers={'Content-Type': 'application/json'})
-        logging.info(
-            f"User {chat_id} has changed his notification preferences to {user['notifications']}")
-        return self.settings(update, context)
+    # def change_notification_status(self, update: Update, context: CallbackContext):
+    #     chat_id = update.effective_chat.id
+    #     user = get(f'users/{chat_id}')
+    #     if notification_on(chat_id):
+    #         user['notifications'] = False
+    #         update.effective_message.reply_text(
+    #             "Сиз билдиришномаларни бекор қилдингиз!")
+    #     else:
+    #         user['notifications'] = True
+    #         update.effective_message.reply_text(
+    #             "Билдиришномаларга обуна янгиланди!")
+    #     requests.put(API_URL + f'users/{chat_id}',
+    #                  auth=API_AUTHENTICATION,
+    #                  json=user,
+    #                  headers={'Content-Type': 'application/json'})
+    #     logging.info(
+    #         f"User {chat_id} has changed his notification preferences to {user['notifications']}")
+    #     return self.settings(update, context)
 
-    def change_name(self, update: Update, context: CallbackContext):
-        chat_id = update.effective_chat.id
-        state = "EDITING_NAME"
-        context.bot.send_message(chat_id,
-                                 text["enter_name"],
-                                 reply_markup=ReplyKeyboardMarkup([
-                                     [menu_button["back"]]
-                                 ], resize_keyboard=True),
-                                 parse_mode='HTML')
-        logging.info(
-            f"User {chat_id} is changing name. Returned state: {state}")
-        return state
+    # def change_name(self, update: Update, context: CallbackContext):
+    #     chat_id = update.effective_chat.id
+    #     state = "EDITING_NAME"
+    #     context.bot.send_message(chat_id,
+    #                              text["enter_name"],
+    #                              reply_markup=ReplyKeyboardMarkup([
+    #                                  [menu_button["back"]]
+    #                              ], resize_keyboard=True),
+    #                              parse_mode='HTML')
+    #     logging.info(
+    #         f"User {chat_id} is changing name. Returned state: {state}")
+    #     return state
 
-    def get_name(self, update: Update, context: CallbackContext):
-        chat_id = update.effective_chat.id
-        name = update.effective_message.text
+    # def get_name(self, update: Update, context: CallbackContext):
+    #     chat_id = update.effective_chat.id
+    #     name = update.effective_message.text
 
-        user = get(f'users/{chat_id}')
-        user['name'] = name
-        requests.put(API_URL + f"users/{chat_id}",
-                     auth=API_AUTHENTICATION,
-                     json=user)
-        update.effective_message.reply_text(
-            "<b>Тайёр! ✅</b>", parse_mode='HTML')
-        return self.settings(update, context)
+    #     user = get(f'users/{chat_id}')
+    #     user['name'] = name
+    #     requests.put(API_URL + f"users/{chat_id}",
+    #                  auth=API_AUTHENTICATION,
+    #                  json=user)
+    #     update.effective_message.reply_text(
+    #         "<b>Тайёр! ✅</b>", parse_mode='HTML')
+    #     return self.settings(update, context)
