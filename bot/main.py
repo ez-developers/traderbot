@@ -3,9 +3,11 @@ from telegram.ext import (Updater,
                           ConversationHandler,
                           CallbackQueryHandler,
                           MessageHandler,
-                          Filters)
+                          Filters,
+                          PreCheckoutQueryHandler, ShippingQueryHandler)
 from bot.src.registration import Registration
 from bot.src.error import error_handler
+from bot.utils.filter import buttons
 import dotenv
 import os
 import logging
@@ -26,14 +28,18 @@ def main():
 
     main_conversation = ConversationHandler(
         entry_points=[
-            CommandHandler('start', registration.start)
+            CommandHandler('start', registration.start),
+            MessageHandler(Filters.successful_payment,
+                           registration.successful_payment)
         ],
         states={
             "LANGUAGE": [
-                CallbackQueryHandler(registration.get_language)
+                CallbackQueryHandler(
+                    registration.get_language, pattern='ru|en')
             ],
             "POLICY_AGREEMENT": [
-                CallbackQueryHandler(registration.handle_policy_accept)
+                CallbackQueryHandler(
+                    registration.handle_policy_accept, pattern='accept|reject')
             ],
             "NAME": [
                 MessageHandler(Filters.text, registration.get_name)
@@ -42,14 +48,23 @@ def main():
                 MessageHandler(Filters.text | Filters.contact,
                                registration.get_phone)
             ],
+            "CHOOSING_SUBSCRIPTION": [
+                MessageHandler(Filters.regex(
+                    buttons('subscribe')), registration.subscribe),
+                MessageHandler(Filters.regex(
+                    buttons("enter_promocode")), registration.enter_promocode)
+            ],
             "MENU_DISPLAYED": [
 
             ]
         },
-        fallbacks=[]
+        fallbacks=[
+            CommandHandler('start', registration.start)
+        ]
     )
 
     dispatcher.add_handler(main_conversation)
+    dispatcher.add_handler(PreCheckoutQueryHandler(registration.precheckout))
     # dispatcher.add_error_handler(error_handler)
 
     updater.start_polling()
