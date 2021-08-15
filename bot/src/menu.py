@@ -69,31 +69,6 @@ class Menu:
         return state
 
 
-    # def video_lessons(self, update:Update, context: CallbackContext ):
-    #     chat_id = update.effective_chat.id
-    #     state = "VIDEOS"
-    #     buttons = parser(API_URL=API_URL + "video_lessons/",
-    #                     API_auth=API_AUTHENTICATION,
-    #                     key='name')
-
-    #     context.bot.send_message(chat_id,
-    #                              f'{text["video_lessons/"]}',
-    #                              reply_markup=ReplyKeyboardMarkup(
-    #                                  build_menu(
-    #                                      buttons=[KeyboardButton(
-    #                                          s) for s in buttons],
-    #                                      n_cols=2,
-    #                                      footer_buttons=[
-    #                                          KeyboardButton(
-    #                                              menu_button["back"])]
-    #                                  ), resize_keyboard=True
-    #                              ),
-    #                              parse_mode='HTML')
-    #     logging.info(
-    #         f"User {chat_id} opened video lessons. Returned state: {state}")
-    #     return state
-
-
     def categories(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         state = "CATEGORIES"
