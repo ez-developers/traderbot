@@ -6,11 +6,12 @@ from telegram import (ReplyKeyboardMarkup,
                       InlineKeyboardButton,
                       InlineKeyboardMarkup)
 from telegram.ext import CallbackContext
+from telegram.ext.updater import Updater
 from bot.src.text import t, b
 from bot.utils.build_menu import build_menu
-from bot.utils.request import (parser,
-                               target_category_id,
-                               products_list,
+from bot.utils._reqs import (parser,
+                               target_video_id,
+                               video_list,
                                product_det,
                                notification_on,
                                get)
@@ -48,6 +49,51 @@ class Menu:
             f"{chat_id} - opened main menu. Returned state: {state}")
         return state
 
+    def my_profile(self, update: Update, context: CallbackContext):
+        state = "MY_PROFILE"
+        chat_id = update.effective_chat.id
+        buttons = [
+            [b("user_name")],
+            [b("subscription_status")],
+            [b("pay")],
+            [b('back')]
+        ],
+
+        context.bot.send_message(chat_id,
+                                 t("my_profile"),
+                                 reply_markup=ReplyKeyboardMarkup(
+                                     buttons, resize_keyboard=True),
+                                 parse_mode='HTML')
+        logging.info(
+            f"{chat_id} - opened my profile. Returned state: {state}")
+        return state
+
+
+    # def video_lessons(self, update:Update, context: CallbackContext ):
+    #     chat_id = update.effective_chat.id
+    #     state = "VIDEOS"
+    #     buttons = parser(API_URL=API_URL + "video_lessons/",
+    #                     API_auth=API_AUTHENTICATION,
+    #                     key='name')
+
+    #     context.bot.send_message(chat_id,
+    #                              f'{text["video_lessons/"]}',
+    #                              reply_markup=ReplyKeyboardMarkup(
+    #                                  build_menu(
+    #                                      buttons=[KeyboardButton(
+    #                                          s) for s in buttons],
+    #                                      n_cols=2,
+    #                                      footer_buttons=[
+    #                                          KeyboardButton(
+    #                                              menu_button["back"])]
+    #                                  ), resize_keyboard=True
+    #                              ),
+    #                              parse_mode='HTML')
+    #     logging.info(
+    #         f"User {chat_id} opened video lessons. Returned state: {state}")
+    #     return state
+
+
     def categories(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         state = "CATEGORIES"
@@ -72,14 +118,14 @@ class Menu:
             f"User {chat_id} opened categories. Returned state: {state}")
         return state
 
-    def products(self, update: Update, context: CallbackContext):
+    def video_lessons(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
-        target_id = target_category_id(update.message.text)
-        state = "PRODUCTS"
-        buttons = products_list(target_id)
+        target_id = target_video_id(update.message.text)
+        state = "VIDEOS"
+        buttons = video_list(target_id)
 
         context.bot.send_message(chat_id,
-                                 f'{text["product"]}',
+                                 f'{text["video_lessons"]}',
                                  reply_markup=ReplyKeyboardMarkup(
                                      build_menu(
                                          buttons=[KeyboardButton(
@@ -93,7 +139,7 @@ class Menu:
                                  ),
                                  parse_mode='HTML')
         logging.info(
-            f"User {chat_id} opened products. Returned state: {state}")
+            f"User {chat_id} opened video lessons. Returned state: {state}")
         return state
 
     def product_details(self, update: Update, context: CallbackContext):
