@@ -6,6 +6,7 @@ from telegram.ext import (Updater,
                           Filters,
                           PreCheckoutQueryHandler, ShippingQueryHandler)
 from bot.src.registration import Registration
+from bot.src.menu import Menu
 from bot.src.error import error_handler
 from bot.utils.filter import buttons
 import dotenv
@@ -20,6 +21,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 registration = Registration()
+menu = Menu()
 
 
 def main():
@@ -56,6 +58,12 @@ def main():
             ],
             "MENU_DISPLAYED": [
 
+            ],
+            "MY_PROFILE": [
+                MessageHandler(Filters.regex(buttons('back')), menu.display),
+                MessageHandler(Filters.regex(buttons('user_name')), menu.my_info),
+                MessageHandler(Filters.regex(buttons('subscription_status')), menu.subscription_status),
+                MessageHandler(Filters.regex(buttons('pay')), registration.choose_subscription)
             ]
         },
         fallbacks=[
