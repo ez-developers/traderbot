@@ -34,7 +34,7 @@ ADMIN_IDS = [
     943373513
 ]
 DEVELOPER_ID = 361516746
-GROUP_ID = 1
+GROUP_ID = -593761138
 
 # Should be integer (not floats/doubles)
 AMOUNT_TO_PAY = 35000
