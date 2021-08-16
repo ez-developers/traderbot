@@ -92,6 +92,10 @@ def main():
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
                 MessageHandler(Filters.text, support.accept)
             ],
+            "VIDEOS": [
+                MessageHandler(Filters.regex(buttons('back')), menu.display),
+                MessageHandler(FilterButton('videos'), menu.display)
+            ]
         },
         fallbacks=[
             CommandHandler('start', registration.start)
