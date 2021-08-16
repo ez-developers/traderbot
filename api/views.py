@@ -32,6 +32,15 @@ class usersList(APIView):
 
 
 @permission_classes([IsAuthenticated])
+class promoList(APIView):
+    def get(self, request, *args, **kwargs):
+        queryset = Promo.objects.all()
+        serializer = PromoSerializer(queryset, many=True)
+
+        return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
+
+
+@permission_classes([IsAuthenticated])
 class portfoliosList(APIView):
 
     def get(self, request, *args, **kwargs):
