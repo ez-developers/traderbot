@@ -47,7 +47,7 @@ class Menu:
         ]
 
         context.bot.send_message(chat_id,
-                                 t("your_profile"),
+                                 t("your_profile", language),
                                  reply_markup=ReplyKeyboardMarkup(
                                      markup, resize_keyboard=True),
                                  parse_mode='HTML')
@@ -57,17 +57,17 @@ class Menu:
 
     def portfolio(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
+        language = lang(chat_id)
         state = "PORTFOLIOS"
         portfolio_list = parser('portfolios/', 'name')
-        print(portfolio_list)
 
         context.bot.send_message(chat_id,
-                                 f'{t("portfolios_display", lang(chat_id))}',
+                                 f'{t("portfolios_display", language)}',
                                  reply_markup=ReplyKeyboardMarkup(
                                      build_menu(
                                          buttons=[
                                              KeyboardButton(s) for s in portfolio_list
                                          ],
                                          n_cols=1,
-                                         footer_buttons=[KeyboardButton(b("back", lang(chat_id)))])))
+                                         footer_buttons=[KeyboardButton(b("back", language))]), resize_keyboard=True))
         return state
