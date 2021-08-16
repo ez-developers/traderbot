@@ -58,7 +58,7 @@ class Promo(models.Model):
     RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS) 
     promo_id = models.CharField(
-        max_length=255, default=unique_id, null=True, blank=True, unique=True, verbose_name="Промокод")
+        max_length=255, default=unique_id,  unique=True, verbose_name="Промокод")
     valid_date = models.DateField(default=datetime.now(
     )+timedelta(days=365),  verbose_name="Действителен до")
     is_active = models.BooleanField(default=True, verbose_name="Активный")
@@ -71,15 +71,17 @@ class Promo(models.Model):
         verbose_name = "Промокод"
 
 
-users_id = []
-total_users = len(users_id)
+
 
 class Portfolio(models.Model):
+    
+    
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True,
                             blank=True, verbose_name="Название портфеля")
-    user_list = models.TextField(null=True, blank=True, default=users_id)
-    user_count = models.PositiveIntegerField(null=True, default=total_users, blank=True)
+    user_list = models.TextField(null=True, blank=True, default=None)
+   
+    user_count = models.PositiveIntegerField(null=True, default=0, blank=True)
 
     class Meta:
         verbose_name_plural = "Портфели"

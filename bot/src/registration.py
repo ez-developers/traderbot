@@ -33,7 +33,8 @@ class Registration:
         chat_id = update.effective_chat.id
         first_name = update.effective_user.first_name
         last_name = update.effective_user.last_name
-        username = "@" + update.effective_user.username
+        username = (
+            "@" + update.effective_user.username) if update.effective_user.username is not None else None
         if self.is_private_chat(chat_id):
             all_users_id = []
             user_objects = get('users')
@@ -205,20 +206,33 @@ class Registration:
         put(f"users/{chat_id}/", payload)
         return self.choose_subscription(update, context)
 
-    def choose_subscription(self, update: Update, context: CallbackContext):
+    def choose_subscription(self, update: Update, context: CallbackContext, from_profile=False):
         chat_id = update.effective_chat.id
         language = lang(chat_id)
+        with_back = [
+            [KeyboardButton(b('subscribe', language))],
+            [KeyboardButton(b('enter_promocode', language))],
+            [KeyboardButton(b('back', language))]
+        ]
+        without_back = [
+            [KeyboardButton(b('subscribe', language))],
+            [KeyboardButton(b('enter_promocode', language))]
+        ]
         state = "CHOOSING_SUBSCRIPTION"
 
-        context.bot.send_message(chat_id,
-                                 t('choose_subscription', language),
-                                 reply_markup=ReplyKeyboardMarkup([
-                                     [KeyboardButton(
-                                         b('subscribe', language))],
-                                     [KeyboardButton(
-                                         b('enter_promocode', language))]
-                                 ], resize_keyboard=True),
-                                 parse_mode='HTML')
+        if from_profile:
+            context.bot.send_message(chat_id,
+                                     t('choose_subscription', language),
+                                     reply_markup=ReplyKeyboardMarkup(with_back,
+                                                                      resize_keyboard=True),
+                                     parse_mode='HTML')
+
+        else:
+            context.bot.send_message(chat_id,
+                                     t('choose_subscription', language),
+                                     reply_markup=ReplyKeyboardMarkup(without_back,
+                                                                      resize_keyboard=True),
+                                     parse_mode='HTML')
         logging.info(
             f"{chat_id} - is choosing a subscription plan. Returning state: {state}")
         return state
