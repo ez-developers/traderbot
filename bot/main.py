@@ -7,6 +7,7 @@ from telegram.ext import (Updater,
                           PreCheckoutQueryHandler)
 from bot.src.registration import Registration
 from bot.src.menu import Menu
+from bot.src.profile import Profile 
 from bot.src.error import error_handler
 from bot.utils.filter import buttons, FilterButton
 import dotenv
@@ -22,6 +23,7 @@ logger = logging.getLogger(__name__)
 
 registration = Registration()
 menu = Menu()
+profile = Profile()
 
 
 def main():
@@ -64,8 +66,8 @@ def main():
             ],
             "MY_PROFILE": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
-                MessageHandler(Filters.regex(buttons('pay')),
-                               registration.choose_subscription)
+                MessageHandler(Filters.regex(buttons('my_info')), profile.my_info),
+                MessageHandler(Filters.regex(buttons('extend_subscription')),registration.choose_subscription)
             ],
             "PORTFOLIOS": [
                 MessageHandler(FilterButton('portfolios'), menu.display)
