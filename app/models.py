@@ -51,10 +51,10 @@ class Subscription(models.Model):
         Plan, on_delete=models.PROTECT, null=True, blank=True)
     paid = models.BooleanField(default=False)
 
+RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS)
 
-class Promo(models.Model):
-    RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS)
+class Promo(models.Model): 
     promo_id = models.CharField(
         max_length=255, default=unique_id, null=True, blank=True, unique=True, verbose_name="Промокод")
     valid_date = models.DateField(default=datetime.now(
@@ -73,6 +73,7 @@ class Portfolio(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True,
                             blank=True, verbose_name="Название портфеля")
+    user_count = models.PositiveIntegerField(default=None, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Портфели"
@@ -80,3 +81,4 @@ class Portfolio(models.Model):
 
     def __str__(self):
         return self.name
+

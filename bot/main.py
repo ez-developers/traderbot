@@ -8,7 +8,7 @@ from telegram.ext import (Updater,
 from telegram.message import Message
 from bot.src.registration import Registration
 from bot.src.menu import Menu
-from bot.src.profile import Profile 
+from bot.src.profile import Profile
 from bot.src.error import error_handler
 from bot.utils.filter import buttons, FilterButton
 import dotenv
@@ -58,6 +58,11 @@ def main():
                     buttons('subscribe')), registration.subscribe),
                 MessageHandler(Filters.regex(
                     buttons("enter_promocode")), registration.enter_promocode)
+            ],
+            "ENTERING_PROMOCODE": [
+                MessageHandler(Filters.text, registration.validate_promocode),
+                MessageHandler(Filters.regex(buttons('back')),
+                               registration.choose_subscription)
             ],
             "MENU_DISPLAYED": [
                 MessageHandler(Filters.regex(

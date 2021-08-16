@@ -76,6 +76,9 @@
 		},
 		"portfolios_display": {
 			"ru": "Все портфели"
+		},
+		"enter_promocode": {
+			"ru": "Введите промокод"
 		}
 	},
 	"buttons": {
