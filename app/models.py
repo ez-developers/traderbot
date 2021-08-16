@@ -69,14 +69,18 @@ class Promo(models.Model):
     class Meta:
         verbose_name_plural = "Промокоды"
         verbose_name = "Промокод"
-users = []
+
+
+users_id = []
+total_users = len(users_id)
 
 class Portfolio(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True,
                             blank=True, verbose_name="Название портфеля")
-    user_count = models.PositiveIntegerField(default=0, null=True, blank=True)
-    user_list = models.TextField(null=True, blank=True, default=users)
+    user_list = models.TextField(null=True, blank=True, default=users_id)
+    user_count = models.PositiveIntegerField(null=True, default=total_users, blank=True)
+
     class Meta:
         verbose_name_plural = "Портфели"
         verbose_name = "Портфель"
