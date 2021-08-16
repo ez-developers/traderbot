@@ -15,16 +15,16 @@ class Group:
                 reply_id = update.message.reply_to_message.message_id
 
                 user_id = context.bot_data[reply_id]
-                
+
                 language = lang(user_id)
 
                 reply = t("reply_to_user", language)
 
                 context.bot.send_message(chat_id=user_id,
-                                         text=reply,
+                                         text=f"{reply}".format(response),
                                          parse_mode='HTML')
             else:
                 pass
         except KeyError:
             update.effective_message.reply_text(
-                t("error", language))
+                "Ошибка на сервере! Попробуйте ответить на более недавние сообщения")
