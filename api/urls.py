@@ -8,6 +8,6 @@ urlpatterns = [
     path('users/<int:pk>/', views.userGet.as_view(), name="user"),
     path('portfolios/', views.portfoliosList.as_view(), name="portfolios"),
     path('portfolios/<int:pk>/', views.portfolioDetail.as_view(), name="portfolio"),
-    path('promos/', views.promoList.as_view(), name="promos"),
-    path('promos/<int:pk>/', views.promoDetail.as_view(), name="promo"),
+    path('promocodes/', views.promoList.as_view(), name="promos"),
+    path('promocodes/<int:pk>/', views.promoDetail.as_view(), name="promo"),
 ]
