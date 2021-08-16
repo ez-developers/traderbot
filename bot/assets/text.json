@@ -98,8 +98,8 @@
 			"ru": "Мой Профиль",
 			"en": "My Profile"
 		},
-		"user_name": {
-			"ru": "Имя Фамилия"
+		"my_info": {
+			"ru": "Мои данные"
 		},
 		"subscription_status": {
 			"ru": "Статус подписки"
