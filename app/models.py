@@ -38,22 +38,6 @@ class User(models.Model):
     def __str__(self):
         return str(self.id)
 
-
-class Plan(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, null=True, blank=True)
-    duration = models.PositiveIntegerField(null=True)
-    price = models.PositiveBigIntegerField(null=True, blank=True)
-
-
-class Subscription(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    plan = models.ForeignKey(
-        Plan, on_delete=models.PROTECT, null=True, blank=True)
-    paid = models.BooleanField(default=False)
-
-
-
 class Promo(models.Model):
     RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS) 
