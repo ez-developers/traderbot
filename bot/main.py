@@ -59,10 +59,10 @@ def main():
                 MessageHandler(Filters.regex(
                     buttons("enter_promocode")), registration.enter_promocode)
             ],
-            "ENTERING_PROMOCODE": [
-                MessageHandler(Filters.text, registration.validate_promocode),
+            "PROMOCODE": [
                 MessageHandler(Filters.regex(buttons('back')),
-                               registration.choose_subscription)
+                               registration.choose_subscription),
+                MessageHandler(Filters.text, registration.validate_promocode)
             ],
             "MENU_DISPLAYED": [
                 MessageHandler(Filters.regex(

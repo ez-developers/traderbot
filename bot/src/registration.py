@@ -272,7 +272,7 @@ class Registration:
     def enter_promocode(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         language = lang(chat_id)
-        state = "ENTERING_PROMOCODE"
+        state = "PROMOCODE"
 
         context.bot.send_message(chat_id,
                                  t('enter_promocode', language),
@@ -289,4 +289,12 @@ class Registration:
         return state
 
     def validate_promocode(self, update: Update, context: CallbackContext):
-        pass
+        chat_id = update.effective_chat.id
+        language = lang(chat_id)
+        message = update.message.text
+        codes = [i['id'] for i in get('promocodes')]
+
+        if message in codes:
+            update.effective_message.reply_text("VALID")
+        else:
+            update.effective_message.reply_text("NOT VALID")
