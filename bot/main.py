@@ -4,11 +4,11 @@ from telegram.ext import (Updater,
                           CallbackQueryHandler,
                           MessageHandler,
                           Filters,
-                          PreCheckoutQueryHandler, ShippingQueryHandler)
+                          PreCheckoutQueryHandler)
 from bot.src.registration import Registration
 from bot.src.menu import Menu
 from bot.src.error import error_handler
-from bot.utils.filter import buttons
+from bot.utils.filter import buttons, FilterButton
 import dotenv
 import os
 import logging
@@ -57,13 +57,18 @@ def main():
                     buttons("enter_promocode")), registration.enter_promocode)
             ],
             "MENU_DISPLAYED": [
-
+                MessageHandler(Filters.regex(
+                    buttons('my_profile')), menu.my_profile),
+                MessageHandler(Filters.regex(
+                    buttons('portfolio')), menu.portfolio)
             ],
             "MY_PROFILE": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
-                MessageHandler(Filters.regex(buttons('user_name')), menu.my_info),
-                MessageHandler(Filters.regex(buttons('subscription_status')), menu.subscription_status),
-                MessageHandler(Filters.regex(buttons('pay')), registration.choose_subscription)
+                MessageHandler(Filters.regex(buttons('pay')),
+                               registration.choose_subscription)
+            ],
+            "PORTFOLIOS": [
+                MessageHandler(FilterButton('portfolios'), menu.display)
             ]
         },
         fallbacks=[
