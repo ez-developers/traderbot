@@ -5,12 +5,15 @@ from telegram.ext import (Updater,
                           MessageHandler,
                           Filters,
                           PreCheckoutQueryHandler)
-from telegram.message import Message
+from config.settings import BOT_ID
 from bot.src.registration import Registration
 from bot.src.menu import Menu
 from bot.src.profile import Profile
+from bot.src.support import Support
+from bot.src.group import Group
 from bot.src.error import error_handler
 from bot.utils.filter import buttons, FilterButton
+from bot.utils.reply_to_message_filter import ReplyToMessageFilter
 import dotenv
 import os
 import logging
@@ -25,6 +28,8 @@ logger = logging.getLogger(__name__)
 registration = Registration()
 menu = Menu()
 profile = Profile()
+support = Support()
+group = Group()
 
 
 def main():
@@ -70,7 +75,8 @@ def main():
                 MessageHandler(Filters.regex(
                     buttons('my_profile')), menu.my_profile),
                 MessageHandler(Filters.regex(
-                    buttons('portfolio')), menu.portfolio)
+                    buttons('portfolio')), menu.portfolio),
+                MessageHandler(Filters.regex(buttons('support')), menu.support)
             ],
             "MY_PROFILE": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
@@ -82,7 +88,16 @@ def main():
                     buttons('extend_subscription')), profile.extend_subscription)
             ],
             "PORTFOLIOS": [
+                MessageHandler(Filters.regex(buttons('back')), menu.display),
                 MessageHandler(FilterButton('portfolios'), menu.display)
+            ],
+            "SUPPORT": [
+                MessageHandler(Filters.regex(buttons('back')), menu.display),
+                MessageHandler(Filters.text, support.accept)
+            ],
+            "VIDEOS": [
+                MessageHandler(Filters.regex(buttons('back')), menu.display),
+                MessageHandler(FilterButton('videos'), menu.display)
             ]
         },
         fallbacks=[
@@ -93,6 +108,8 @@ def main():
     dispatcher.add_handler(main_conversation)
     dispatcher.add_handler(PreCheckoutQueryHandler(registration.precheckout))
     # dispatcher.add_error_handler(error_handler)
+    dispatcher.add_handler(MessageHandler(
+        ReplyToMessageFilter(Filters.user(BOT_ID)), group.reply_to_user))
 
     updater.start_polling()
     updater.idle()

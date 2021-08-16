@@ -54,6 +54,26 @@ class Menu:
 
         logging.info(f"{chat_id} - opened my profile. Returned state: {state}")
         return state
+    
+    
+    def video_lessons(self, update: Update, context: CallbackContext):
+        chat_id = update.effective_chat.id
+        language = lang(chat_id)
+        state = "VIDEOS"
+        video_list = parser('videos/', 'name')
+        
+        context.bot.send_message(chat_id,
+                                 f'{t("video_lessons", language)}',
+                                 reply_markup=ReplyKeyboardMarkup(
+                                     build_menu(
+                                         buttons=[
+                                             KeyboardButton(s) for s in video_list
+                                         ],
+                                         n_cols=1,
+                                         footer_buttons=[KeyboardButton(b("back", language))]), resize_keyboard=True))
+        logging.info(f"{chat_id} - opened videos. Returned state: {state}")
+        return state
+        
 
     def portfolio(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
@@ -70,4 +90,23 @@ class Menu:
                                          ],
                                          n_cols=1,
                                          footer_buttons=[KeyboardButton(b("back", language))]), resize_keyboard=True))
+        logging.info(f"{chat_id} - opened portfolios. Returned state: {state}")
+        return state
+
+    def support(self, update: Update, context: CallbackContext):
+        chat_id = update.effective_chat.id
+        language = lang(chat_id)
+        state = "SUPPORT"
+        markup = [
+            [KeyboardButton(b("back", language))]
+        ]
+
+        context.bot.send_message(chat_id,
+                                 t("request_question", language),
+                                 reply_markup=ReplyKeyboardMarkup(
+                                     markup, resize_keyboard=True),
+                                 parse_mode='HTML')
+
+        logging.info(
+            f"{chat_id} - is requesting support. Returned state: {state}")
         return state
