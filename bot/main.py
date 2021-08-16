@@ -5,6 +5,7 @@ from telegram.ext import (Updater,
                           MessageHandler,
                           Filters,
                           PreCheckoutQueryHandler)
+from telegram.message import Message
 from bot.src.registration import Registration
 from bot.src.menu import Menu
 from bot.src.profile import Profile 
@@ -67,6 +68,7 @@ def main():
             "MY_PROFILE": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
                 MessageHandler(Filters.regex(buttons('my_info')), profile.my_info),
+                MessageHandler(Filters.regex(buttons('subscription_status')), profile.subscription_status),
                 MessageHandler(Filters.regex(buttons('extend_subscription')),registration.choose_subscription)
             ],
             "PORTFOLIOS": [
