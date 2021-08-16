@@ -39,7 +39,27 @@ class promoList(APIView):
 
         return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
 
+@permission_classes([IsAuthenticated])
+class promoDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Promo.objects.get(pk=pk)
+        except Promo.DoesNotExist:
+            raise Http404
 
+    def get(self, request, pk, format=None, *args, **kwargs):
+        promo = self.get_object(pk)
+        serializer = PromoSerializer(promo)
+        return Response(serializer.data, content_type='application/json')
+    
+    def put(self, request, pk, format=None):
+        promo = self.get_object(pk)
+        serializer = PromoSerializer(promo, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK, content_type='application/json')
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 @permission_classes([IsAuthenticated])
 class portfoliosList(APIView):
 
