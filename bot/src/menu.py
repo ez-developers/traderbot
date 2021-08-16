@@ -40,14 +40,14 @@ class Menu:
         language = lang(chat_id)
         state = "MY_PROFILE"
         markup = [
-            [KeyboardButton(b("user_name", language))],
-            [KeyboardButton(b("subscription_status", language))],
-            [KeyboardButton(b("pay", language))],
+            [KeyboardButton(b("my_info", language)),
+             KeyboardButton(b("subscription_status", language))],
+            [KeyboardButton(b("extend_subscription", language))],
             [KeyboardButton(b("back", language))]
         ]
 
         context.bot.send_message(chat_id,
-                                 "Welcome to your personal profile",
+                                 t("your_profile"),
                                  reply_markup=ReplyKeyboardMarkup(
                                      markup, resize_keyboard=True),
                                  parse_mode='HTML')
