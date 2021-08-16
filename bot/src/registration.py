@@ -100,7 +100,9 @@ class Registration:
 
     def accept_policy(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
+        language = lang(chat_id)
         state = "POLICY_AGREEMENT"
+
         context.bot.send_document(chat_id,
                                   document=open(
                                       'bot/assets/upload/document.pdf', 'rb'),
@@ -108,9 +110,9 @@ class Registration:
                                             lang(chat_id)),
                                   reply_markup=InlineKeyboardMarkup([
                                       [InlineKeyboardButton(
-                                          b('accept', lang(chat_id)), callback_data='accept'),
+                                          b('accept', language), callback_data='accept'),
                                        InlineKeyboardButton(
-                                          b('reject', lang(chat_id)), callback_data='reject')]
+                                          b('reject', language), callback_data='reject')]
                                   ]),
                                   parse_mode='HTML')
         logging.info(
@@ -119,6 +121,7 @@ class Registration:
 
     def handle_policy_accept(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
+        language = lang(chat_id)
         query = update.callback_query
         query.answer()
         query.delete_message()
@@ -126,18 +129,19 @@ class Registration:
         if query.data == 'accept':
             context.bot.send_document(chat_id,
                                       open('bot/assets/upload/document.pdf', 'rb'),
-                                      caption=t('save_document', lang(chat_id)))
+                                      caption=t('save_document', language))
             return self.request_name(update, context)
         elif query.data == 'reject':
             context.bot.send_message(chat_id,
-                                     t('policy_rejected', lang(chat_id)))
+                                     t('policy_rejected', language))
             return ConversationHandler.END
 
     def request_name(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
+        language = lang(chat_id)
         state = "NAME"
         context.bot.send_message(chat_id,
-                                 t("request_name", lang(chat_id)),
+                                 t("request_name", language),
                                  reply_markup=ReplyKeyboardRemove())
         logging.info(
             f"{chat_id} - has accepted terms and conditions and now is being requested for his name. Returning state {state}")
@@ -145,6 +149,7 @@ class Registration:
 
     def get_name(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
+        language = lang(chat_id)
         name_input = update.effective_message.text
         full_name = name_input.split(" ")
 
@@ -162,17 +167,19 @@ class Registration:
             }
         put(f"users/{chat_id}/", payload)
         context.bot.send_message(chat_id,
-                                 t("name_accepted", lang(chat_id)))
+                                 t("name_accepted", language))
         return self.request_phone(update, context)
 
     def request_phone(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
+        language = lang(chat_id)
         state = "REQUESTING_PHONE"
+
         context.bot.send_message(chat_id=chat_id,
-                                 text=t('request_phone', lang(chat_id)),
+                                 text=t('request_phone', language),
                                  reply_markup=ReplyKeyboardMarkup([
                                      [KeyboardButton(
-                                         b('send_phone', lang(chat_id)), request_contact=True)],
+                                         b('send_phone', language), request_contact=True)],
                                  ], resize_keyboard=True),
                                  parse_mode='HTML')
         logging.info(
@@ -182,6 +189,7 @@ class Registration:
     def get_phone(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         message = update.effective_message
+        language = lang(chat_id)
 
         if message.contact:
             phone = message.contact.phone_number
@@ -189,7 +197,7 @@ class Registration:
             phone = update.message.text
             if phone[:1] != '+':
                 context.bot.send_message(chat_id,
-                                         t("invalid_phone", lang(chat_id)))
+                                         t("invalid_phone", language))
         payload = {
             "id": chat_id,
             "phone_number": phone
@@ -199,15 +207,16 @@ class Registration:
 
     def choose_subscription(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
+        language = lang(chat_id)
         state = "CHOOSING_SUBSCRIPTION"
 
         context.bot.send_message(chat_id,
-                                 t('choose_subscription', lang(chat_id)),
+                                 t('choose_subscription', language),
                                  reply_markup=ReplyKeyboardMarkup([
                                      [KeyboardButton(
-                                         b('subscribe', lang(chat_id)))],
+                                         b('subscribe', language))],
                                      [KeyboardButton(
-                                         b('enter_promocode', lang(chat_id)))]
+                                         b('enter_promocode', language))]
                                  ], resize_keyboard=True),
                                  parse_mode='HTML')
         logging.info(
@@ -216,6 +225,7 @@ class Registration:
 
     def subscribe(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
+        language = lang(chat_id)
         state = ConversationHandler.END
 
         title = "1 x course bundle"
@@ -224,7 +234,7 @@ class Registration:
         provider_token = os.getenv('PAYMENT_TOKEN')
         currency = CURRENCY
         price = AMOUNT_TO_PAY
-        prices = [LabeledPrice(b('pay', lang(chat_id)), price * 100)]
+        prices = [LabeledPrice(b('pay', language), price * 100)]
 
         context.bot.send_invoice(
             chat_id,
@@ -242,19 +252,24 @@ class Registration:
     def precheckout(self, update: Update, context: CallbackContext):
         query = update.pre_checkout_query
         if query.invoice_payload != 'I am paying for the course':
-            query.answer(ok=False, error_message="Something went wrong...")
+            query.answer(
+                ok=False, error_message="Что-то пошло не так. Свяжитесь с администраторами...")
         else:
             query.answer(ok=True)
 
     def successful_payment(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
+        language = lang(chat_id)
         payload = {
             "id": chat_id,
             "subscription_status": True
         }
+
         put(f"users/{chat_id}/", payload)
-        context.bot.send_message(chat_id, t('congratulations', lang(chat_id)))
+        context.bot.send_message(chat_id, t('congratulations', language))
         return Menu().display(update, context)
 
     def enter_promocode(self, update: Update, context: CallbackContext):
-        update.effective_message.reply_text("Entering the promocode")
+        chat_id = update.effective_chat.id
+        language = lang(chat_id)
+        state = "ENTERING_PROMOCODE"
