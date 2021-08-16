@@ -287,3 +287,6 @@ class Registration:
         logging.info(
             f"{chat_id} - Entering promocode. Returned state: {state}")
         return state
+
+    def validate_promocode(self, update: Update, context: CallbackContext):
+        pass
