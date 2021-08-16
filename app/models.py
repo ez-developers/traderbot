@@ -40,9 +40,10 @@ class User(models.Model):
     def __str__(self):
         return str(self.id)
 
+
 class Promo(models.Model):
     RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS) 
+    unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS)
     promo_id = models.CharField(
         max_length=255, default=unique_id,  unique=True, verbose_name="Промокод")
     valid_date = models.DateField(default=datetime.now(
@@ -58,13 +59,13 @@ class Promo(models.Model):
 
 
 class Portfolio(models.Model):
-    
-    
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True,
                             blank=True, verbose_name="Название портфеля")
-    user_list = ArrayField(models.IntegerField(null=True, blank=True, default=None), default=None)
-   
+    user_list = ArrayField(models.BigIntegerField(
+        null=True, blank=True, default=None), default=None)
+
     user_count = models.PositiveIntegerField(null=True, default=0, blank=True)
 
     class Meta:
