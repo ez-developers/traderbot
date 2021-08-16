@@ -60,8 +60,8 @@ def main():
             ],
             "ENTERING_PROMOCODE": [
                 MessageHandler(Filters.text, registration.validate_promocode),
-                MessageHandler(Filters.regex(buttons('back'),
-                               registration.choose_subscription))
+                MessageHandler(Filters.regex(buttons('back')),
+                               registration.choose_subscription)
             ],
             "MENU_DISPLAYED": [
                 MessageHandler(Filters.regex(
