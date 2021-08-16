@@ -72,7 +72,8 @@ def main():
                 MessageHandler(Filters.regex(
                     buttons('my_profile')), menu.my_profile),
                 MessageHandler(Filters.regex(
-                    buttons('portfolio')), menu.portfolio)
+                    buttons('portfolio')), menu.portfolio),
+                MessageHandler(Filters.regex(buttons('support')), menu.support)
             ],
             "MY_PROFILE": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
