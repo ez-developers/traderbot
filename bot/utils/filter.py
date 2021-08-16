@@ -12,8 +12,7 @@ class FilterButton(MessageFilter):
         self.section_key = section_key
 
     def filter(self, message):
-        return message.text in parser(API_URL=f"{API_URL + self.section_key}/",
-                                      key="name")
+        return message.text in parser(f"{self.section_key}/", key="name")
 
 
 def buttons(key: str):

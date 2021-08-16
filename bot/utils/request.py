@@ -21,9 +21,9 @@ def put(API_ENDPOINT: str, data):
     ).json()
 
 
-def parser(API_URL: str, key: str, API_auth: HTTPBasicAuth = API_AUTHENTICATION):
+def parser(API_ENDPOINT: str, key: str):
     custom_list = []
-    obj = requests.get(API_URL, auth=API_auth).json()
+    obj = requests.get(API_URL + API_ENDPOINT, auth=API_AUTHENTICATION).json()
 
     for i in obj:
         custom_list.append(i[key])
