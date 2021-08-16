@@ -20,7 +20,8 @@ class Support():
                                           from_chat_id=chat_id,
                                           message_id=user_request.message_id)
         context.bot.send_message(GROUP_ID,
-                                 t("user_info".format(user_name, user_phone), language),
+                                 t("user_info".format(
+                                     user_name, user_phone), language),
                                  parse_mode='HTML')
         payload = {
             msg.message_id: chat_id
