@@ -55,6 +55,8 @@ def main():
             ],
             "CHOOSING_SUBSCRIPTION": [
                 MessageHandler(Filters.regex(
+                    buttons('back')), menu.my_profile),
+                MessageHandler(Filters.regex(
                     buttons('subscribe')), registration.subscribe),
                 MessageHandler(Filters.regex(
                     buttons("enter_promocode")), registration.enter_promocode)
@@ -72,9 +74,12 @@ def main():
             ],
             "MY_PROFILE": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
-                MessageHandler(Filters.regex(buttons('my_info')), profile.my_info),
-                MessageHandler(Filters.regex(buttons('subscription_status')), profile.subscription_status),
-                MessageHandler(Filters.regex(buttons('extend_subscription')),registration.choose_subscription)
+                MessageHandler(Filters.regex(
+                    buttons('my_info')), profile.my_info),
+                MessageHandler(Filters.regex(
+                    buttons('subscription_status')), profile.subscription_status),
+                MessageHandler(Filters.regex(
+                    buttons('extend_subscription')), profile.extend_subscription)
             ],
             "PORTFOLIOS": [
                 MessageHandler(FilterButton('portfolios'), menu.display)
