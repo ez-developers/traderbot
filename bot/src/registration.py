@@ -306,9 +306,33 @@ class Registration:
         chat_id = update.effective_chat.id
         language = lang(chat_id)
         message = update.message.text
-        codes = [i['id'] for i in get('promocodes')]
+        promocodes = get('promocodes')
+        all_codes = [i['promo_id'] for i in promocodes]
 
-        if message in codes:
-            update.effective_message.reply_text("VALID")
+        if message in all_codes:
+
+            for i in promocodes:
+                if i['promo_id'] == message:
+                    promo = i['promo_id']
+                    promo_db_id = i['id']
+                    valid_date = i['valid_date']
+
+            payload = {
+                "id": promo_db_id,
+                "is_active": False
+            }
+
+            put(f"promocodes/${promo_db_id}", payload)
+
+            context.bot.send_message(chat_id,
+                                     t('promocode_successful', language))
+
+            context.bot.send_message(chat_id,
+                                     f"t('promocode_info', language)"
+                                     .format(
+                                         promo,
+                                         valid_date),
+                                     parse_mode='HTML')
+            return Menu().display(update, context)
         else:
             update.effective_message.reply_text("NOT VALID")
