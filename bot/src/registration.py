@@ -59,7 +59,7 @@ class Registration:
     def check_data(self, update, context, chat_id):
         user = get(f'users/{chat_id}')
         if user['subscription_status'] is False:
-            return self.choose_subscription(update, context)
+            return self.request_language(update, context)
         else:
             return Menu().display(update, context)
 
