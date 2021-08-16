@@ -307,7 +307,10 @@ class Registration:
         language = lang(chat_id)
         message = update.message.text
         promocodes = get('promocodes')
-        all_codes = [i['promo_id'] for i in promocodes]
+        all_codes = []
+        for code in promocodes:
+            if code['is_active'] is True:
+                all_codes.append(code['promo_id'])
 
         if message in all_codes:
 
@@ -317,18 +320,23 @@ class Registration:
                     promo_db_id = i['id']
                     valid_date = i['valid_date']
 
-            payload = {
-                "id": promo_db_id,
+            promo_payload = {
                 "is_active": False
             }
+            user_payload = {
+                "id": chat_id,
+                "subscription_status": True,
+                "subscribed_until": valid_date
+            }
 
-            put(f"promocodes/${promo_db_id}", payload)
+            put(f"promocodes/{promo_db_id}/", promo_payload)
+            put(f"users/{chat_id}/", user_payload)
 
             context.bot.send_message(chat_id,
                                      t('promocode_successful', language))
 
             context.bot.send_message(chat_id,
-                                     f"t('promocode_info', language)"
+                                     f"{t('promocode_info', language)}"
                                      .format(
                                          promo,
                                          valid_date),
