@@ -27,7 +27,8 @@ class User(models.Model):
         null=True, verbose_name="Телефон", blank=True)
     subscription_status = models.BooleanField(
         null=False, default=False, verbose_name="Статус подписки")
-    subscription_valid = models.DateTimeField(auto_now_add=True, verbose_name="Действителен до")
+    subscription_valid = models.DateTimeField(default=datetime.now(
+    )+timedelta(days=365), verbose_name="Подписка до")
     language = models.CharField(
         max_length=2, choices=LANGUAGES, default=None, null=True, verbose_name="Язык")
     date_joined = models.DateField(
@@ -53,8 +54,6 @@ class Promo(models.Model):
     class Meta:
         verbose_name_plural = "Промокоды"
         verbose_name = "Промокод"
-
-
 
 
 class Portfolio(models.Model):

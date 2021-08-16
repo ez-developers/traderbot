@@ -10,7 +10,7 @@ admin.site.site_header = "Администрация «Trader Bot»"
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ("id", "first_name", "last_name", "username",
-                    "phone_number", "subscription_status", "subscription_valid")
+                    "phone_number", "subscription_status", "date_joined", "subscription_valid")
     list_display_links = ("id",)
 
     def has_change_permission(self, request, obj=None):
