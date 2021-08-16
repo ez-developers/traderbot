@@ -9,6 +9,7 @@ from telegram.message import Message
 from bot.src.registration import Registration
 from bot.src.menu import Menu
 from bot.src.profile import Profile
+from bot.src.support import Support
 from bot.src.error import error_handler
 from bot.utils.filter import buttons, FilterButton
 import dotenv
@@ -25,6 +26,7 @@ logger = logging.getLogger(__name__)
 registration = Registration()
 menu = Menu()
 profile = Profile()
+support = Support()
 
 
 def main():
@@ -77,8 +79,13 @@ def main():
                 MessageHandler(Filters.regex(buttons('extend_subscription')),registration.choose_subscription)
             ],
             "PORTFOLIOS": [
+                MessageHandler(Filters.regex(buttons('back')), menu.display),
                 MessageHandler(FilterButton('portfolios'), menu.display)
-            ]
+            ],
+            "SUPPORT": [
+                MessageHandler(Filters.regex(buttons('back')), menu.display),
+                MessageHandler(Filters.text, support.accept)
+            ],
         },
         fallbacks=[
             CommandHandler('start', registration.start)
