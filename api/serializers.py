@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import User, Portfolio
+from app.models import Promo, User, Portfolio
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -9,8 +9,11 @@ class UserSerializer(serializers.ModelSerializer):
                   "phone_number", "subscription_status", "language", "date_joined")
 
 
+
 class PortfolioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Portfolio
         fields = "__all__"
+
+

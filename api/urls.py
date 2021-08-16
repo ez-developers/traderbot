@@ -7,5 +7,6 @@ urlpatterns = [
     path('users/', views.usersList.as_view(), name="users"),
     path('users/<int:pk>/', views.userGet.as_view(), name="user"),
     path('portfolios/', views.portfoliosList.as_view(), name="portfolios"),
-    #path('users/<pk>', views.userDetail.as_view(), name="user"),
+    path('portfolios/<int:pk>/', views.portfolioDetail.as_view(), name="portfolio"),
+    
 ]
