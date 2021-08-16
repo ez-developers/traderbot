@@ -273,3 +273,17 @@ class Registration:
         chat_id = update.effective_chat.id
         language = lang(chat_id)
         state = "ENTERING_PROMOCODE"
+
+        context.bot.send_message(chat_id,
+                                 t('enter_promocode', language),
+                                 reply_markup=ReplyKeyboardMarkup(
+                                     [
+                                         [KeyboardButton(b('back', language))]
+                                     ],
+                                     resize_keyboard=True
+                                 ),
+                                 parse_mode='HTML')
+
+        logging.info(
+            f"{chat_id} - Entering promocode. Returned state: {state}")
+        return state
