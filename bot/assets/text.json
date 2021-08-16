@@ -41,6 +41,9 @@
 		"main_page": {
 			"ru": "Главная"
 		},
+		"your_profile": {
+			"ru": "Ваш профиль"
+		},
 		"expiry_date": {
 			"ru": "Подписка оплачена до "
 		},
@@ -67,6 +70,9 @@
 		},
 		"portfolios_display": {
 			"ru": "Все портфели"
+		},
+		"enter_promocode": {
+			"ru": "Введите промокод"
 		}
 	},
 	"buttons": {
@@ -95,8 +101,8 @@
 			"ru": "Мой Профиль",
 			"en": "My Profile"
 		},
-		"user_name": {
-			"ru": "Имя Фамилия"
+		"my_info": {
+			"ru": "Мои данные"
 		},
 		"subscription_status": {
 			"ru": "Статус подписки"
