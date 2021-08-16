@@ -64,6 +64,9 @@
 		},
 		"request_history": {
 			"ru": "Есть ли у вас опыт в инвестициях?"
+		},
+		"portfolios_display": {
+			"ru": "Все портфели"
 		}
 	},
 	"buttons": {
@@ -109,7 +112,7 @@
 			"en": "Video lessons"
 		},
 		"portfolio": {
-			"ru": "Мой портфель",
+			"ru": "Портфели",
 			"en": "Portfolio"
 		},
 		"support": {
@@ -121,6 +124,9 @@
 		},
 		"no": {
 			"ru": "Нет"
+		},
+		"back": {
+			"ru": "Назад"
 		}
 	}
 }
