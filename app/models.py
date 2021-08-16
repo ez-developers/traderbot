@@ -2,6 +2,7 @@ from django.utils.crypto import get_random_string
 from django.db import models
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 
@@ -62,7 +63,7 @@ class Portfolio(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True,
                             blank=True, verbose_name="Название портфеля")
-    user_list = models.TextField(null=True, blank=True, default=None)
+    user_list = ArrayField(models.IntegerField(null=True, blank=True, default=None), default=None)
    
     user_count = models.PositiveIntegerField(null=True, default=0, blank=True)
 
