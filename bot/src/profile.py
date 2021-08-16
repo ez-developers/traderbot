@@ -23,7 +23,7 @@ class Profile():
         
         if status == True:
             context.bot.send_message(chat_id,
-                                     t("active", language))
+                                     f'{t("expiry_date", language) + ": " + t("active", language)}')
         else:
             context.bot.send_message(chat_id,
-                                     t("not_active", language))
+                                     f'{t("expiry_date", language) + ": " + t("not_active", language)}')
