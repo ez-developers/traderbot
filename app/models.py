@@ -52,7 +52,7 @@ class Subscription(models.Model):
 
 
 class Promo(models.Model):
-    RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVXYZ1234567890'
+    RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS)
     promo_id = models.CharField(
         max_length=255, default=unique_id, null=True, blank=True, unique=True, verbose_name="Промокод")
@@ -70,7 +70,8 @@ class Promo(models.Model):
 
 class Portfolio(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, null=True, blank=True)
+    name = models.CharField(max_length=255, null=True,
+                            blank=True, verbose_name="Название портфеля")
 
     class Meta:
         verbose_name_plural = "Портфели"

@@ -26,7 +26,7 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Promo)
 class PromoAdmin(admin.ModelAdmin):
     list_display = ("promo_id", "valid_date", "is_active")
-    readonly_fields = ("promo_id",)
+    readonly_fields = ("promo_id", "is_active")
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -34,4 +34,4 @@ class PromoAdmin(admin.ModelAdmin):
 
 @admin.register(Portfolio)
 class PortfolioAdmin(admin.ModelAdmin):
-    list_display = ("id", "name")
+    list_display = ("name",)
