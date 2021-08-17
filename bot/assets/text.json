@@ -53,6 +53,9 @@
 		"not_active": {
 			"ru": "Не Активен"
 		},
+		"subscription_status": {
+			"ru": "Статус подписки:"
+		},
 		"expiry_date": {
 			"ru": "Подписка оплачена до"
 		},
