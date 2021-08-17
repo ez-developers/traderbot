@@ -28,8 +28,10 @@ class User(models.Model):
         null=True, verbose_name="Телефон", blank=True)
     subscription_status = models.BooleanField(
         null=False, default=False, verbose_name="Статус подписки")
-    subscription_valid = models.DateTimeField(default=datetime.now(
-    )+timedelta(days=365), verbose_name="Подписка до")
+    subscribed_until = models.DateField(
+        verbose_name="Подписка до", null=True)
+    number_of_subscriptions = models.PositiveSmallIntegerField(
+        default=0)
     language = models.CharField(
         max_length=2, choices=LANGUAGES, default=None, null=True, verbose_name="Язык")
     date_joined = models.DateField(

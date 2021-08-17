@@ -5,8 +5,16 @@ from app.models import Promo, User, Portfolio
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "first_name", "last_name", "username",
-                  "phone_number", "subscription_status", "language", "date_joined")
+        fields = ("id",
+                  "first_name",
+                  "last_name",
+                  "username",
+                  "phone_number",
+                  "subscription_status",
+                  "subscribed_until",
+                  "number_of_subscriptions",
+                  "language",
+                  "date_joined")
 
 
 class PortfolioSerializer(serializers.ModelSerializer):

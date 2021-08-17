@@ -9,11 +9,11 @@ admin.site.site_header = "Администрация «Trader Bot»"
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    
+
     list_display = ("id", "first_name", "last_name", "username",
-                    "phone_number", "subscription_status", "date_joined", "subscription_valid")
+                    "phone_number", "subscription_status", "date_joined", "subscribed_until")
     list_display_links = ("id",)
-    list_filter = ("subscription_valid",)
+    list_filter = ("subscribed_until",)
     search_fields = ("first_name", )
 
     def has_change_permission(self, request, obj=None):
