@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import User, Promo, Portfolio
+from .forms import CustomActionForm
 
 admin.site.site_url = None
 admin.site.index_title = "Добро пожаловать!"
@@ -38,3 +39,4 @@ class PromoAdmin(admin.ModelAdmin):
 @admin.register(Portfolio)
 class PortfolioAdmin(admin.ModelAdmin):
     list_display = ("name",)
+    action_form = CustomActionForm
