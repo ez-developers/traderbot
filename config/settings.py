@@ -41,6 +41,11 @@ BOT_ID = 1930302088
 AMOUNT_TO_PAY = 35000
 CURRENCY = "RUB"
 
+# Payments Integration
+INVOICE_TITLE = "THIS IS A TITLE FOR THE INVOICE"
+INVOICE_DESCRIPTION = "This is a description for the invoice"
+
+
 ONE_URL = '192.168.1.114'
 
 ALLOWED_HOSTS = [
