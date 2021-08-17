@@ -60,17 +60,29 @@ def main():
             "CHOOSING_SUBSCRIPTION": [
                 MessageHandler(Filters.regex(
                     buttons('back')), menu.my_profile),
-                MessageHandler(Filters.regex(
-                    buttons('subscribe')), registration.subscribe),
+                ConversationHandler(
+                    entry_points=[
+                        MessageHandler(Filters.regex(
+                            buttons('subscribe')), registration.subscribe),
+                    ],
+                    states={
+                        "INITIAL_PAYING": [
+                            MessageHandler(Filters.regex(buttons('cancel_pay')),
+                                           registration.cancel_pay),
+                            PreCheckoutQueryHandler(registration.precheckout),
+                            MessageHandler(Filters.successful_payment,
+                                           registration.successful_payment),
+                        ]
+                    },
+                    fallbacks=[],
+                    map_to_parent={
+                        "CHOOSING_SUBSCRIPTION": "CHOOSING_SUBSCRIPTION",
+                        "MENU_DISPLAYED": "MENU_DISPLAYED"
+                    },
+                    per_chat=False
+                ),
                 MessageHandler(Filters.regex(
                     buttons("enter_promocode")), registration.enter_promocode)
-            ],
-            "INITIAL_PAYING": [
-                MessageHandler(Filters.regex(buttons('cancel_pay')),
-                               registration.cancel_pay),
-                PreCheckoutQueryHandler(registration.precheckout),
-                MessageHandler(Filters.successful_payment,
-                               registration.successful_payment),
             ],
             "PROMOCODE": [
                 MessageHandler(Filters.regex(buttons('back')),
@@ -96,10 +108,30 @@ def main():
             "CHOOSING_PLANS": [
                 MessageHandler(Filters.regex(
                     buttons('back')), menu.my_profile),
-                MessageHandler(
-                    Filters.regex(buttons('1_year')) |
-                    Filters.regex(buttons('3_years')) |
-                    Filters.regex(buttons('5_years')), profile.extend_subscription)
+
+                ConversationHandler(
+                    entry_points=[
+                        MessageHandler(
+                            Filters.regex(buttons('1_year')) |
+                            Filters.regex(buttons('3_years')) |
+                            Filters.regex(buttons('5_years')), profile.extend_subscription)
+                    ],
+                    states={
+                        "EXTENDING_PAY": [
+                            MessageHandler(Filters.regex(
+                                buttons('cancel_pay')), profile.cancel_extending),
+                            PreCheckoutQueryHandler(profile.precheckout),
+                            MessageHandler(Filters.successful_payment,
+                                           profile.successful_payment)
+                        ]
+                    },
+                    fallbacks=[],
+                    per_chat=False,
+                    map_to_parent={
+                        "CHOOSING_PLANS": "CHOOSING_PLANS",
+                        "MENU_DISPLAYED": "MENU_DISPLAYED"
+                    }
+                )
             ],
             "PORTFOLIOS": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
