@@ -59,7 +59,7 @@ class Registration:
 
     def check_data(self, update, context, chat_id):
         user = get(f'users/{chat_id}')
-        if user['subscription_status'] is False:
+        if user['number_of_subscriptions'] == 0:
             return self.request_language(update, context)
         else:
             return Menu().display(update, context)
@@ -329,7 +329,8 @@ class Registration:
 
     def validate_promocode(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
-        language = lang(chat_id)
+        user = get(f"users/{chat_id}")
+        language = user['language']
         message = update.message.text
         promocodes = get('promocodes')
         all_codes = []
@@ -351,7 +352,8 @@ class Registration:
             user_payload = {
                 "id": chat_id,
                 "subscription_status": True,
-                "subscribed_until": valid_date
+                "subscribed_until": valid_date,
+                "number_of_subscriptions": user['number_of_subscriptions'] + 1
             }
 
             put(f"promocodes/{promo_db_id}/", promo_payload)
