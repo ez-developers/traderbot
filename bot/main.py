@@ -91,6 +91,9 @@ def main():
                 MessageHandler(Filters.regex(
                     buttons('extend_subscription')), profile.extend_subscription)
             ],
+            "CHOOSING_PLANS": [
+                MessageHandler(Filters.regex(buttons('back')), menu.my_profile)
+            ],
             "PORTFOLIOS": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
                 MessageHandler(FilterButton('portfolios'),

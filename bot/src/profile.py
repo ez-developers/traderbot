@@ -1,11 +1,12 @@
+from telegram.ext import CallbackContext
+from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from bot.utils.request import get
 from bot.utils.language import lang
 from bot.src.text import t, b
 from bot.src.registration import Registration
-from telegram import Update
-from telegram.ext import CallbackContext
 import datetime
 import locale
+import logging
 
 
 class Profile():
@@ -41,4 +42,24 @@ class Profile():
                                      f'{t("subscription_status", language)}: <b>{t("not_active", language)}</b>', parse_mode='HTML')
 
     def extend_subscription(self, update: Update, context: CallbackContext):
-        return Registration().choose_subscription(update, context, from_profile=True)
+        chat_id = update.effective_chat.id
+        language = lang(chat_id)
+        markup = [
+            [
+                KeyboardButton(b('1_year', language)),
+                KeyboardButton(b('3_years', language)),
+                KeyboardButton(b('5_years', language)),
+            ],
+            [KeyboardButton(b('back', language))]
+        ]
+        state = "CHOOSING_PLANS"
+
+        context.bot.send_message(chat_id,
+                                 t('choosing_plans', language),
+                                 reply_markup=ReplyKeyboardMarkup(markup,
+                                                                  resize_keyboard=True),
+                                 parse_mode='HTML')
+
+        logging.info(
+            f"{chat_id} - is extending his subscription. Returned state: {state}")
+        return state
