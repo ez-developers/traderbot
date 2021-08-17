@@ -1,6 +1,7 @@
 import logging
 import dotenv
 import os
+import datetime
 from config.settings import AMOUNT_TO_PAY, CURRENCY
 from bot.utils.language import lang
 from bot.utils.request import get, post, put
@@ -195,10 +196,12 @@ class Registration:
         if message.contact:
             phone = message.contact.phone_number
         else:
-            phone = update.message.text
-            if phone[:1] != '+':
+            if update.message.text[:1] != '+':
                 context.bot.send_message(chat_id,
-                                         t("invalid_phone", language))
+                                         t("invalid_phone", language),
+                                         parse_mode='HTML')
+                return self.request_phone(update, context)
+            phone = ''.join(update.message.text.split(' '))
         payload = {
             "id": chat_id,
             "phone_number": phone
@@ -286,13 +289,21 @@ class Registration:
 
     def successful_payment(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
-        language = lang(chat_id)
+        user = get(f'users/{chat_id}')
+        language = user['language']
+
         payload = {
             "id": chat_id,
-            "subscription_status": True
+            "subscription_status": True,
+            "subscribed_until": f"{datetime.datetime.now().date() + datetime.timedelta(days=365)}",
+            "number_of_subscriptions": user['number_of_subscriptions'] + 1
         }
 
         put(f"users/{chat_id}/", payload)
+
+        invoice_id = context.user_data['invoice_id']
+        # context.bot.delete_message(chat_id,
+        #                            message_id=invoice_id)
         context.bot.send_message(chat_id, t('congratulations', language))
         return Menu().display(update, context)
 
