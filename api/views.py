@@ -62,6 +62,7 @@ class promoList(APIView):
 
         return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
 
+
 @permission_classes([IsAuthenticated])
 class promoDetail(APIView):
     def get_object(self, pk):
@@ -74,7 +75,7 @@ class promoDetail(APIView):
         promo = self.get_object(pk)
         serializer = PromoSerializer(promo)
         return Response(serializer.data, content_type='application/json')
-    
+
     def put(self, request, pk, format=None):
         promo = self.get_object(pk)
         serializer = PromoSerializer(promo, data=request.data)
@@ -82,7 +83,8 @@ class promoDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK, content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
+
 @permission_classes([IsAuthenticated])
 class portfoliosList(APIView):
 
@@ -92,19 +94,19 @@ class portfoliosList(APIView):
 
         return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
 
+
 @permission_classes([IsAuthenticated])
 class portfolioDetail(APIView):
     def get_object(self, pk):
         try:
             return Portfolio.objects.get(pk=pk)
-        except: 
+        except:
             return Portfolio.DoesNotExist
 
     def get(self, request, pk, format=None, *args, **kwargs):
         porfolio = self.get_object(pk)
         serializer = PortfolioSerializer(porfolio)
         return Response(serializer.data, content_type='application/json')
-
 
     def put(self, request, pk, format=None):
         portfolio = self.get_object(pk)
@@ -113,5 +115,3 @@ class portfolioDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK, content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
