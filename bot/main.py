@@ -40,12 +40,7 @@ def main():
 
     main_conversation = ConversationHandler(
         entry_points=[
-            CommandHandler('start', registration.start),
-            MessageHandler(Filters.successful_payment,
-                           registration.successful_payment),
-            MessageHandler(Filters.regex(buttons('cancel_pay')),
-                           registration.cancel_pay)
-        ],
+            CommandHandler('start', registration.start)],
         states={
             "LANGUAGE": [
                 CallbackQueryHandler(
@@ -65,8 +60,27 @@ def main():
             "CHOOSING_SUBSCRIPTION": [
                 MessageHandler(Filters.regex(
                     buttons('back')), menu.my_profile),
-                MessageHandler(Filters.regex(
-                    buttons('subscribe')), registration.subscribe),
+                ConversationHandler(
+                    entry_points=[
+                        MessageHandler(Filters.regex(
+                            buttons('subscribe')), registration.subscribe),
+                    ],
+                    states={
+                        "INITIAL_PAYING": [
+                            MessageHandler(Filters.regex(buttons('cancel_pay')),
+                                           registration.cancel_pay),
+                            PreCheckoutQueryHandler(registration.precheckout),
+                            MessageHandler(Filters.successful_payment,
+                                           registration.successful_payment),
+                        ]
+                    },
+                    fallbacks=[],
+                    map_to_parent={
+                        "CHOOSING_SUBSCRIPTION": "CHOOSING_SUBSCRIPTION",
+                        "MENU_DISPLAYED": "MENU_DISPLAYED"
+                    },
+                    per_chat=False
+                ),
                 MessageHandler(Filters.regex(
                     buttons("enter_promocode")), registration.enter_promocode)
             ],
@@ -89,10 +103,35 @@ def main():
                 MessageHandler(Filters.regex(
                     buttons('subscription_status')), profile.subscription_status),
                 MessageHandler(Filters.regex(
-                    buttons('extend_subscription')), profile.extend_subscription)
+                    buttons('extend_subscription')), profile.choose_plan)
             ],
             "CHOOSING_PLANS": [
-                MessageHandler(Filters.regex(buttons('back')), menu.my_profile)
+                MessageHandler(Filters.regex(
+                    buttons('back')), menu.my_profile),
+
+                ConversationHandler(
+                    entry_points=[
+                        MessageHandler(
+                            Filters.regex(buttons('1_year')) |
+                            Filters.regex(buttons('3_years')) |
+                            Filters.regex(buttons('5_years')), profile.extend_subscription)
+                    ],
+                    states={
+                        "EXTENDING_PAY": [
+                            MessageHandler(Filters.regex(
+                                buttons('cancel_pay')), profile.cancel_extending),
+                            PreCheckoutQueryHandler(profile.precheckout),
+                            MessageHandler(Filters.successful_payment,
+                                           profile.successful_payment)
+                        ]
+                    },
+                    fallbacks=[],
+                    per_chat=False,
+                    map_to_parent={
+                        "CHOOSING_PLANS": "CHOOSING_PLANS",
+                        "MENU_DISPLAYED": "MENU_DISPLAYED"
+                    }
+                )
             ],
             "PORTFOLIOS": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
@@ -110,11 +149,11 @@ def main():
         },
         fallbacks=[
             CommandHandler('start', registration.start)
-        ]
+        ],
+        per_chat=False
     )
 
     dispatcher.add_handler(main_conversation)
-    dispatcher.add_handler(PreCheckoutQueryHandler(registration.precheckout))
     # dispatcher.add_error_handler(error_handler)
     dispatcher.add_handler(MessageHandler(
         ReplyToMessageFilter(Filters.user(BOT_ID)), group.reply_to_user))
