@@ -3,7 +3,7 @@ import dotenv
 import os
 import datetime
 import locale
-from config.settings import AMOUNT_TO_PAY, CURRENCY
+from config.settings import AMOUNT_TO_PAY, CURRENCY, INVOICE_TITLE, INVOICE_DESCRIPTION
 from bot.utils.language import lang
 from bot.utils.request import get, post, put
 from bot.src.text import t, b
@@ -235,8 +235,6 @@ class Registration:
         language = lang(chat_id)
         state = "INITIAL_PAYING"
 
-        title = "1 x course bundle"
-        description = "This is your invoice for the subscription"
         payload = "I am paying for the course"
         provider_token = os.getenv('PAYMENT_TOKEN')
         currency = CURRENCY
@@ -253,8 +251,8 @@ class Registration:
 
         invoice = context.bot.send_invoice(
             chat_id,
-            title,
-            description,
+            INVOICE_TITLE,
+            INVOICE_DESCRIPTION,
             payload,
             provider_token,
             currency,
@@ -292,22 +290,19 @@ class Registration:
         put(f"users/{chat_id}/", payload)
 
         invoice_id = context.user_data['invoice_id']
-        # context.bot.delete_message(chat_id,
-        #                            message_id=invoice_id)
+        context.bot.delete_message(chat_id,
+                                   message_id=invoice_id)
         context.bot.send_message(chat_id, t('congratulations', language))
         return Menu().display(update, context)
 
-    def cancel_pay(self, update: Update, context: CallbackContext, from_profile=False):
+    def cancel_pay(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         language = lang(chat_id)
 
-        if from_profile:
-            pass
-        else:
-            invoice_id = context.user_data['invoice_id']
-            context.bot.delete_message(chat_id,
-                                       message_id=invoice_id)
-            return self.choose_subscription(update, context)
+        invoice_id = context.user_data['invoice_id']
+        context.bot.delete_message(chat_id,
+                                   message_id=invoice_id)
+        return self.choose_subscription(update, context)
 
     def enter_promocode(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
