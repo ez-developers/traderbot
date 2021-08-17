@@ -4,7 +4,7 @@ from bot.utils.request import parser
 from config.settings import API_URL
 import json
 
-j = json.load(open("bot/assets/text.json", "r"))
+j = json.load(open("bot/assets/text.json", "r", encoding="utf-8"))
 
 
 class FilterButton(MessageFilter):
