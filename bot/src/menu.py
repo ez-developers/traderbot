@@ -42,8 +42,8 @@ class Menu:
         markup = [
             [KeyboardButton(b("my_info", language)),
              KeyboardButton(b("subscription_status", language))],
-            [KeyboardButton(b("extend_subscription", language))],
-            [KeyboardButton(b("back", language))]
+            [KeyboardButton(b("extend_subscription", language)),
+             KeyboardButton(b("back", language))]
         ]
 
         context.bot.send_message(chat_id,
@@ -54,14 +54,13 @@ class Menu:
 
         logging.info(f"{chat_id} - opened my profile. Returned state: {state}")
         return state
-    
-    
+
     def video_lessons(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         language = lang(chat_id)
         state = "VIDEOS"
         video_list = parser('videos/', 'name')
-        
+
         context.bot.send_message(chat_id,
                                  f'{t("video_lessons", language)}',
                                  reply_markup=ReplyKeyboardMarkup(
@@ -73,7 +72,6 @@ class Menu:
                                          footer_buttons=[KeyboardButton(b("back", language))]), resize_keyboard=True))
         logging.info(f"{chat_id} - opened videos. Returned state: {state}")
         return state
-        
 
     def portfolio(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
