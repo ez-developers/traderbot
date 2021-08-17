@@ -230,17 +230,17 @@ class Registration:
             f"{chat_id} - is choosing a subscription plan. Returning state: {state}")
         return state
 
-    def subscribe(self, update: Update, context: CallbackContext):
+    def subscribe(self, update: Update, context: CallbackContext, years=1):
         chat_id = update.effective_chat.id
         language = lang(chat_id)
-        state = ConversationHandler.END
+        state = "INITIAL_PAYING"
 
         title = "1 x course bundle"
         description = "This is your invoice for the subscription"
         payload = "I am paying for the course"
         provider_token = os.getenv('PAYMENT_TOKEN')
         currency = CURRENCY
-        price = AMOUNT_TO_PAY
+        price = AMOUNT_TO_PAY * years
         prices = [LabeledPrice(b('pay', language), price * 100)]
 
         context.bot.send_message(chat_id,

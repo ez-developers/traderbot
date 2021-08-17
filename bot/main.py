@@ -40,12 +40,7 @@ def main():
 
     main_conversation = ConversationHandler(
         entry_points=[
-            CommandHandler('start', registration.start),
-            MessageHandler(Filters.successful_payment,
-                           registration.successful_payment),
-            MessageHandler(Filters.regex(buttons('cancel_pay')),
-                           registration.cancel_pay)
-        ],
+            CommandHandler('start', registration.start)],
         states={
             "LANGUAGE": [
                 CallbackQueryHandler(
@@ -70,6 +65,13 @@ def main():
                 MessageHandler(Filters.regex(
                     buttons("enter_promocode")), registration.enter_promocode)
             ],
+            "INITIAL_PAYING": [
+                MessageHandler(Filters.regex(buttons('cancel_pay')),
+                               registration.cancel_pay),
+                PreCheckoutQueryHandler(registration.precheckout),
+                MessageHandler(Filters.successful_payment,
+                               registration.successful_payment),
+            ],
             "PROMOCODE": [
                 MessageHandler(Filters.regex(buttons('back')),
                                registration.choose_subscription),
@@ -89,10 +91,15 @@ def main():
                 MessageHandler(Filters.regex(
                     buttons('subscription_status')), profile.subscription_status),
                 MessageHandler(Filters.regex(
-                    buttons('extend_subscription')), profile.extend_subscription)
+                    buttons('extend_subscription')), profile.choose_plan)
             ],
             "CHOOSING_PLANS": [
-                MessageHandler(Filters.regex(buttons('back')), menu.my_profile)
+                MessageHandler(Filters.regex(
+                    buttons('back')), menu.my_profile),
+                MessageHandler(
+                    Filters.regex(buttons('1_year')) |
+                    Filters.regex(buttons('3_years')) |
+                    Filters.regex(buttons('5_years')), profile.extend_subscription)
             ],
             "PORTFOLIOS": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
@@ -110,11 +117,11 @@ def main():
         },
         fallbacks=[
             CommandHandler('start', registration.start)
-        ]
+        ],
+        per_chat=False
     )
 
     dispatcher.add_handler(main_conversation)
-    dispatcher.add_handler(PreCheckoutQueryHandler(registration.precheckout))
     # dispatcher.add_error_handler(error_handler)
     dispatcher.add_handler(MessageHandler(
         ReplyToMessageFilter(Filters.user(BOT_ID)), group.reply_to_user))
