@@ -3,6 +3,7 @@ from django.db import models
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import ArrayField
+import uuid
 
 # Create your models here.
 
@@ -43,16 +44,20 @@ class User(models.Model):
         return str(self.id)
 
 
-RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-unique_id = get_random_string(length=6, allowed_chars=RANDOM_CHARS)
+def get_code():
+    RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+    return get_random_string(length=6, allowed_chars=RANDOM_CHARS)
+
+    
 
 
 class Promo(models.Model):
     promo_id = models.CharField(
-        max_length=255, default=unique_id,  unique=True, verbose_name="Промокод")
+        max_length=255, default=get_code,  unique=True, verbose_name="Промокод")
     valid_date = models.DateField(default=datetime.now(
     )+timedelta(days=365),  verbose_name="Действителен до")
     is_active = models.BooleanField(default=True, verbose_name="Активный")
+
 
     def __str__(self):
         return self.promo_id
