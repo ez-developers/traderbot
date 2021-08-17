@@ -1,6 +1,6 @@
 import json
 
-j = json.load(open("bot/assets/text.json", "r"))
+j = json.load(open("bot/assets/text.json", "r", encoding="utf-8"))
 
 
 def t(key: str, lang: str):
