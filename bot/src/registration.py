@@ -250,7 +250,15 @@ class Registration:
         price = AMOUNT_TO_PAY
         prices = [LabeledPrice(b('pay', language), price * 100)]
 
-        context.bot.send_invoice(
+        context.bot.send_message(chat_id,
+                                 t('pay_the_cheque', language),
+                                 reply_markup=ReplyKeyboardMarkup([
+                                     [KeyboardButton(
+                                         b('cancel_pay', language))]
+                                 ], resize_keyboard=True),
+                                 parse_mode='HTML')
+
+        invoice = context.bot.send_invoice(
             chat_id,
             title,
             description,
@@ -259,6 +267,11 @@ class Registration:
             currency,
             prices
         )
+
+        payload = {
+            "invoice_id": invoice.message_id
+        }
+        context.user_data.update(payload)
 
         logging.info(f"{chat_id} - paying. Returning state: {state}")
         return state
@@ -282,6 +295,18 @@ class Registration:
         put(f"users/{chat_id}/", payload)
         context.bot.send_message(chat_id, t('congratulations', language))
         return Menu().display(update, context)
+
+    def cancel_pay(self, update: Update, context: CallbackContext, from_profile=False):
+        chat_id = update.effective_chat.id
+        language = lang(chat_id)
+
+        if from_profile:
+            pass
+        else:
+            invoice_id = context.user_data['invoice_id']
+            context.bot.delete_message(chat_id,
+                                       message_id=invoice_id)
+            return self.choose_subscription(update, context)
 
     def enter_promocode(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
@@ -343,4 +368,5 @@ class Registration:
                                      parse_mode='HTML')
             return Menu().display(update, context)
         else:
-            update.effective_message.reply_text("NOT VALID")
+            context.bot.send_message(chat_id,
+                                     t('invalid_promocode', language))

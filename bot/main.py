@@ -11,6 +11,7 @@ from bot.src.menu import Menu
 from bot.src.profile import Profile
 from bot.src.support import Support
 from bot.src.group import Group
+from bot.src.portfolio import Portfolio
 from bot.src.error import error_handler
 from bot.utils.filter import buttons, FilterButton
 from bot.utils.reply_to_message_filter import ReplyToMessageFilter
@@ -30,6 +31,7 @@ menu = Menu()
 profile = Profile()
 support = Support()
 group = Group()
+portfolio = Portfolio()
 
 
 def main():
@@ -40,7 +42,9 @@ def main():
         entry_points=[
             CommandHandler('start', registration.start),
             MessageHandler(Filters.successful_payment,
-                           registration.successful_payment)
+                           registration.successful_payment),
+            MessageHandler(Filters.regex(buttons('cancel_pay')),
+                           registration.cancel_pay)
         ],
         states={
             "LANGUAGE": [
@@ -89,7 +93,8 @@ def main():
             ],
             "PORTFOLIOS": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
-                MessageHandler(FilterButton('portfolios'), menu.display)
+                MessageHandler(FilterButton('portfolios'),
+                               portfolio.handle_portfolio_click)
             ],
             "SUPPORT": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
