@@ -2,6 +2,7 @@ import logging
 import dotenv
 import os
 import datetime
+import locale
 from config.settings import AMOUNT_TO_PAY, CURRENCY
 from bot.utils.language import lang
 from bot.utils.request import get, post, put
@@ -344,6 +345,8 @@ class Registration:
         language = user['language']
         message = update.message.text
         promocodes = get('promocodes')
+        locale.setlocale(locale.LC_TIME, f'{language}_{language.upper()}')
+
         all_codes = []
         for code in promocodes:
             if code['is_active'] is True:
@@ -356,6 +359,9 @@ class Registration:
                     promo = i['promo_id']
                     promo_db_id = i['id']
                     valid_date = i['valid_date']
+
+            date = datetime.datetime.strptime(
+                valid_date, "%Y-%m-%d").strftime('%d %B %Y')
 
             promo_payload = {
                 "is_active": False
@@ -377,7 +383,7 @@ class Registration:
                                      f"{t('promocode_info', language)}"
                                      .format(
                                          promo,
-                                         valid_date),
+                                         date),
                                      parse_mode='HTML')
             return Menu().display(update, context)
         else:
