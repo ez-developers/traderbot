@@ -47,8 +47,6 @@ def get_code():
     RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     return get_random_string(length=6, allowed_chars=RANDOM_CHARS)
 
-    
-
 
 class Promo(models.Model):
     promo_id = models.CharField(
@@ -56,7 +54,6 @@ class Promo(models.Model):
     valid_date = models.DateField(default=datetime.now(
     )+timedelta(days=365),  verbose_name="Действителен до")
     is_active = models.BooleanField(default=True, verbose_name="Активный")
-
 
     def __str__(self):
         return self.promo_id
@@ -72,8 +69,7 @@ class Portfolio(models.Model):
     name = models.CharField(max_length=255, null=True,
                             blank=True, verbose_name="Название портфеля")
     user_list = ArrayField(models.BigIntegerField(
-        null=True, blank=True, default=None), default=None)
-
+        null=True, blank=True, default=None), default=list, null=True)
     user_count = models.PositiveIntegerField(null=True, default=0, blank=True)
 
     class Meta:
