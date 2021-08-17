@@ -98,7 +98,7 @@ def main():
             ],
             "SUPPORT": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
-                MessageHandler(Filters.text, support.accept)
+                MessageHandler(Filters.all, support.accept)
             ],
             "VIDEOS": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
