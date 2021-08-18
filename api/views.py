@@ -10,7 +10,7 @@ from app.models import User, Portfolio, Promo
 
 
 @permission_classes([IsAuthenticated])
-class userAdd(APIView):
+class UserAdd(APIView):
 
     def post(self, request, *args, **kwargs):
         renderer_classes = [JSONRenderer]
@@ -22,7 +22,7 @@ class userAdd(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class userGet(APIView):
+class UserGet(APIView):
 
     def get_object(self, pk):
         try:
@@ -45,7 +45,7 @@ class userGet(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class usersList(APIView):
+class UsersList(APIView):
 
     def get(self, request, *args, **kwargs):
         queryset = User.objects.all()
@@ -55,7 +55,7 @@ class usersList(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class promoList(APIView):
+class PromoList(APIView):
     def get(self, request, *args, **kwargs):
         queryset = Promo.objects.all()
         serializer = PromoSerializer(queryset, many=True)
@@ -64,7 +64,7 @@ class promoList(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class promoDetail(APIView):
+class PromoDetail(APIView):
     def get_object(self, pk):
         try:
             return Promo.objects.get(pk=pk)
@@ -86,17 +86,16 @@ class promoDetail(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class portfoliosList(APIView):
+class PortfoliosList(APIView):
 
     def get(self, request, *args, **kwargs):
         queryset = Portfolio.objects.all()
         serializer = PortfolioSerializer(queryset, many=True)
-
         return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
 
 
 @permission_classes([IsAuthenticated])
-class portfolioDetail(APIView):
+class PortfolioDetail(APIView):
     def get_object(self, pk):
         try:
             return Portfolio.objects.get(pk=pk)
