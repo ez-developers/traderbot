@@ -83,6 +83,7 @@ class Portfolio(models.Model):
 
 class VideoLesson(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="ID")
+    name = models.CharField(max_length=255, blank=True, null=True)
     url = models.URLField(max_length=255, verbose_name="Ccылка")
     class Meta:
             verbose_name_plural = "Видеоуроки"
