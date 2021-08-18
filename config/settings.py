@@ -46,7 +46,7 @@ INVOICE_TITLE = "THIS IS A TITLE FOR THE INVOICE"
 INVOICE_DESCRIPTION = "This is a description for the invoice"
 
 
-ONE_URL = '192.168.1.114'
+ONE_URL = '192.168.1.101'
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1', ONE_URL, '192.168.1.123'
@@ -90,7 +90,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR / 'templates')  ],
+        'DIRS': [os.path.join(BASE_DIR / 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

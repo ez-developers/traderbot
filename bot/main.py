@@ -94,6 +94,8 @@ def main():
                     buttons('my_profile')), menu.my_profile),
                 MessageHandler(Filters.regex(
                     buttons('portfolio')), menu.portfolio),
+                MessageHandler(Filters.regex(buttons('videos')),
+                               menu.video_lessons),
                 MessageHandler(Filters.regex(buttons('support')), menu.support)
             ],
             "MY_PROFILE": [
@@ -143,8 +145,7 @@ def main():
                 MessageHandler(Filters.all, support.accept)
             ],
             "VIDEOS": [
-                MessageHandler(Filters.regex(buttons('back')), menu.display),
-                MessageHandler(FilterButton('videos'), menu.display)
+                MessageHandler(Filters.regex(buttons('back')), menu.display)
             ]
         },
         fallbacks=[

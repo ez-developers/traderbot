@@ -21,7 +21,7 @@ class Menu:
         state = "MENU_DISPLAYED"
         menu_buttons = [
             [KeyboardButton(b("my_profile", language)),
-             KeyboardButton(b("video_lessons", language))],
+             KeyboardButton(b("videos", language))],
             [KeyboardButton(b("support", language)),
              KeyboardButton(b("portfolio", language))]
         ]
@@ -69,8 +69,12 @@ class Menu:
                                              KeyboardButton(s) for s in video_list
                                          ],
                                          n_cols=1,
-                                         footer_buttons=[KeyboardButton(b("back", language))]), resize_keyboard=True))
-        logging.info(f"{chat_id} - opened videos. Returned state: {state}")
+                                         footer_buttons=[
+                                             KeyboardButton(
+                                                 b("back", language))
+                                         ]), resize_keyboard=True))
+        logging.info(
+            f"{chat_id} - want to watch one of the video lessons. Returned state: {state}")
         return state
 
     def portfolio(self, update: Update, context: CallbackContext):
