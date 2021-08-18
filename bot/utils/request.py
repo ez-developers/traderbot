@@ -28,3 +28,18 @@ def parser(API_ENDPOINT: str, key: str):
     for i in obj:
         custom_list.append(i[key])
     return custom_list
+
+
+def get_target_id_by_name(API_ENDPOINT: str, target: str):
+    """
+    Parses data from the target API endpoint and gets the id of the requested target. 
+
+    Args:
+        API_ENDPOINT (str): URL to get the object
+        target (str): API endpoint to parse
+    """
+    object = get(API_ENDPOINT)
+
+    for i in object:
+        if i['name'] == target:
+            return i['id']
