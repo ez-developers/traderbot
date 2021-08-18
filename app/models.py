@@ -2,7 +2,7 @@ from django.utils.crypto import get_random_string
 from django.db import models
 from datetime import datetime, timedelta
 from django.contrib.postgres.fields import ArrayField
-
+import pytz
 
 # Create your models here.
 
@@ -47,12 +47,14 @@ def get_code():
     RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     return get_random_string(length=6, allowed_chars=RANDOM_CHARS)
 
+def add_one_year():
+    return datetime.now(
+    )+timedelta(days=365)
 
 class Promo(models.Model):
     promo_id = models.CharField(
         max_length=255, default=get_code,  unique=True, verbose_name="Промокод")
-    valid_date = models.DateField(default=datetime.now(
-    )+timedelta(days=365),  verbose_name="Действителен до")
+    valid_date = models.DateField(default=add_one_year,  verbose_name="Действителен до")
     is_active = models.BooleanField(default=True, verbose_name="Активный")
 
     def __str__(self):
