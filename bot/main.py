@@ -12,6 +12,7 @@ from bot.src.profile import Profile
 from bot.src.support import Support
 from bot.src.group import Group
 from bot.src.portfolio import Portfolio
+from bot.src.video_lesson import VideoLesson
 from bot.src.error import error_handler
 from bot.utils.filter import buttons, FilterButton
 from bot.utils.reply_to_message_filter import ReplyToMessageFilter
@@ -32,6 +33,7 @@ profile = Profile()
 support = Support()
 group = Group()
 portfolio = Portfolio()
+video_lesson = VideoLesson()
 
 
 def main():
@@ -145,7 +147,9 @@ def main():
                 MessageHandler(Filters.all, support.accept)
             ],
             "VIDEOS": [
-                MessageHandler(Filters.regex(buttons('back')), menu.display)
+                MessageHandler(Filters.regex(buttons('back')), menu.display),
+                MessageHandler(FilterButton('videos'),
+                               video_lesson.display)
             ]
         },
         fallbacks=[
