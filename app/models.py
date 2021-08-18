@@ -88,4 +88,4 @@ class VideoLesson(models.Model):
             verbose_name_plural = "Видеоуроки"
             verbose_name = "Видеоурок"
     def __str__(self):
-        return self.str(id)
+        return str(self.id)
