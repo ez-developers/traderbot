@@ -81,7 +81,7 @@ class Portfolio(models.Model):
     def __str__(self):
         return self.name
 
-class Videolesson(models.Model):
+class VideoLesson(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="ID")
     url = models.URLField(max_length=255, verbose_name="Ccылка")
     class Meta:
