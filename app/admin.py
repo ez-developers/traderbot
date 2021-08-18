@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Promo, Portfolio
+from .models import User, Promo, Portfolio, Videolesson
 from .forms import CustomActionForm
 
 admin.site.site_url = None
@@ -41,3 +41,9 @@ class PortfolioAdmin(admin.ModelAdmin):
     list_display = ("name",)
     exclude = ("user_list", "user_count")
     action_form = CustomActionForm
+
+
+@admin.register(Videolesson)
+class Videolesson(admin.ModelAdmin):
+    list_display = ("id", "url")
+    
