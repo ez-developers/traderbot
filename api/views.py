@@ -5,8 +5,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import HttpResponse, Http404
-from .serializers import UserSerializer, PortfolioSerializer, PromoSerializer
-from app.models import User, Portfolio, Promo
+from .serializers import UserSerializer, PortfolioSerializer, PromoSerializer, VideoLessonSerializer
+from app.models import User, Portfolio, Promo, VideoLesson
 
 
 @permission_classes([IsAuthenticated])
@@ -110,6 +110,36 @@ class PortfolioDetail(APIView):
     def put(self, request, pk, format=None):
         portfolio = self.get_object(pk)
         serializer = PortfolioSerializer(portfolio, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK, content_type='application/json')
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@permission_classes([IsAuthenticated])
+class VideoLessonList(APIView):
+
+    def get(self, request, *args, **kwargs):
+        queryset = VideoLesson.objects.all()
+        serializer = VideoLessonSerializer(queryset, many=True)
+        return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
+
+
+@permission_classes([IsAuthenticated])
+class VideoLessonDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return VideoLesson.objects.get(pk=pk)
+        except:
+            return VideoLesson.DoesNotExist
+
+    def get(self, request, pk, format=None, *args, **kwargs):
+        video = self.get_object(pk)
+        serializer = VideoLessonSerializer(video)
+        return Response(serializer.data, content_type='application/json')
+
+    def put(self, request, pk, format=None):
+        video = self.get_object(pk)
+        serializer = VideoLessonSerializer(video, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK, content_type='application/json')
