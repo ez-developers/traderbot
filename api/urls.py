@@ -10,4 +10,6 @@ urlpatterns = [
     path('portfolios/<int:pk>/', views.PortfolioDetail.as_view(), name="portfolio"),
     path('promocodes/', views.PromoList.as_view(), name="promos"),
     path('promocodes/<int:pk>/', views.PromoDetail.as_view(), name="promo"),
+    path('videos/', views.VideoLessonList.as_view(), name="videos"),
+    path('videos/<int:pk>/', views.VideoLessonDetail.as_view(), name="video")
 ]
