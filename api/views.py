@@ -114,7 +114,3 @@ class PortfolioDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK, content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@permission_classes([IsAuthenticated])
-class VideoLesson(APIView):
-    def
