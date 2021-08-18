@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import Promo, User, Portfolio
+from app.models import Promo, User, Portfolio, VideoLesson
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -27,4 +27,10 @@ class PortfolioSerializer(serializers.ModelSerializer):
 class PromoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Promo
+        fields = "__all__"
+
+
+class VideoLessonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VideoLesson
         fields = "__all__"

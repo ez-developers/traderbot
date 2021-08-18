@@ -45,5 +45,5 @@ class PortfolioAdmin(admin.ModelAdmin):
 
 @admin.register(VideoLesson)
 class VideoLessonAdmin(admin.ModelAdmin):
-    list_display = ("id", "url")
+    list_display = ("id", "name", "url")
     
