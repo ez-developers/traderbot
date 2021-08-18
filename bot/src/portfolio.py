@@ -2,6 +2,8 @@ from telegram import Update
 from telegram.ext import CallbackContext
 from bot.utils.request import get, put
 from bot.utils.language import lang
+from bot.src.text import t
+
 
 
 class Portfolio():
@@ -30,4 +32,4 @@ class Portfolio():
             put(f'portfolios/{this_portfolio_id}/', payload)
 
             context.bot.send_message(chat_id,
-                                     "you clicked successfully")
+                                     t("thanks", language))
