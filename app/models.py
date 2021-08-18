@@ -47,14 +47,17 @@ def get_code():
     RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     return get_random_string(length=6, allowed_chars=RANDOM_CHARS)
 
+
 def add_one_year():
     return datetime.now(
     )+timedelta(days=365)
 
+
 class Promo(models.Model):
     promo_id = models.CharField(
         max_length=255, default=get_code,  unique=True, verbose_name="Промокод")
-    valid_date = models.DateField(default=add_one_year,  verbose_name="Действителен до")
+    valid_date = models.DateField(
+        default=add_one_year,  verbose_name="Действителен до")
     is_active = models.BooleanField(default=True, verbose_name="Активный")
 
     def __str__(self):
@@ -81,12 +84,15 @@ class Portfolio(models.Model):
     def __str__(self):
         return self.name
 
+
 class VideoLesson(models.Model):
     id = models.AutoField(primary_key=True, verbose_name="ID")
     name = models.CharField(max_length=255)
     url = models.URLField(max_length=255, verbose_name="Ccылка")
+
     class Meta:
-            verbose_name_plural = "Видеоуроки"
-            verbose_name = "Видеоурок"
+        verbose_name_plural = "Видеоуроки"
+        verbose_name = "Видеоурок"
+
     def __str__(self):
         return str(self.id)
