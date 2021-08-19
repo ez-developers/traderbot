@@ -18,15 +18,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
-    user_list = serializers.ListField(child=serializers.IntegerField())
+
     class Meta:
         model = Portfolio
         fields = (
             "id",
             "name",
-            "user_list",
-            "user_count",
+            "users_list"
         )
+
 
 class PromoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,4 +38,3 @@ class VideoLessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoLesson
         fields = "__all__"
-
