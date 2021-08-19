@@ -1,6 +1,6 @@
 from telegram.ext import CallbackContext
 from telegram import Update
-from config.settings import GROUP_ID
+from core.settings import GROUP_ID
 from bot.src.text import t
 from bot.utils.language import lang
 

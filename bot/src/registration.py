@@ -3,7 +3,7 @@ import dotenv
 import os
 import datetime
 import locale
-from config.settings import AMOUNT_TO_PAY, CURRENCY, INVOICE_TITLE, INVOICE_DESCRIPTION
+from core.settings import AMOUNT_TO_PAY, CURRENCY, INVOICE_TITLE, INVOICE_DESCRIPTION
 from bot.utils.language import lang
 from bot.utils.request import get, post, put
 from bot.src.text import t, b

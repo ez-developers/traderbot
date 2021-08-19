@@ -1,7 +1,7 @@
 from telegram.ext import MessageFilter
 from bot.src.text import b
 from bot.utils.request import parser
-from config.settings import API_URL
+from core.settings import API_URL
 import json
 
 j = json.load(open("bot/assets/text.json", "r", encoding="utf-8"))

@@ -5,7 +5,7 @@ from telegram.ext import CallbackContext
 from bot.utils.language import lang
 from bot.src.text import t, b
 from bot.src.menu import Menu
-from config.settings import GROUP_ID
+from core.settings import GROUP_ID
 
 
 class Support():

@@ -1,5 +1,5 @@
 from requests.auth import HTTPBasicAuth
-from config.settings import API_URL, API_AUTHENTICATION
+from core.settings import API_URL, API_AUTHENTICATION
 import requests
 
 

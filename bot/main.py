@@ -5,7 +5,7 @@ from telegram.ext import (Updater,
                           MessageHandler,
                           Filters,
                           PreCheckoutQueryHandler)
-from config.settings import BOT_ID
+from core.settings import BOT_ID
 from bot.src.registration import Registration
 from bot.src.menu import Menu
 from bot.src.profile import Profile

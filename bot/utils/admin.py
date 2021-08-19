@@ -1,5 +1,5 @@
 
-from config.settings import ADMIN_IDS
+from core.settings import ADMIN_IDS
 
 
 def is_admin(chat_id):
