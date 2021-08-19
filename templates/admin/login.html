@@ -1,0 +1,30 @@
+{% extends "admin/login.html" %}
+
+{% load i18n static %}
+
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+.login {
+  background-color: #F9DFDC;
+}
+#header {
+  background-color: #867AE9 !important;
+}
+.submit-row {
+  background-color: #867AE9 !important;
+}
+
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1>
+  <span style="color: #fff !important">Администрация TraderBot</span>
+  <br />
+  <small>{% block head_title %}{% endblock %}</small>
+</h1>
+{% endblock %}
+
