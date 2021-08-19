@@ -1,9 +1,9 @@
-from telegram import Update
+from telegram import Update, chat
 from telegram.ext import CallbackContext
 from bot.utils.request import get, put, get_target_id_by_name
 from bot.utils.language import lang
 from bot.src.text import t
-import json
+import time
 
 
 class Portfolio():
@@ -12,19 +12,22 @@ class Portfolio():
         chat_id = update.effective_chat.id
         language = lang(chat_id)
         id = get_target_id_by_name('portfolios', update.message.text)
+        all_users = []
 
         portfolio = get(f'portfolios/{id}')
-        users = []
-        for i in portfolio['user_list']:
-            users.append(i)
-        print(users)
 
-        # TODO: Very huge bug here. Please, help with this, guys!
-        updated_users = ['sdfsd', 'sd'].append(str(chat_id))
-        print(updated_users)
+        for i in portfolio['users_list']:
+            all_users.append(i)
+
+        if chat_id in all_users:
+            update.effective_message.reply_text(
+                "you are already on the portfolio")
+            return
+        else:
+            all_users.append(chat_id)
+
         payload = {
-            "user_list": updated_users,
-            "user_count": portfolio['user_count'] + 1
+            "users_list": all_users
         }
 
         put(f'portfolios/{id}/', payload)
