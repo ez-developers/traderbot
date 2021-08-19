@@ -73,9 +73,8 @@ class Portfolio(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True,
                             blank=True, verbose_name="Название портфеля")
-    user_list = ArrayField(models.BigIntegerField(
-        blank=True, default=list), default=list, blank=True)
-    user_count = models.PositiveIntegerField(default=0, blank=True)
+    users_list = ArrayField(models.BigIntegerField(),
+                            default=list, blank=True)
 
     class Meta:
         verbose_name_plural = "Портфели"
