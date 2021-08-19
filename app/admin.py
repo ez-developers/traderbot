@@ -13,6 +13,7 @@ class UserAdmin(admin.ModelAdmin):
 
     list_display = ("id", "first_name", "last_name", "username",
                     "phone_number", "subscription_status", "date_joined", "subscribed_until")
+    exclude = ("number_of_subscriptions", "portfolio")
     list_display_links = ("id",)
     list_filter = ("subscribed_until",)
     search_fields = ("first_name", )
@@ -46,4 +47,3 @@ class PortfolioAdmin(admin.ModelAdmin):
 @admin.register(VideoLesson)
 class VideoLessonAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "url")
-    
