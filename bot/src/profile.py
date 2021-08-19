@@ -1,6 +1,6 @@
 from telegram.ext import CallbackContext
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, LabeledPrice
-from config.settings import CURRENCY, AMOUNT_TO_PAY, INVOICE_TITLE, INVOICE_DESCRIPTION
+from core.settings import CURRENCY, AMOUNT_TO_PAY, INVOICE_TITLE, INVOICE_DESCRIPTION
 from bot.src.menu import Menu
 from bot.src.text import t, b
 from bot.utils.request import get, put

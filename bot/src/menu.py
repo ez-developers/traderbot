@@ -47,7 +47,7 @@ class Menu:
         ]
 
         context.bot.send_message(chat_id,
-                                 t("your_profile", language),
+                                 f'<b>{t("your_profile", language)}</b>',
                                  reply_markup=ReplyKeyboardMarkup(
                                      markup, resize_keyboard=True),
                                  parse_mode='HTML')
@@ -62,7 +62,7 @@ class Menu:
         video_list = parser('videos/', 'name')
 
         context.bot.send_message(chat_id,
-                                 f'{t("video_lessons", language)}',
+                                 f'<b>{t("video_lessons", language)}</b>',
                                  reply_markup=ReplyKeyboardMarkup(
                                      build_menu(
                                          buttons=[
@@ -72,7 +72,8 @@ class Menu:
                                          footer_buttons=[
                                              KeyboardButton(
                                                  b("back", language))
-                                         ]), resize_keyboard=True))
+                                         ]), resize_keyboard=True),
+                                 parse_mode='HTML')
         logging.info(
             f"{chat_id} - want to watch one of the video lessons. Returned state: {state}")
         return state
@@ -84,14 +85,15 @@ class Menu:
         portfolio_list = parser('portfolios/', 'name')
 
         context.bot.send_message(chat_id,
-                                 f'{t("portfolios_display", language)}',
+                                 f'<b>{t("portfolios_display", language)}</b>',
                                  reply_markup=ReplyKeyboardMarkup(
                                      build_menu(
                                          buttons=[
                                              KeyboardButton(s) for s in portfolio_list
                                          ],
                                          n_cols=1,
-                                         footer_buttons=[KeyboardButton(b("back", language))]), resize_keyboard=True))
+                                         footer_buttons=[KeyboardButton(b("back", language))]), resize_keyboard=True),
+                                 parse_mode='HTML')
         logging.info(f"{chat_id} - opened portfolios. Returned state: {state}")
         return state
 

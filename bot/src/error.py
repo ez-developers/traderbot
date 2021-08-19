@@ -5,7 +5,7 @@ import traceback
 
 from telegram import Update, ParseMode
 from telegram.ext import CallbackContext
-from config.settings import ADMIN_IDS
+from core.settings import ADMIN_IDS
 
 
 class ButtonError(Exception):

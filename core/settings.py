@@ -46,7 +46,7 @@ INVOICE_TITLE = "THIS IS A TITLE FOR THE INVOICE"
 INVOICE_DESCRIPTION = "This is a description for the invoice"
 
 
-ONE_URL = '192.168.1.101'
+ONE_URL = '192.168.1.114'
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1', ONE_URL, '192.168.1.123'
@@ -85,7 +85,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
@@ -103,7 +103,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Database
