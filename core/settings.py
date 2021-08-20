@@ -37,6 +37,9 @@ DEVELOPER_ID = 361516746
 GROUP_ID = -1001467504028
 BOT_ID = 1930302088
 
+# Bot send terms and conditions document
+DOCUMENT_FILE_ID = 'BQACAgIAAxkBAAIRpWEfth5JYlaVgZx8ydsLLwlxIQzxAALtDgACSE4BSWcHEjPZWAgaIAQ'
+
 # Should be integer (not floats/doubles)
 AMOUNT_TO_PAY = 35000
 CURRENCY = "RUB"
@@ -47,6 +50,7 @@ INVOICE_DESCRIPTION = "This is a description for the invoice"
 
 
 ONE_URL = '192.168.1.101'
+USER_DETAILS_URL = f'http://{ONE_URL}:8000/admin/app/user/'
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1', ONE_URL, '192.168.1.123'

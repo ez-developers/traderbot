@@ -41,11 +41,49 @@ quiz = Quiz()
 def main():
     updater = Updater(token=os.getenv("BOT_TOKEN"))
     dispatcher = updater.dispatcher
+
     quiz_conversation = ConversationHandler(
         entry_points=[
-            CommandHandler(buttons('quiz', quiz.question1))],
-        states=[]),
-    
+            MessageHandler(Filters.regex(buttons('quiz')), quiz.start)
+        ],
+        states={
+            "QUIZ": [
+                MessageHandler(Filters.regex(buttons('back')), menu.display),
+                MessageHandler(Filters.regex(
+                    buttons('start_quiz')), quiz.capital)
+            ],
+            "CAPITAL": [
+                MessageHandler(Filters.regex(buttons('back')), quiz.start),
+                MessageHandler(Filters.text, quiz.expectations)
+            ],
+            "EXPECTATIONS": [
+                MessageHandler(Filters.regex(buttons('back')), quiz.capital),
+                MessageHandler(Filters.text, quiz.risks)
+            ],
+            "RISKS": [
+                MessageHandler(Filters.regex(
+                    buttons('back')), quiz.expectations),
+                MessageHandler(Filters.regex(buttons('yes')) |
+                               Filters.regex(buttons('no')), quiz.experience)
+            ],
+            "EXPERIENCE": [
+                MessageHandler(Filters.regex(
+                    buttons('back')), quiz.risks),
+                MessageHandler(Filters.text, quiz.summary)
+            ],
+            "SUMMARY": [
+                MessageHandler(Filters.regex(
+                    buttons('back')), quiz.experience),
+                MessageHandler(Filters.regex(
+                    buttons('save_my_responses')), quiz.save_my_responses)
+            ]
+        },
+        fallbacks=[],
+        map_to_parent={
+            "MENU_DISPLAYED": "MENU_DISPLAYED"
+        }
+    )
+
     main_conversation = ConversationHandler(
         entry_points=[
             CommandHandler('start', registration.start)],
@@ -104,7 +142,9 @@ def main():
                     buttons('portfolio')), menu.portfolio),
                 MessageHandler(Filters.regex(buttons('videos')),
                                menu.video_lessons),
-                MessageHandler(Filters.regex(buttons('support')), menu.support)
+                MessageHandler(Filters.regex(
+                    buttons('support')), menu.support),
+                quiz_conversation
             ],
             "MY_PROFILE": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),

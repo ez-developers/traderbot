@@ -4,8 +4,8 @@ from .forms import CustomActionForm
 
 admin.site.site_url = None
 admin.site.index_title = "Добро пожаловать!"
-admin.site.site_title = "Администрация «Trader Bot»"
-admin.site.site_header = "Администрация «Trader Bot»"
+admin.site.site_title = "Администрация «Trader One™"
+admin.site.site_header = "Администрация Trader One™"
 
 
 @admin.register(User)
