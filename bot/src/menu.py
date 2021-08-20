@@ -23,7 +23,8 @@ class Menu:
             [KeyboardButton(b("my_profile", language)),
              KeyboardButton(b("videos", language))],
             [KeyboardButton(b("support", language)),
-             KeyboardButton(b("portfolio", language))]
+             KeyboardButton(b("portfolio", language))],
+            [KeyboardButton(b("quiz", language))]
         ]
 
         context.bot.send_message(chat_id,
