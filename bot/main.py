@@ -13,6 +13,7 @@ from bot.src.support import Support
 from bot.src.group import Group
 from bot.src.portfolio import Portfolio
 from bot.src.video_lesson import VideoLesson
+from bot.src.quiz import Quiz
 from bot.src.error import error_handler
 from bot.utils.filter import buttons, FilterButton
 from bot.utils.reply_to_message_filter import ReplyToMessageFilter
@@ -34,12 +35,17 @@ support = Support()
 group = Group()
 portfolio = Portfolio()
 video_lesson = VideoLesson()
+quiz = Quiz()
 
 
 def main():
     updater = Updater(token=os.getenv("BOT_TOKEN"))
     dispatcher = updater.dispatcher
-
+    quiz_conversation = ConversationHandler(
+        entry_points=[
+            CommandHandler(buttons('quiz', quiz.question1))],
+        states=[]),
+    
     main_conversation = ConversationHandler(
         entry_points=[
             CommandHandler('start', registration.start)],
