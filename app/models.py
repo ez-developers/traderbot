@@ -104,7 +104,7 @@ class Mailings(models.Model):
     portfolio = models.ForeignKey(Portfolio, on_delete=models.PROTECT, blank=True, null=True)
     class Meta:
         verbose_name_plural = "Рассылки"
-        verbose_name = "Рассылка"
+        verbose_name = "рассылку"
 
     def __str__(self):
         return self.message
