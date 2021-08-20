@@ -27,7 +27,8 @@ class Portfolio():
             all_users.append(chat_id)
 
         payload = {
-            "users_list": all_users
+            "users_list": all_users,
+            "users_count": len(all_users)
         }
 
         put(f'portfolios/{id}/', payload)

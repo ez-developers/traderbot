@@ -24,7 +24,8 @@ class PortfolioSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
-            "users_list"
+            "users_list",
+            "users_count"
         )
 
 
