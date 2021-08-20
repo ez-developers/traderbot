@@ -33,6 +33,7 @@ class PromoAdmin(admin.ModelAdmin):
     list_display = ("promo_id", "valid_date", "is_active")
     readonly_fields = ("promo_id", "is_active")
     list_per_page = 50
+    action_form = CustomActionForm
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -52,3 +53,4 @@ class PortfolioAdmin(admin.ModelAdmin):
 class VideoLessonAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "url")
     list_per_page = 50
+    action_form = CustomActionForm
