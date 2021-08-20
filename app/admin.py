@@ -57,6 +57,6 @@ class VideoLessonAdmin(admin.ModelAdmin):
 
 @admin.register(Mailings)
 class MailingsAdmin(admin.ModelAdmin):
-    list_display = ("portfolio",  "message", "date_sent")
+    list_display = ("message", "date_sent", "portfolio",)
     list_per_page = 50
     action_form = CustomActionForm
