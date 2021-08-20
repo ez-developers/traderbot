@@ -47,6 +47,7 @@ INVOICE_DESCRIPTION = "This is a description for the invoice"
 
 
 ONE_URL = '192.168.1.101'
+USER_DETAILS_URL = f'http://{ONE_URL}:8000/admin/app/user/'
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1', ONE_URL, '192.168.1.123'
