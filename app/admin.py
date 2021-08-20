@@ -16,6 +16,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display_links = ("id",)
     list_filter = ("subscribed_until", ('subscription_status', admin.BooleanFieldListFilter),)
     search_fields = ("first_name", )
+    list_per_page = 50
 
     def has_change_permission(self, request, obj=None):
         return False
@@ -31,6 +32,7 @@ class UserAdmin(admin.ModelAdmin):
 class PromoAdmin(admin.ModelAdmin):
     list_display = ("promo_id", "valid_date", "is_active")
     readonly_fields = ("promo_id", "is_active")
+    list_per_page = 50
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -42,9 +44,11 @@ class PortfolioAdmin(admin.ModelAdmin):
     exclude = ("users_list",)
     actions_selection_counter = True
     action_form = CustomActionForm
+    list_per_page = 50
     
 
 
 @admin.register(VideoLesson)
 class VideoLessonAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "url")
+    list_per_page = 50
