@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Promo, Portfolio, VideoLesson
+from .models import User, Promo, Portfolio, VideoLesson, Mailings
 from .forms import CustomActionForm
 
 admin.site.site_url = None
@@ -52,5 +52,11 @@ class PortfolioAdmin(admin.ModelAdmin):
 @admin.register(VideoLesson)
 class VideoLessonAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "url")
+    list_per_page = 50
+    action_form = CustomActionForm
+
+@admin.register(Mailings)
+class MailingsAdmin(admin.ModelAdmin):
+    list_display = ("portfolio",  "message", "date_sent")
     list_per_page = 50
     action_form = CustomActionForm
