@@ -308,7 +308,6 @@ class Registration:
 
     def cancel_pay(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
-        language = lang(chat_id)
 
         invoice_id = context.user_data['invoice_id']
         context.bot.delete_message(chat_id,
@@ -355,8 +354,13 @@ class Registration:
                     promo_db_id = i['id']
                     valid_date = i['valid_date']
 
-            date = datetime.datetime.strptime(
-                valid_date, "%Y-%m-%d").strftime('%d %B %Y')
+            datetime_format = datetime.datetime.strptime(
+                valid_date, "%Y-%m-%d")
+
+            if datetime_format < datetime.datetime.now():
+                context.bot.send_message(chat_id,
+                                         t('outdated_promocode', language))
+                return
 
             promo_payload = {
                 "is_active": False
@@ -370,6 +374,8 @@ class Registration:
 
             put(f"promocodes/{promo_db_id}/", promo_payload)
             put(f"users/{chat_id}/", user_payload)
+
+            date = datetime_format.strftime('%d %B %Y')
 
             context.bot.send_message(chat_id,
                                      t('promocode_successful', language))
