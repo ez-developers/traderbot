@@ -40,7 +40,7 @@ class PromoAdmin(admin.ModelAdmin):
 @admin.register(Portfolio)
 class PortfolioAdmin(admin.ModelAdmin):
     list_display = ("name",)
-    exclude = ("users_list",)
+    exclude = ("users_list", "users_count")
     action_form = CustomActionForm
 
 
