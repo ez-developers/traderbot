@@ -37,6 +37,9 @@ DEVELOPER_ID = 361516746
 GROUP_ID = -1001467504028
 BOT_ID = 1930302088
 
+# Bot send terms and conditions document
+DOCUMENT_FILE_ID = 'BQACAgIAAxkBAAIRpWEfth5JYlaVgZx8ydsLLwlxIQzxAALtDgACSE4BSWcHEjPZWAgaIAQ'
+
 # Should be integer (not floats/doubles)
 AMOUNT_TO_PAY = 35000
 CURRENCY = "RUB"

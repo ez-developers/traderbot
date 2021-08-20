@@ -1,13 +1,3 @@
-import logging
-import dotenv
-import os
-import datetime
-import locale
-from core.settings import AMOUNT_TO_PAY, CURRENCY, INVOICE_TITLE, INVOICE_DESCRIPTION
-from bot.utils.language import lang
-from bot.utils.request import get, post, put
-from bot.src.text import t, b
-from bot.src.menu import Menu
 from telegram.ext import CallbackContext, ConversationHandler
 from telegram import (Update,
                       InlineKeyboardButton,
@@ -16,6 +6,21 @@ from telegram import (Update,
                       ReplyKeyboardRemove,
                       KeyboardButton,
                       LabeledPrice)
+from core.settings import (AMOUNT_TO_PAY,
+                           CURRENCY,
+                           INVOICE_TITLE,
+                           INVOICE_DESCRIPTION,
+                           DOCUMENT_FILE_ID)
+from bot.src.menu import Menu
+from bot.src.text import t, b
+from bot.utils.language import lang
+from bot.utils.request import get, post, put
+import logging
+import dotenv
+import os
+import datetime
+import locale
+
 
 dotenv.load_dotenv()
 
@@ -107,8 +112,7 @@ class Registration:
         state = "POLICY_AGREEMENT"
 
         context.bot.send_document(chat_id,
-                                  document=open(
-                                      'bot/assets/upload/document.pdf', 'rb'),
+                                  DOCUMENT_FILE_ID,
                                   caption=t('request_agreement',
                                             lang(chat_id)),
                                   reply_markup=InlineKeyboardMarkup([
@@ -131,8 +135,8 @@ class Registration:
 
         if query.data == 'accept':
             context.bot.send_document(chat_id,
-                                      open('bot/assets/upload/document.pdf', 'rb'),
-                                      caption=t('save_document', language))
+                                      DOCUMENT_FILE_ID,
+                                      caption=t('terms_accepted', language))
             return self.request_name(update, context)
         elif query.data == 'reject':
             context.bot.send_message(chat_id,
