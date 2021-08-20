@@ -63,6 +63,8 @@ class Menu:
         state = "VIDEOS"
         video_list = parser('videos/', 'name')
 
+        # TODO: Validate if user's subscription is still active
+
         context.bot.send_message(chat_id,
                                  f'<b>{t("video_lessons", language)}</b>',
                                  reply_markup=ReplyKeyboardMarkup(
@@ -87,6 +89,8 @@ class Menu:
         portfolio_list = parser('portfolios/', 'name')
         all_portfolios = get('portfolios')
         numbered = []
+
+        # TODO: Validate if user's subscription is still active
 
         for i in all_portfolios:
             if chat_id in i['users_list']:
