@@ -206,6 +206,13 @@ class Registration:
                                          t("invalid_phone", language),
                                          parse_mode='HTML')
                 return self.request_phone(update, context)
+            try:
+                int(update.message.text[1:])
+            except ValueError:
+                context.bot.send_message(chat_id,
+                                         t('phone_int_error', language),
+                                         parse_mode='HTML')
+                return self.request_phone(update, context)
             phone = ''.join(update.message.text.split(' '))
         payload = {
             "id": chat_id,
