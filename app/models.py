@@ -4,8 +4,6 @@ from datetime import datetime, timedelta
 from django.contrib.postgres.fields import ArrayField
 import pytz
 
-# Create your models here.
-
 
 class User(models.Model):
     class Meta:
@@ -97,16 +95,18 @@ class VideoLesson(models.Model):
     def __str__(self):
         return str(self.id)
 
+
 class Mailings(models.Model):
-    image = models.ImageField(upload_to="uploads/images/", null=True, blank=True)
+    image = models.ImageField(
+        upload_to="uploads/images/", null=True, blank=True)
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
     date_sent = models.DateTimeField(auto_now_add=True)
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.PROTECT, blank=True, null=True)
+    portfolio = models.ForeignKey(
+        Portfolio, on_delete=models.PROTECT, blank=True, null=True)
+
     class Meta:
         verbose_name_plural = "Рассылки"
         verbose_name = "рассылку"
 
     def __str__(self):
         return self.message
-    
-    
