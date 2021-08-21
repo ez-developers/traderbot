@@ -3,7 +3,7 @@
 from telegram import Update
 from telegram.ext import CallbackContext
 from core.settings import TIME_ZONE
-from bot.utils.request import get, put
+from bot.utils.request import get, put, get_target_id_by_name
 import datetime
 import pytz
 
@@ -18,16 +18,38 @@ def handle_subscription(context: CallbackContext):
     job = context.job
     chat_id = job.context
     user = get(f'users/{chat_id}')
+    portfolios = get('portfolios')
     subscription_status = user['subscription_status']
     subscription_expiration = datetime.datetime.strptime(
         user['subscribed_until'], '%Y-%m-%d')
     today = datetime.datetime.now()
 
     if subscription_expiration < today and subscription_status is True:
-        payload = {
+        user_payload = {
             "id": chat_id,
             "subscription_status": False
         }
-        put(f'users/{chat_id}/', payload)
+
+        for portfolio in portfolios:
+            all_users = []
+            current = portfolio['name']
+            id = get_target_id_by_name('portfolios', current)
+
+            for i in portfolio['users_list']:
+                all_users.append(i)
+
+            if chat_id in all_users:
+
+                all_users.remove(chat_id)
+
+                portfolios_payload = {
+                    "users_list": all_users,
+                    "users_count": len(all_users)
+                }
+                put(f'portfolios/{id}/', portfolios_payload)
+            else:
+                continue
+
+        put(f'users/{chat_id}/', user_payload)
         context.bot.send_message(chat_id,
                                  "Your subscription_status is now inactive")
