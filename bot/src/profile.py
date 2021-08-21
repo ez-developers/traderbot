@@ -130,7 +130,13 @@ class Profile():
         subscribed_until = datetime.datetime.strptime(
             user['subscribed_until'], '%Y-%m-%d')
         subscribscription_extend = datetime.timedelta(days=year*years_paid)
-        extended_till = subscribed_until + subscribscription_extend
+        now = datetime.datetime.now()
+
+        if subscribed_until < now:
+            extended_till = now + subscribscription_extend
+        else:
+            extended_till = subscribed_until + subscribscription_extend
+
         user_display_date = datetime.datetime.strftime(
             extended_till, "%d %B %Y")
 
