@@ -98,11 +98,11 @@ class VideoLesson(models.Model):
 
 class Mailings(models.Model):
     image = models.ImageField(
-        upload_to="uploads/images/", null=True, blank=True)
+        upload_to="uploads/images/", null=True, blank=True, verbose_name="Фото")
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
-    date_sent = models.DateTimeField(auto_now_add=True)
+    date_sent = models.DateTimeField(auto_now_add=True, verbose_name="Дата отправки")
     portfolio = models.ForeignKey(
-        Portfolio, on_delete=models.PROTECT, blank=True, null=True)
+        Portfolio, on_delete=models.PROTECT, blank=True, null=True, verbose_name="Портфолио")
 
     class Meta:
         verbose_name_plural = "Рассылки"
