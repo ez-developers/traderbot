@@ -21,6 +21,9 @@ admin.site.site_header = "Администрация Trader One™"
 @admin.register(Mailings)
 class MailingsAdmin(admin.ModelAdmin):
 
+#TODO:  
+# 1.remove special characters in image name 
+# 2. Add portfolio id to send the specific portfolio subscribed users
     def response_post_save_add(self, request, obj):
 
         image = request.FILES.get('image', None)
@@ -34,9 +37,11 @@ class MailingsAdmin(admin.ModelAdmin):
                 except Exception as e:
                     print("ID неправылный или бота заблокировал")
         else:
+            
+            valid_name = str(image).replace((" ", "_"), ("%", ""))
 
             path = open(
-                str(str(BASE_DIR) + f'/uploads/images/{str(image)}'), "rb")
+                str(str(BASE_DIR) + f'/uploads/images/{time.strftime("%Y_%m_%d")}/{valid_name}'), "rb")
 
             photo = bot.send_photo((DJANGO_DEVELOPER_ID),
                                    path, message, parse_mode='HTML')
