@@ -61,6 +61,13 @@ class PromoList(APIView):
         serializer = PromoSerializer(queryset, many=True)
 
         return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
+    
+    def post(self, request, *args, **kwargs):
+        serializer = PromoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @permission_classes([IsAuthenticated])
