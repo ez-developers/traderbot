@@ -24,9 +24,11 @@ class Portfolio():
             context.bot.send_message(chat_id,
                                      t('unfollowed', language),
                                      parse_mode='HTML')
-            return Menu().portfolio(update, context)
         else:
             all_users.append(chat_id)
+            context.bot.send_message(chat_id,
+                                     t("followed", language),
+                                     parse_mode='HTML')
 
         payload = {
             "users_list": all_users,
@@ -34,8 +36,4 @@ class Portfolio():
         }
 
         put(f'portfolios/{id}/', payload)
-
-        context.bot.send_message(chat_id,
-                                 t("followed", language),
-                                 parse_mode='HTML')
         return Menu().portfolio(update, context)
