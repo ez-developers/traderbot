@@ -1,7 +1,6 @@
 from django.contrib import admin
-from django.http import HttpResponseRedirect
 from core.settings import DJANGO_DEVELOPER_ID, BASE_DIR
-from .models import User, Promo, Portfolio, VideoLesson, Mailings
+from .models import User, Promo, Portfolio, VideoLesson, Broadcast
 from .forms import CustomActionForm
 import time
 import os
@@ -18,12 +17,12 @@ admin.site.site_title = "Администрация «Trader One™"
 admin.site.site_header = "Администрация Trader One™"
 
 
-@admin.register(Mailings)
-class MailingsAdmin(admin.ModelAdmin):
+@admin.register(Broadcast)
+class BroadcastAdmin(admin.ModelAdmin):
 
-#TODO:  
-# 1.remove special characters in image name 
-# 2. Add portfolio id to send the specific portfolio subscribed users
+    # TODO:
+    # 1.remove special characters in image name
+    # 2. Add portfolio id to send the specific portfolio subscribed users
     def response_post_save_add(self, request, obj):
 
         image = request.FILES.get('image', None)
@@ -37,7 +36,7 @@ class MailingsAdmin(admin.ModelAdmin):
                 except Exception as e:
                     print("ID неправылный или бота заблокировал")
         else:
-            
+
             valid_name = str(image).replace((" ", "_"), ("%", ""))
 
             path = open(
@@ -55,7 +54,7 @@ class MailingsAdmin(admin.ModelAdmin):
                 except Exception as e:
                     print("ID неправылный или бота заблокировал ")
 
-        return super(MailingsAdmin, self).response_post_save_add(
+        return super(Broadcast, self).response_post_save_add(
             request, obj)
 
     list_display = ("message", "date_sent", "image", "portfolio",)
