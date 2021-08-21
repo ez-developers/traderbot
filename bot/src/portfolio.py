@@ -1,9 +1,9 @@
 from telegram import Update, chat
 from telegram.ext import CallbackContext
+from bot.src.text import t
+from bot.src.menu import Menu
 from bot.utils.request import get, put, get_target_id_by_name
 from bot.utils.language import lang
-from bot.src.text import t
-import time
 
 
 class Portfolio():
@@ -20,9 +20,11 @@ class Portfolio():
             all_users.append(i)
 
         if chat_id in all_users:
-            update.effective_message.reply_text(
-                "you are already on the portfolio")
-            return
+            all_users.remove(chat_id)
+            context.bot.send_message(chat_id,
+                                     t('unfollowed', language),
+                                     parse_mode='HTML')
+            return Menu().portfolio(update, context)
         else:
             all_users.append(chat_id)
 
@@ -34,4 +36,6 @@ class Portfolio():
         put(f'portfolios/{id}/', payload)
 
         context.bot.send_message(chat_id,
-                                 t("thanks", language))
+                                 t("followed", language),
+                                 parse_mode='HTML')
+        return Menu().portfolio(update, context)
