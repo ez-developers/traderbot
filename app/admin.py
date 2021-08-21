@@ -25,37 +25,7 @@ class BroadcastAdmin(admin.ModelAdmin):
     # 2. Add portfolio id to send the specific portfolio subscribed users
     def response_post_save_add(self, request, obj):
 
-        image = request.FILES.get('image', None)
-        message = request.POST.get('message', None)
-
-        if not image:
-
-            for el in User.objects.values_list('id',):
-                try:
-                    bot.send_message(el[0], message, parse_mode='HTML')
-                except Exception as e:
-                    print("ID неправылный или бота заблокировал")
-        else:
-
-            valid_name = str(image).replace((" ", "_"), ("%", ""))
-
-            path = open(
-                str(str(BASE_DIR) + f'/uploads/images/{time.strftime("%Y_%m_%d")}/{valid_name}'), "rb")
-
-            photo = bot.send_photo((DJANGO_DEVELOPER_ID),
-                                   path, message, parse_mode='HTML')
-
-            photo_id = photo.json['photo'][0]['file_id']
-
-            for el in User.objects.values_list('id',).exclude(id=DJANGO_DEVELOPER_ID):
-                try:
-                    bot.send_photo(el[0], photo_id, message,
-                                   parse_mode='HTML')
-                except Exception as e:
-                    print("ID неправылный или бота заблокировал ")
-
-        return super(Broadcast, self).response_post_save_add(
-            request, obj)
+        pass
 
     list_display = ("message", "date_sent", "image", "portfolio",)
     list_per_page = 50
@@ -66,7 +36,7 @@ class BroadcastAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
     list_display = ("id", "first_name", "last_name", "username",
                     "phone_number", "subscription_status", "date_joined", "subscribed_until")
-    exclude = ("number_of_subscriptions", "portfolio")
+    exclude = ("number_of_subscriptions",)
     list_display_links = ("id",)
     list_filter = ("subscribed_until", ('subscription_status',
                                         admin.BooleanFieldListFilter),)
