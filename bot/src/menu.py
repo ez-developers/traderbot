@@ -110,11 +110,11 @@ class Menu:
                 f"{portfolio_list.index(i['name']) + 1}. {i['name']} - {status}"
             )
 
-        details = '\n'.join(numbered)
+        details = '\n\n'.join(numbered)
 
         context.bot.send_message(chat_id,
                                  f'''
-                                 <b>{t("portfolios_display", language)}</b>\n\n{details}
+                                 <b>{t("portfolios_display", language)}</b>\n\n\n{details}
                                  ''',
                                  reply_markup=ReplyKeyboardMarkup(
                                      build_menu(
