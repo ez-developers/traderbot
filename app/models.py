@@ -9,7 +9,7 @@ import pytz
 class User(models.Model):
     class Meta:
         verbose_name_plural = "Пользователи"
-        verbose_name = "Пользователь"
+        verbose_name = "пользователя"
 
     LANGUAGES = [
         ('en', "English"),
@@ -64,7 +64,7 @@ class Promo(models.Model):
 
     class Meta:
         verbose_name_plural = "Промокоды"
-        verbose_name = "Промокод"
+        verbose_name = "промокод"
 
 
 class Portfolio(models.Model):
@@ -74,11 +74,12 @@ class Portfolio(models.Model):
                             blank=True, verbose_name="Название портфеля")
     users_list = ArrayField(models.BigIntegerField(),
                             default=list, blank=True)
-    users_count = models.IntegerField(default=0)
+    users_count = models.IntegerField(
+        default=0, verbose_name="Количество подписанных")
 
     class Meta:
         verbose_name_plural = "Портфели"
-        verbose_name = "Портфель"
+        verbose_name = "портфель"
 
     def __str__(self):
         return self.name
@@ -91,7 +92,7 @@ class VideoLesson(models.Model):
 
     class Meta:
         verbose_name_plural = "Видеоуроки"
-        verbose_name = "Видеоурок"
+        verbose_name = "видеоурок"
 
     def __str__(self):
         return str(self.id)
@@ -101,9 +102,10 @@ class Mailings(models.Model):
     image = models.ImageField(
         upload_to="uploads/mailings/%Y_%m_%d/", storage=CustomFileSystemStorage, null=True, blank=True, verbose_name="Фото")
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
-    date_sent = models.DateTimeField(auto_now_add=True, verbose_name="Дата отправки")
+    date_sent = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата отправки")
     portfolio = models.ForeignKey(
-        Portfolio, on_delete=models.PROTECT, blank=True, null=True, verbose_name="Портфолио")
+        Portfolio, on_delete=models.PROTECT, blank=True, null=True, verbose_name="Портфель")
 
     class Meta:
         verbose_name_plural = "Рассылки"
