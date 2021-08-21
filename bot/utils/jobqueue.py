@@ -3,6 +3,7 @@
 from telegram import Update
 from telegram.ext import CallbackContext
 from core.settings import TIME_ZONE
+from bot.src.text import t, b
 from bot.utils.request import get, put, get_target_id_by_name
 import datetime
 import pytz
@@ -18,6 +19,7 @@ def handle_subscription(context: CallbackContext):
     job = context.job
     chat_id = job.context
     user = get(f'users/{chat_id}')
+    language = user['language']
     portfolios = get('portfolios')
     subscription_status = user['subscription_status']
     subscription_expiration = datetime.datetime.strptime(
@@ -52,4 +54,9 @@ def handle_subscription(context: CallbackContext):
 
         put(f'users/{chat_id}/', user_payload)
         context.bot.send_message(chat_id,
-                                 "Your subscription_status is now inactive")
+                                 f"{t('expiration_notification', language)}"
+                                 .format(
+                                     b('my_profile', language),
+                                     b('extend_subscription', language)
+                                 ),
+                                 parse_mode='HTML')
