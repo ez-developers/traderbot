@@ -8,7 +8,13 @@ from bot.utils.language import lang
 class Group:
 
     def reply_to_user(self, update: Update, context: CallbackContext):
+        if not update.message.reply_to_message.forward_date:
+            update.effective_message.reply_text(
+                "❗️ Ответы возможны только для <b>пересланных сообщений</b> от бота (Forwarded from: ...)", parse_mode='HTML')
+            return
+
         try:
+
             if update.message.reply_to_message:
 
                 response = update.message.text
@@ -26,8 +32,7 @@ class Group:
                                          parse_mode='HTML')
                 update.effective_message.reply_text(
                     "Отлично! Я отправил ваш ответ пользователю.")
-            else:
-                pass
+
         except KeyError:
             update.effective_message.reply_text(
-                "Ошибка на сервере! Попробуйте ответить на более недавние сообщения")
+                "Попробуйте ответить на более недавние сообщения.")
