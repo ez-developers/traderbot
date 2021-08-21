@@ -15,6 +15,7 @@ from bot.src.menu import Menu
 from bot.src.text import t, b
 from bot.utils.language import lang
 from bot.utils.request import get, post, put
+from bot.utils.jobqueue import run_job
 import logging
 import dotenv
 import os
@@ -43,6 +44,7 @@ class Registration:
         username = (
             "@" + update.effective_user.username) if update.effective_user.username is not None else None
         if self.is_private_chat(chat_id):
+            run_job(update, context)
             all_users_id = []
             user_objects = get('users')
             for user in user_objects:

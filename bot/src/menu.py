@@ -10,6 +10,7 @@ from bot.src.text import t, b
 from bot.utils.language import lang
 from bot.utils.request import get, parser
 from bot.utils.build_menu import build_menu
+from bot.utils.blocked import actions_blocked
 import logging
 
 
@@ -59,11 +60,15 @@ class Menu:
 
     def video_lessons(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
-        language = lang(chat_id)
+        user = get(f'users/{chat_id}')
+        language = user['language']
         state = "VIDEOS"
-        video_list = parser('videos/', 'name')
 
-        # TODO: Validate if user's subscription is still active
+        if user['subscription_status'] is False:
+            actions_blocked(chat_id, language, context)
+            return
+
+        video_list = parser('videos/', 'name')
 
         context.bot.send_message(chat_id,
                                  f'<b>{t("video_lessons", language)}</b>',
@@ -84,13 +89,17 @@ class Menu:
 
     def portfolio(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
-        language = lang(chat_id)
+        user = get(f'users/{chat_id}')
+        language = user['language']
         state = "PORTFOLIOS"
+
+        if user['subscription_status'] is False:
+            actions_blocked(chat_id, language, context)
+            return
+
         portfolio_list = parser('portfolios/', 'name')
         all_portfolios = get('portfolios')
         numbered = []
-
-        # TODO: Validate if user's subscription is still active
 
         for i in all_portfolios:
             if chat_id in i['users_list']:
