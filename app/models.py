@@ -1,9 +1,8 @@
-from django.utils.crypto import get_random_string
 from django.db import models
-from datetime import datetime, timedelta
 from django.contrib.postgres.fields import ArrayField
+from django.utils.crypto import get_random_string
 from .storage import CustomFileSystemStorage
-import pytz
+from datetime import datetime, timedelta
 
 
 class User(models.Model):
