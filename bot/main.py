@@ -199,7 +199,9 @@ def main():
             ]
         },
         fallbacks=[
-            CommandHandler('start', registration.start)
+            CommandHandler('start', registration.start),
+            CommandHandler('pay', profile.choose_plan),
+            CommandHandler('support', menu.support)
         ],
         per_chat=False
     )

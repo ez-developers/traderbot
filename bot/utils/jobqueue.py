@@ -23,7 +23,7 @@ def handle_subscription(context: CallbackContext):
         user['subscribed_until'], '%Y-%m-%d')
     today = datetime.datetime.now()
 
-    if subscription_expiration < today:
+    if subscription_expiration < today and subscription_status is True:
         payload = {
             "id": chat_id,
             "subscription_status": False

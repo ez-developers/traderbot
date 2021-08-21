@@ -5,6 +5,7 @@ from bot.src.menu import Menu
 from bot.src.text import t, b
 from bot.utils.language import lang
 from bot.utils.request import get
+from bot.utils.blocked import actions_blocked
 import logging
 
 
@@ -12,8 +13,13 @@ class Quiz():
 
     def start(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
-        language = lang(chat_id)
+        user = get(f'users/{chat_id}')
+        language = user['language']
         state = "QUIZ"
+
+        if user['subscription_status'] is False:
+            actions_blocked(chat_id, language, context)
+            return
 
         markup = [
             [KeyboardButton(b("start_quiz", language))],
