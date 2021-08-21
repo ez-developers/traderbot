@@ -22,8 +22,15 @@ def handle_subscription(context: CallbackContext):
     language = user['language']
     portfolios = get('portfolios')
     subscription_status = user['subscription_status']
-    subscription_expiration = datetime.datetime.strptime(
-        user['subscribed_until'], '%Y-%m-%d')
+
+    # If the user has just started the bot as a new user and job queue
+    # started a job, it will not check him for subscription expiration date.
+    # That's because new user's subscribed_until returns None.
+    if user['subscribed_until'] is not None:
+        subscription_expiration = datetime.datetime.strptime(
+            user['subscribed_until'], '%Y-%m-%d')
+    else:
+        return
     today = datetime.datetime.now()
 
     if subscription_expiration < today and subscription_status is True:
