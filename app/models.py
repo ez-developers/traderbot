@@ -2,6 +2,7 @@ from django.utils.crypto import get_random_string
 from django.db import models
 from datetime import datetime, timedelta
 from django.contrib.postgres.fields import ArrayField
+from .storage import CustomFileSystemStorage
 import pytz
 
 
@@ -98,7 +99,7 @@ class VideoLesson(models.Model):
 
 class Mailings(models.Model):
     image = models.ImageField(
-        upload_to="uploads/images/", null=True, blank=True, verbose_name="Фото")
+        upload_to="uploads/images/", storage=CustomFileSystemStorage, null=True, blank=True, verbose_name="Фото")
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
     date_sent = models.DateTimeField(auto_now_add=True, verbose_name="Дата отправки")
     portfolio = models.ForeignKey(
