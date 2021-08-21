@@ -2,11 +2,58 @@ from django.contrib import admin
 from .models import User, Promo, Portfolio, VideoLesson, Mailings
 from .forms import CustomActionForm
 
+from django.conf import settings
+import time
+import os
+import dotenv
+import telebot
+from django.http import HttpResponseRedirect
+
+dotenv.load_dotenv()
+
+bot = telebot.TeleBot(os.getenv("BOT_TOKEN"))
+
 admin.site.site_url = None
 admin.site.index_title = "Добро пожаловать!"
 admin.site.site_title = "Администрация «Trader One™"
 admin.site.site_header = "Администрация Trader One™"
 
+@admin.register(Mailings)
+class MailingsAdmin(admin.ModelAdmin):
+
+    def response_post_save_add(self, request, obj):
+
+        image = request.FILES.get('image', None)
+        message = request.POST.get('message', None)
+
+        if not image:
+
+            for el in User.objects.values_list('id',):
+                try:
+                    bot.send_message(el[0], message, parse_mode='HTML')
+                except Exception as e:
+                    print("ID неправылный или бота заблокировал")
+        else:
+
+            path = open(
+                str(str(settings.BASE_DIR) + f'/uploads/images/{str(image)}'), "rb")
+
+            photo = bot.send_photo(os.getenv('DEVELOPER_CHAT_ID'), path, message, parse_mode='HTML')
+
+            photo_id = photo.json['photo'][0]['file_id']
+
+            for el in User.objects.values_list('id',).exclude(id=os.getenv('DEVELOPER_CHAT_ID')):
+                try:
+                    bot.send_photo(el[0], photo_id, message, parse_mode='HTML')
+                except Exception as e:
+                    print("ID неправылный или бота заблокировал ")
+
+        return super(MailingsAdmin, self).response_post_save_add(
+            request, obj)
+
+    list_display = ("message", "date_sent", "portfolio",)
+    list_per_page = 50
+    action_form = CustomActionForm
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -55,8 +102,3 @@ class VideoLessonAdmin(admin.ModelAdmin):
     list_per_page = 50
     action_form = CustomActionForm
 
-@admin.register(Mailings)
-class MailingsAdmin(admin.ModelAdmin):
-    list_display = ("message", "date_sent", "portfolio",)
-    list_per_page = 50
-    action_form = CustomActionForm
