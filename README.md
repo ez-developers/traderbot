@@ -90,4 +90,4 @@ $ python3 manage.py runserver
 $ python3 bot.py
 ```
 
-If `logger` in your [main.py](https://github.com/ez-developers/traderbot/blob/34744209aa2b229e4370ba534f8d1b76efe06bff/bot/main.py#L26) is set to `level=logging.DEBUG` you will see the output of all updates
+If `logger` in your [main.py](https://github.com/ez-developers/traderbot/blob/34744209aa2b229e4370ba534f8d1b76efe06bff/bot/main.py#L26) is set to `level=logging.DEBUG` you will see the output of all incoming updates from Telegram servers.
