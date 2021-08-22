@@ -1,6 +1,6 @@
 <div style="text-align:center">
     
-# [🤖💰 <u>Trader One Bot</u>](https://t.me/trader_one_bot)
+# [🤖💰 Trader One Bot](https://t.me/trader_one_bot)
 
 </div>
 
