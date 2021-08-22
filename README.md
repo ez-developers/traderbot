@@ -10,11 +10,11 @@
 
 ## 👥 Maintainers:
 
--   #### Nuriddin Islamov ([@nuriddinislamov](https://github.com/nuriddinislamov))
+-   **Nuriddin Islamov ([@nuriddinislamov](https://github.com/nuriddinislamov))**
 
--   #### Jahongir Nagmatov ([@jakhongeer](https://github.com/jakhongeer))
+-   **Jahongir Nagmatov ([@jakhongeer](https://github.com/jakhongeer))**
 
--   #### Javlon Kayumov ([@iamjavlon](https://github.com/iamjavlon))
+-   **Javlon Kayumov ([@iamjavlon](https://github.com/iamjavlon))**
 
 ---
 
