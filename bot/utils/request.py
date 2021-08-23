@@ -36,7 +36,7 @@ def get_target_id_by_name(API_ENDPOINT: str, target: str):
 
     Args:
         API_ENDPOINT (str): URL to get the object
-        target (str): API endpoint to parse
+        target (str): "name" field of the requested object
     """
     object = get(API_ENDPOINT)
 
