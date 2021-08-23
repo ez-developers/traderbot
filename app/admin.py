@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 from core.settings import DJANGO_DEVELOPER_ID, BASE_DIR
-from .models import User, Promo, Portfolio, VideoLesson, Broadcast
+from .models import User, Promo, Portfolio, VideoLesson, Broadcast, BroadcastToAll
 from .forms import CustomActionForm
 import time
 import os
@@ -28,14 +28,14 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ("first_name", )
     list_per_page = 50
 
-    def has_change_permission(self, request, obj=None):
-        return False
+    # def has_change_permission(self, request, obj=None):
+    #     return False
 
-    def has_add_permission(self, request):
-        return False
+    # def has_add_permission(self, request):
+    #     return False
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
 
 
 @ admin.register(Promo)
@@ -105,4 +105,30 @@ class BroadcastAdmin(admin.ModelAdmin):
     list_display = ("message", "date_sent", "image", "portfolio",)
     list_per_page = 50
     action_form = CustomActionForm
-    
+
+
+@ admin.register(BroadcastToAll)
+class BroadcastToAllAdmin(admin.ModelAdmin):
+    def response_post_save_add(self, request, obj):
+        image = request.FILES.get('image')
+        message = request.POST.get('message')
+
+        image_path = open(
+            str(BASE_DIR) + f'/uploads/broadcaststoall/{time.strftime("%Y_%m_%d")}/{image}', "rb")
+        
+        photo = bot.send_photo(DJANGO_DEVELOPER_ID,
+                                image_path, caption=message)
+
+        photo_id = photo.json['photo'][-1]['file_id']
+
+        for i in User.objects.values_list("id"):
+            try:    
+                bot.send_photo(i, photo_id, message, parse_mode='HTML')
+            except: 
+                raise Exception
+            
+        return super(BroadcastToAllAdmin, self).response_post_save_add(
+            request, obj)
+
+        
+
