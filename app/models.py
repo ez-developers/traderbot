@@ -114,3 +114,20 @@ class Broadcast(models.Model):
 
     def __str__(self):
         return self.message
+
+class BroadcastToAll(models.Model):
+
+    message = models.TextField(max_length=4096, verbose_name="Cообщение")
+    image = models.ImageField(
+        upload_to="uploads/broadcaststoall/%Y_%m_%d/", null=True, blank=True, verbose_name="Фото")
+    to_all = models.BooleanField(default=False)
+    date_sent = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата отправки")
+
+    class Meta:
+        verbose_name_plural = "Рассылки для всех"
+        verbose_name = "рассылку для всех"
+
+    def __str__(self):
+        return self.message
+    
