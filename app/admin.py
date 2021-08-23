@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from core.settings import DJANGO_DEVELOPER_ID, BASE_DIR
 from .models import User, Promo, Portfolio, VideoLesson, Broadcast
 from .forms import CustomActionForm
@@ -15,21 +15,6 @@ admin.site.site_url = None
 admin.site.index_title = "Добро пожаловать!"
 admin.site.site_title = "Администрация «Trader One™"
 admin.site.site_header = "Администрация Trader One™"
-
-
-@admin.register(Broadcast)
-class BroadcastAdmin(admin.ModelAdmin):
-
-    # TODO:
-    # 1.remove special characters in image name
-    # 2. Add portfolio id to send the specific portfolio subscribed users
-    def response_post_save_add(self, request, obj):
-
-        pass
-
-    list_display = ("message", "date_sent", "image", "portfolio",)
-    list_per_page = 50
-    action_form = CustomActionForm
 
 
 @ admin.register(User)
@@ -79,3 +64,45 @@ class VideoLessonAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "url")
     list_per_page = 50
     action_form = CustomActionForm
+
+
+@admin.register(Broadcast)
+class BroadcastAdmin(admin.ModelAdmin):
+
+    def response_add(self, request, obj):
+        msg = "Your message"
+        self.message_user(request, msg, level=messages.SUCCESS)
+        return self.response_post_save_add(request, obj)
+
+    # TODO:
+    # 1.remove special characters in image name
+    # 2. Add portfolio id to send the specific portfolio subscribed users
+
+    def response_post_save_add(self, request, obj):
+
+        image = request.FILES.get('image')
+        message = request.POST.get('message')
+        portfolio = request.POST.get('portfolio')
+
+        print(portfolio)
+
+        image_path = open(
+            str(BASE_DIR) + f'/uploads/broadcasts/{time.strftime("%Y_%m_%d")}/{image}', "rb")
+
+        photo = bot.send_photo(DJANGO_DEVELOPER_ID,
+                               image_path, caption=message)
+
+        photo_id = photo.json['photo'][-1]['file_id']
+        target_portfolio = Portfolio.objects.filter(
+            pk=portfolio).values('users_list')[0]['users_list']
+        print(target_portfolio)
+
+        for i in target_portfolio:
+            bot.send_message(i, message)
+
+        return super(BroadcastAdmin, self).response_post_save_add(request, obj)
+
+    list_display = ("message", "date_sent", "image", "portfolio",)
+    list_per_page = 50
+    action_form = CustomActionForm
+    
