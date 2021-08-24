@@ -84,10 +84,9 @@ class BroadcastAdmin(admin.ModelAdmin):
         message = request.POST.get('message')
         portfolio = request.POST.get('portfolio')
 
-        print(portfolio)
 
         image_path = open(
-            str(BASE_DIR) + f'/uploads/broadcasts/{time.strftime("%Y_%m_%d")}/{image}', "rb")
+            str(BASE_DIR) + f'/uploads/broadcasts/{time.strftime("%Y_%m_%d")}/{str(image)}', "rb")
 
         photo = bot.send_photo(DJANGO_DEVELOPER_ID,
                                image_path, caption=message)
@@ -100,12 +99,12 @@ class BroadcastAdmin(admin.ModelAdmin):
         for i in target_portfolio:
             bot.send_message(i, message)
 
-        return super(BroadcastAdmin, self).response_post_save_add(request, obj)
-
-    list_display = ("message", "date_sent", "image", "portfolio",)
+        return super(BroadcastAdmin, self).response_post_save_add(request, obj) 
+    list_display = ("message", "date_sent", "portfolio")
     list_per_page = 50
     action_form = CustomActionForm
-
+    
+    
 
 @ admin.register(BroadcastToAll)
 class BroadcastToAllAdmin(admin.ModelAdmin):
