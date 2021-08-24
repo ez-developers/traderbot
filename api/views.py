@@ -61,7 +61,7 @@ class PromoList(APIView):
         serializer = PromoSerializer(queryset, many=True)
 
         return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
-    
+
     def post(self, request, *args, **kwargs):
         serializer = PromoSerializer(data=request.data)
         if serializer.is_valid():
@@ -96,7 +96,7 @@ class PromoDetail(APIView):
 class PortfoliosList(APIView):
 
     def get(self, request, *args, **kwargs):
-        queryset = Portfolio.objects.all()
+        queryset = Portfolio.objects.all().order_by('id')
         serializer = PortfolioSerializer(queryset, many=True)
         return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
 
@@ -121,6 +121,7 @@ class PortfolioDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK, content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @permission_classes([IsAuthenticated])
 class VideoLessonList(APIView):

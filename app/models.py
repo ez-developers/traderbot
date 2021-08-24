@@ -47,15 +47,14 @@ def get_code():
 
 
 def add_one_year():
-    return datetime.now(
-    )+timedelta(days=365)
+    return (datetime.now()+timedelta(days=365)).date()
 
 
 class Promo(models.Model):
     promo_id = models.CharField(
-        max_length=255, default=get_code,  unique=True, verbose_name="Промокод")
+        max_length=6, default=get_code, unique=True, verbose_name="Промокод")
     valid_date = models.DateField(
-        default=add_one_year,  verbose_name="Действителен до")
+        default=add_one_year, verbose_name="Действителен до")
     is_active = models.BooleanField(default=True, verbose_name="Активный")
 
     def __str__(self):
@@ -115,6 +114,7 @@ class Broadcast(models.Model):
     def __str__(self):
         return self.message
 
+
 class BroadcastToAll(models.Model):
 
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
@@ -129,4 +129,3 @@ class BroadcastToAll(models.Model):
 
     def __str__(self):
         return self.message
-    
