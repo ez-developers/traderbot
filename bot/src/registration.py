@@ -365,6 +365,7 @@ class Registration:
                 return
 
             promo_payload = {
+                "promo_id": message,
                 "is_active": False
             }
             user_payload = {
