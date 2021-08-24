@@ -101,7 +101,6 @@ class Broadcast(models.Model):
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
     image = models.ImageField(
         upload_to="uploads/broadcasts/%Y_%m_%d/", null=True, blank=True, verbose_name="Фото")
-    to_all = models.BooleanField(default=False)
     portfolio = models.ForeignKey(
         Portfolio, on_delete=models.PROTECT, verbose_name="Портфель")
     date_sent = models.DateTimeField(
