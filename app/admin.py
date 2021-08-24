@@ -97,7 +97,7 @@ class BroadcastAdmin(admin.ModelAdmin):
         print(target_portfolio)
 
         for i in target_portfolio:
-            bot.send_message(i, message)
+            bot.send_photo(i, photo_id, caption=message, parse_mode='HTML')
 
         return super(BroadcastAdmin, self).response_post_save_add(request, obj) 
     list_display = ("message", "date_sent", "portfolio")
@@ -128,7 +128,7 @@ class BroadcastToAllAdmin(admin.ModelAdmin):
 
         for i in User.objects.values_list("id"):
             try:    
-                bot.send_photo(i, photo_id, message, parse_mode='HTML')
+                bot.send_photo(i, photo_id, caption=message, parse_mode='HTML')
             except: 
                 raise Exception
             
