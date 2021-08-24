@@ -52,9 +52,9 @@ def add_one_year():
 
 class Promo(models.Model):
     promo_id = models.CharField(
-        max_length=255, default=get_code,  unique=True, verbose_name="Промокод")
+        max_length=6, default=get_code, unique=True, verbose_name="Промокод")
     valid_date = models.DateField(
-        default=add_one_year,  verbose_name="Действителен до")
+        default=add_one_year, verbose_name="Действителен до")
     is_active = models.BooleanField(default=True, verbose_name="Активный")
 
     def __str__(self):
