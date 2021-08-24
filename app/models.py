@@ -47,8 +47,7 @@ def get_code():
 
 
 def add_one_year():
-    return datetime.now(
-    )+timedelta(days=365)
+    return (datetime.now()+timedelta(days=365)).date()
 
 
 class Promo(models.Model):
@@ -115,6 +114,7 @@ class Broadcast(models.Model):
     def __str__(self):
         return self.message
 
+
 class BroadcastToAll(models.Model):
 
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
@@ -129,4 +129,3 @@ class BroadcastToAll(models.Model):
 
     def __str__(self):
         return self.message
-    
