@@ -30,6 +30,9 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 
 class PromoSerializer(serializers.ModelSerializer):
+    ALLOWED_CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+    # promo_id = serializers.RegexFie
+
     class Meta:
         model = Promo
         fields = "__all__"
