@@ -70,7 +70,7 @@ class VideoLessonAdmin(admin.ModelAdmin):
 class BroadcastAdmin(admin.ModelAdmin):
 
     def response_add(self, request, obj):
-        msg = "Рассылки успешно отправлены пользователям"
+        msg = "Сообщения успешно отправлены пользователям"
         self.message_user(request, msg, level=messages.SUCCESS)
         return self.response_post_save_add(request, obj)
 
@@ -111,7 +111,7 @@ class BroadcastAdmin(admin.ModelAdmin):
 class BroadcastToAllAdmin(admin.ModelAdmin):
 
     def response_add(self, request, obj):
-        msg = "Рассылки успешно отправлены пользователям"
+        msg = "Сообщения успешно отправлены пользователям"
         self.message_user(request, msg, level=messages.SUCCESS)
         return self.response_post_save_add(request, obj)
         
