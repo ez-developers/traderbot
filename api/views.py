@@ -62,7 +62,12 @@ class PromoList(APIView):
 
         return HttpResponse(JSONRenderer().render(serializer.data), content_type='application/json')
 
+
+@permission_classes([IsAuthenticated])
+class PromoAdd(APIView):
+
     def post(self, request, *args, **kwargs):
+        renderer_classes = [JSONRenderer]
         serializer = PromoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

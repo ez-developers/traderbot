@@ -31,12 +31,11 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 
 class PromoSerializer(serializers.ModelSerializer):
-    promo_id = serializers.RegexField(
-        re.compile("^[A-Z0-9]*$"), min_length=6, max_length=6)
+    promo_id = serializers.RegexField(re.compile("^[A-Z0-9]*$"), min_length=6)
 
     class Meta:
         model = Promo
-        fields = ("id", "promo_id", "valid_date", "is_active")
+        fields = "__all__"
 
 
 class VideoLessonSerializer(serializers.ModelSerializer):
