@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from app.models import Promo, User, Portfolio, VideoLesson
+import re
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -30,12 +31,12 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 
 class PromoSerializer(serializers.ModelSerializer):
-    ALLOWED_CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-    # promo_id = serializers.RegexFie
+    promo_id = serializers.RegexField(
+        re.compile("^[A-Z0-9]*$"), min_length=6, max_length=6)
 
     class Meta:
         model = Promo
-        fields = "__all__"
+        fields = ("id", "promo_id", "valid_date", "is_active")
 
 
 class VideoLessonSerializer(serializers.ModelSerializer):
