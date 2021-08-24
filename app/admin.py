@@ -28,14 +28,14 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ("first_name", )
     list_per_page = 50
 
-    # def has_change_permission(self, request, obj=None):
-    #     return False
+    def has_change_permission(self, request, obj=None):
+        return False
 
-    # def has_add_permission(self, request):
-    #     return False
+    def has_add_permission(self, request):
+        return False
 
-    # def has_delete_permission(self, request, obj=None):
-    #     return False
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @ admin.register(Promo)
@@ -113,16 +113,16 @@ class BroadcastToAllAdmin(admin.ModelAdmin):
         msg = "Сообщения успешно отправлены пользователям"
         self.message_user(request, msg, level=messages.SUCCESS)
         return self.response_post_save_add(request, obj)
-        
+
     def response_post_save_add(self, request, obj):
         image = request.FILES.get('image')
         message = request.POST.get('message')
 
         image_path = open(
             str(BASE_DIR) + f'/uploads/broadcaststoall/{time.strftime("%Y_%m_%d")}/{image}', "rb")
-        
+
         photo = bot.send_photo(DJANGO_DEVELOPER_ID,
-                                image_path, caption=message)
+                               image_path, caption=message)
 
         photo_id = photo.json['photo'][-1]['file_id']
 
@@ -131,9 +131,6 @@ class BroadcastToAllAdmin(admin.ModelAdmin):
                 bot.send_photo(i, photo_id, caption=message, parse_mode='HTML')
             except: 
                 raise Exception
-            
+
         return super(BroadcastToAllAdmin, self).response_post_save_add(
             request, obj)
-
-        
-

@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.utils.crypto import get_random_string
-from .storage import CustomFileSystemStorage
 from datetime import datetime, timedelta
+from core.settings import TIME_ZONE
+from pytz import timezone
 
 
 class User(models.Model):
@@ -47,7 +48,7 @@ def get_code():
 
 
 def add_one_year():
-    return (datetime.now()+timedelta(days=365)).date()
+    return (datetime.now(timezone(TIME_ZONE))+timedelta(days=365)).date()
 
 
 class Promo(models.Model):
