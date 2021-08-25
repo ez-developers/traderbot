@@ -87,21 +87,22 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
         image = request.FILES.get('image')
         message = request.POST.get('message')
         portfolio = request.POST.get('portfolio')
+        all_users = Portfolio.objects.filter(pk=portfolio).values('users_list')[0]['users_list']
+        
+        if image:
+            image_path = open(
+                str(BASE_DIR) + 
+                f'/uploads/broadcast-selective/{time.strftime("%Y_%m_%d")}/{str(image)}', "rb")
 
-
-        image_path = open(
-            str(BASE_DIR) + f'/uploads/broadcasts/{time.strftime("%Y_%m_%d")}/{str(image)}', "rb")
-
-        photo = bot.send_photo(DJANGO_DEVELOPER_ID,
+            photo = bot.send_photo(all_users[0],
                                image_path, caption=message)
-
-        photo_id = photo.json['photo'][-1]['file_id']
-        target_portfolio = Portfolio.objects.filter(
-            pk=portfolio).values('users_list')[0]['users_list']
-        print(target_portfolio)
-
-        for i in target_portfolio:
-            bot.send_photo(i, photo_id, caption=message, parse_mode='HTML')
+            photo_id = photo.json['photo'][-1]['file_id']
+        
+            for user in all_users[1:]:
+                bot.send_photo(user, photo_id, caption=message, parse_mode='HTML')
+        else:
+            for user in all_users:
+                bot.send_message(user, message, parse_mode='HTML')
 
         return super(BroadcastSelectiveAdmin, self).response_post_save_add(request, obj) 
     list_display = ("message", "date_sent", "portfolio")
@@ -129,7 +130,7 @@ class BroadcastAllAdmin(admin.ModelAdmin):
         message = request.POST.get('message')
 
         image_path = open(
-            str(BASE_DIR) + f'/uploads/broadcaststoall/{time.strftime("%Y_%m_%d")}/{image}', "rb")
+            str(BASE_DIR) + f'/uploads/broadcast-all/{time.strftime("%Y_%m_%d")}/{image}', "rb")
 
         photo = bot.send_photo(DJANGO_DEVELOPER_ID,
                                image_path, caption=message)
