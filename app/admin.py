@@ -68,16 +68,20 @@ class VideoLessonAdmin(admin.ModelAdmin):
 
 @admin.register(BroadcastSelective)
 class BroadcastSelectiveAdmin(admin.ModelAdmin):
+    
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+        
 
     def response_add(self, request, obj):
         msg = "Сообщения успешно отправлены пользователям"
         self.message_user(request, msg, level=messages.SUCCESS)
         return self.response_post_save_add(request, obj)
 
-    # TODO:
-    # 1.remove special characters in image name
-    # 2. Add portfolio id to send the specific portfolio subscribed users
-
+    
     def response_post_save_add(self, request, obj):
 
         image = request.FILES.get('image')
