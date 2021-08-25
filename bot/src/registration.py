@@ -269,7 +269,11 @@ class Registration:
             payload,
             provider_token,
             currency,
-            prices
+            prices,
+            photo_url="https://telegra.ph/file/f740c38b609bb763d645a.png",
+            photo_width=512,
+            photo_height=512,
+            photo_size=512
         )
 
         payload = {
