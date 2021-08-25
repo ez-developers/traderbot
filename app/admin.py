@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 from core.settings import DJANGO_DEVELOPER_ID, BASE_DIR
-from .models import User, Promo, Portfolio, VideoLesson, Broadcast, BroadcastToAll
+from .models import User, Promo, Portfolio, VideoLesson, BroadcastSelective, BroadcastAll
 from .forms import CustomActionForm
 import time
 import os
@@ -66,8 +66,8 @@ class VideoLessonAdmin(admin.ModelAdmin):
     action_form = CustomActionForm
 
 
-@admin.register(Broadcast)
-class BroadcastAdmin(admin.ModelAdmin):
+@admin.register(BroadcastSelective)
+class BroadcastSelectiveAdmin(admin.ModelAdmin):
 
     def response_add(self, request, obj):
         msg = "Сообщения успешно отправлены пользователям"
@@ -99,15 +99,21 @@ class BroadcastAdmin(admin.ModelAdmin):
         for i in target_portfolio:
             bot.send_photo(i, photo_id, caption=message, parse_mode='HTML')
 
-        return super(BroadcastAdmin, self).response_post_save_add(request, obj) 
+        return super(BroadcastSelectiveAdmin, self).response_post_save_add(request, obj) 
     list_display = ("message", "date_sent", "portfolio")
     list_per_page = 50
     action_form = CustomActionForm
     
     
 
-@ admin.register(BroadcastToAll)
-class BroadcastToAllAdmin(admin.ModelAdmin):
+@admin.register(BroadcastAll)
+class BroadcastAllAdmin(admin.ModelAdmin):
+    
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     def response_add(self, request, obj):
         msg = "Сообщения успешно отправлены пользователям"
@@ -132,5 +138,7 @@ class BroadcastToAllAdmin(admin.ModelAdmin):
             except: 
                 raise Exception
 
-        return super(BroadcastToAllAdmin, self).response_post_save_add(
+        return super(BroadcastAllAdmin, self).response_post_save_add(
             request, obj)
+        
+    action_form = CustomActionForm

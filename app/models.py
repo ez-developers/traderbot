@@ -97,7 +97,7 @@ class VideoLesson(models.Model):
         return str(self.id)
 
 
-class Broadcast(models.Model):
+class BroadcastSelective(models.Model):
 
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
     image = models.ImageField(
@@ -105,27 +105,27 @@ class Broadcast(models.Model):
     portfolio = models.ForeignKey(
         Portfolio, on_delete=models.PROTECT, verbose_name="Портфель")
     date_sent = models.DateTimeField(
-        auto_now_add=True, verbose_name="Дата отправки")
+        auto_now_add=True, verbose_name="Дата и время отправки")
 
     class Meta:
-        verbose_name_plural = "Рассылки"
-        verbose_name = "рассылку"
+        verbose_name_plural = "Выборочные рассылки"
+        verbose_name = "выборочную рассылку"
 
     def __str__(self):
         return self.message
 
 
-class BroadcastToAll(models.Model):
+class BroadcastAll(models.Model):
 
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
     image = models.ImageField(
         upload_to="uploads/broadcaststoall/%Y_%m_%d/", null=True, blank=True, verbose_name="Фото")
     date_sent = models.DateTimeField(
-        auto_now_add=True, verbose_name="Дата отправки")
+        auto_now_add=True, verbose_name="Дата и время отправки")
 
     class Meta:
-        verbose_name_plural = "Рассылки для всех"
-        verbose_name = "рассылку для всех"
+        verbose_name_plural = "Общие рассылки"
+        verbose_name = "общую рассылку"
 
     def __str__(self):
         return self.message
