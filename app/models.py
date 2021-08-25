@@ -8,7 +8,7 @@ from pytz import timezone
 
 class User(models.Model):
     class Meta:
-        verbose_name_plural = "Пользователи"
+        verbose_name_plural = "   Пользователи"
         verbose_name = "пользователя"
 
     LANGUAGES = [
@@ -41,10 +41,11 @@ class User(models.Model):
     def __str__(self):
         return str(self.id)
 
+ALLOWED_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 
 def get_code():
-    RANDOM_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    return get_random_string(length=6, allowed_chars=RANDOM_CHARS)
+    return get_random_string(length=6, allowed_chars=ALLOWED_CHARS)
+
 
 
 def add_one_year():
@@ -53,7 +54,7 @@ def add_one_year():
 
 class Promo(models.Model):
     promo_id = models.CharField(
-        max_length=6, default=get_code, unique=True, verbose_name="Промокод")
+        max_length=6, default=get_code, editable=False, unique=True, verbose_name="Промокод")
     valid_date = models.DateField(
         default=add_one_year, verbose_name="Действителен до")
     is_active = models.BooleanField(default=True, verbose_name="Активный")
@@ -62,7 +63,7 @@ class Promo(models.Model):
         return self.promo_id
 
     class Meta:
-        verbose_name_plural = "Промокоды"
+        verbose_name_plural = " Промокоды"
         verbose_name = "промокод"
 
 
@@ -77,7 +78,7 @@ class Portfolio(models.Model):
         default=0, verbose_name="Количество подписанных")
 
     class Meta:
-        verbose_name_plural = "Портфели"
+        verbose_name_plural = " Портфели"
         verbose_name = "портфель"
 
     def __str__(self):
@@ -90,7 +91,7 @@ class VideoLesson(models.Model):
     url = models.URLField(max_length=255, verbose_name="Ccылка")
 
     class Meta:
-        verbose_name_plural = "Видеоуроки"
+        verbose_name_plural = "  Видеоуроки"
         verbose_name = "видеоурок"
 
     def __str__(self):
