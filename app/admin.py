@@ -5,11 +5,11 @@ from .forms import CustomActionForm
 import time
 import os
 import dotenv
-import telebot
+import telegram
 
 dotenv.load_dotenv()
 
-bot = telebot.TeleBot(os.getenv("BOT_TOKEN"))
+bot = telegram.Bot(os.getenv("BOT_TOKEN"))
 
 admin.site.site_url = None
 admin.site.index_title = "Добро пожаловать!"
@@ -95,7 +95,7 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
                 f'/uploads/broadcast-selective/{time.strftime("%Y_%m_%d")}/{str(image)}', "rb")
 
             photo = bot.send_photo(all_users[0],
-                               image_path, caption=message)
+                            image_path, caption=message)
             photo_id = photo.json['photo'][-1]['file_id']
         
             for user in all_users[1:]:
@@ -103,6 +103,7 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
         else:
             for user in all_users:
                 bot.send_message(user, message, parse_mode='HTML')
+            
 
         return super(BroadcastSelectiveAdmin, self).response_post_save_add(request, obj) 
     list_display = ("message", "date_sent", "portfolio")
@@ -128,20 +129,23 @@ class BroadcastAllAdmin(admin.ModelAdmin):
     def response_post_save_add(self, request, obj):
         image = request.FILES.get('image')
         message = request.POST.get('message')
+        all_users = User.objects.values_list("id")
+        
+        if image:
 
-        image_path = open(
-            str(BASE_DIR) + f'/uploads/broadcast-all/{time.strftime("%Y_%m_%d")}/{image}', "rb")
+            image_path = open(
+                str(BASE_DIR) + f'/uploads/broadcast-all/{time.strftime("%Y_%m_%d")}/{image}', "rb")
 
-        photo = bot.send_photo(DJANGO_DEVELOPER_ID,
-                               image_path, caption=message)
+            photo = bot.send_photo(DJANGO_DEVELOPER_ID,
+                                image_path, caption=message)
 
-        photo_id = photo.json['photo'][-1]['file_id']
+            photo_id = photo.json['photo'][-1]['file_id']
 
-        for i in User.objects.values_list("id"):
-            try:    
-                bot.send_photo(i, photo_id, caption=message, parse_mode='HTML')
-            except: 
-                raise Exception
+            for i in all_users:
+                try:    
+                    bot.send_photo(i, photo_id, caption=message, parse_mode='HTML')
+                except Exception: 
+                    continue
 
         return super(BroadcastAllAdmin, self).response_post_save_add(
             request, obj)
