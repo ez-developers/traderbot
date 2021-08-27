@@ -178,5 +178,3 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DEFAULT_FILE_STORAGE = 'app.storage.CustomFileSystemStorage'
-
-SITE_URL = "192.168.1.123"
