@@ -86,27 +86,36 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
         image = request.FILES.get('image')
         message = request.POST.get('message')
         portfolio = request.POST.get('portfolio')
-        all_users = Portfolio.objects.filter(
-            pk=portfolio).values('users_list')[0]['users_list']
+        all_users = list(Portfolio.objects.filter(pk=portfolio)
+                         .values('users_list')[0]['users_list'])
+        image_path = open(
+            str(BASE_DIR)
+            + f'/uploads/broadcast-selective/{time.strftime("%Y_%m_%d")}/{image}', "rb")
 
-        if image:
-            image_path = open(
-                str(BASE_DIR) +
-                f'/uploads/broadcast-selective/{time.strftime("%Y_%m_%d")}/{str(image)}', "rb")
+        for i in all_users:
+            try:
+                response = bot.send_photo(i[0],
+                                          image_path,
+                                          caption=message)
+                photo_id = response.photo[-1]['file_id']
+                all_users = all_users[all_users.index(i) + 1:]
+                break
+            except Unauthorized:
+                all_users = all_users[all_users.index(i) + 1:]
+                continue
 
-            photo = bot.send_photo(all_users[0],
-                                   image_path, caption=message)
-            photo_id = photo.json['photo'][-1]['file_id']
-
-            for user in all_users[1:]:
-                bot.send_photo(user, photo_id, caption=message,
+        for user in all_users:
+            try:
+                bot.send_photo(user[0],
+                               photo_id,
+                               caption=message,
                                parse_mode='HTML')
-        else:
-            for user in all_users:
-                bot.send_message(user, message, parse_mode='HTML')
+                time.sleep(0.03)
+            except Unauthorized:
+                continue
 
-        return super(
-            BroadcastSelectiveAdmin, self).response_post_save_add(request, obj)
+        return super(BroadcastSelectiveAdmin, self).response_post_save_add(request, obj)
+
     list_display = ("message", "date_sent", "portfolio")
     list_per_page = 50
     action_form = CustomActionForm
