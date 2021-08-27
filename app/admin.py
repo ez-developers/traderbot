@@ -126,7 +126,8 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
 
         return super(BroadcastSelectiveAdmin, self).response_post_save_add(request, obj)
 
-    list_display = ("message", "date_sent", "portfolio")
+    list_display = ("date_sent", "message", "portfolio")
+    list_display_links = ("date_sent",)
     list_per_page = 50
     action_form = CustomActionForm
 
@@ -189,5 +190,8 @@ class BroadcastAllAdmin(admin.ModelAdmin):
                     continue
 
         return super(BroadcastAllAdmin, self).response_post_save_add(request, obj)
+
+    list_display = ("date_sent", "message")
+    list_display_links = ("date_sent",)
 
     action_form = CustomActionForm
