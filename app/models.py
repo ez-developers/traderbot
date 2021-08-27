@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 from core.settings import TIME_ZONE
 from pytz import timezone
 
+from markdownfield.models import MarkdownField, RenderedMarkdownField
+from markdownfield.validators import VALIDATOR_STANDARD
 
 class User(models.Model):
     class Meta:
@@ -99,7 +101,6 @@ class VideoLesson(models.Model):
 
 
 class BroadcastSelective(models.Model):
-
     message = models.TextField(max_length=4096, verbose_name="Cообщение")
     image = models.ImageField(
         upload_to="uploads/broadcast-selective/%Y_%m_%d/", null=True, blank=True, verbose_name="Фото")
@@ -123,6 +124,7 @@ class BroadcastAll(models.Model):
         upload_to="uploads/broadcast-all/%Y_%m_%d/", null=True, blank=True, verbose_name="Фото")
     date_sent = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата и время отправки")
+
 
     class Meta:
         verbose_name_plural = "Общие рассылки"
