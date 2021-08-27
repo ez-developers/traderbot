@@ -88,8 +88,6 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
         portfolio = request.POST.get('portfolio')
         all_users = list(Portfolio.objects.filter(pk=portfolio)
                          .values('users_list')[0]['users_list'])
-        # Returns a list of tuples. Each tuple is one chat_id.
-        # Example: [(44211,), (1231321231,), (342452,), (3424,)]
 
         if image is not None:
             image_path = open(
@@ -98,7 +96,7 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
 
             for i in all_users:
                 try:
-                    response = bot.send_photo(i[0],
+                    response = bot.send_photo(i,
                                               image_path,
                                               caption=message)
                     photo_id = response.photo[-1]['file_id']
@@ -110,7 +108,7 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
 
             for user in all_users:
                 try:
-                    bot.send_photo(user[0],
+                    bot.send_photo(user,
                                    photo_id,
                                    caption=message,
                                    parse_mode='HTML')
@@ -121,7 +119,7 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
 
             for user in all_users:
                 try:
-                    bot.send_message(user[0], message, parse_mode='HTML')
+                    bot.send_message(user, message, parse_mode='HTML')
                     time.sleep(0.03)
                 except Unauthorized:
                     continue
@@ -151,7 +149,8 @@ class BroadcastAllAdmin(admin.ModelAdmin):
         image = request.FILES.get('image')
         message = request.POST.get('message')
         all_users = list(User.objects.values_list("id"))
-        # Refer to BroadcastAllAdmin
+        # Returns a list of tuples. Each tuple is one chat_id.
+        # Example: [(44211,), (1231321231,), (342452,), (3424,)]
 
         if image is not None:
             image_path = open(
