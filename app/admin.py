@@ -88,31 +88,43 @@ class BroadcastSelectiveAdmin(admin.ModelAdmin):
         portfolio = request.POST.get('portfolio')
         all_users = list(Portfolio.objects.filter(pk=portfolio)
                          .values('users_list')[0]['users_list'])
-        image_path = open(
-            str(BASE_DIR)
-            + f'/uploads/broadcast-selective/{time.strftime("%Y_%m_%d")}/{image}', "rb")
+        # Returns a list of tuples. Each tuple is one chat_id.
+        # Example: [(44211,), (1231321231,), (342452,), (3424,)]
 
-        for i in all_users:
-            try:
-                response = bot.send_photo(i[0],
-                                          image_path,
-                                          caption=message)
-                photo_id = response.photo[-1]['file_id']
-                all_users = all_users[all_users.index(i) + 1:]
-                break
-            except Unauthorized:
-                all_users = all_users[all_users.index(i) + 1:]
-                continue
+        if image is not None:
+            image_path = open(
+                str(BASE_DIR)
+                + f'/uploads/broadcast-selective/{time.strftime("%Y_%m_%d")}/{image}', "rb")
 
-        for user in all_users:
-            try:
-                bot.send_photo(user[0],
-                               photo_id,
-                               caption=message,
-                               parse_mode='HTML')
-                time.sleep(0.03)
-            except Unauthorized:
-                continue
+            for i in all_users:
+                try:
+                    response = bot.send_photo(i[0],
+                                              image_path,
+                                              caption=message)
+                    photo_id = response.photo[-1]['file_id']
+                    all_users = all_users[all_users.index(i) + 1:]
+                    break
+                except Unauthorized:
+                    all_users = all_users[all_users.index(i) + 1:]
+                    continue
+
+            for user in all_users:
+                try:
+                    bot.send_photo(user[0],
+                                   photo_id,
+                                   caption=message,
+                                   parse_mode='HTML')
+                    time.sleep(0.03)
+                except Unauthorized:
+                    continue
+        else:
+
+            for user in all_users:
+                try:
+                    bot.send_message(user[0], message, parse_mode='HTML')
+                    time.sleep(0.03)
+                except Unauthorized:
+                    continue
 
         return super(BroadcastSelectiveAdmin, self).response_post_save_add(request, obj)
 
@@ -139,31 +151,43 @@ class BroadcastAllAdmin(admin.ModelAdmin):
         image = request.FILES.get('image')
         message = request.POST.get('message')
         all_users = list(User.objects.values_list("id"))
-        image_path = open(
-            str(BASE_DIR)
-            + f'/uploads/broadcast-all/{time.strftime("%Y_%m_%d")}/{image}', "rb")
+        # Refer to BroadcastAllAdmin
 
-        for i in all_users:
-            try:
-                response = bot.send_photo(i[0],
-                                          image_path,
-                                          caption=message)
-                photo_id = response.photo[-1]['file_id']
-                all_users = all_users[all_users.index(i) + 1:]
-                break
-            except Unauthorized:
-                all_users = all_users[all_users.index(i) + 1:]
-                continue
+        if image is not None:
+            image_path = open(
+                str(BASE_DIR)
+                + f'/uploads/broadcast-all/{time.strftime("%Y_%m_%d")}/{image}', "rb")
 
-        for user in all_users:
-            try:
-                bot.send_photo(user[0],
-                               photo_id,
-                               caption=message,
-                               parse_mode='HTML')
-                time.sleep(0.03)
-            except Unauthorized:
-                continue
+            for i in all_users:
+                try:
+                    response = bot.send_photo(i[0],
+                                              image_path,
+                                              caption=message)
+                    photo_id = response.photo[-1]['file_id']
+                    all_users = all_users[all_users.index(i) + 1:]
+                    break
+                except Unauthorized:
+                    all_users = all_users[all_users.index(i) + 1:]
+                    continue
+
+            for user in all_users:
+                try:
+                    bot.send_photo(user[0],
+                                   photo_id,
+                                   caption=message,
+                                   parse_mode='HTML')
+                    time.sleep(0.03)
+                except Unauthorized:
+                    continue
+
+        else:
+
+            for user in all_users:
+                try:
+                    bot.send_message(user[0], message, parse_mode='HTML')
+                    time.sleep(0.03)
+                except Unauthorized:
+                    continue
 
         return super(BroadcastAllAdmin, self).response_post_save_add(request, obj)
 
