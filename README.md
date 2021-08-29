@@ -91,3 +91,7 @@ $ python3 bot.py
 ```
 
 If `logger` in your [main.py](https://github.com/ez-developers/traderbot/blob/34744209aa2b229e4370ba534f8d1b76efe06bff/bot/main.py#L26) is set to `level=logging.DEBUG` you will see the output of all incoming updates from Telegram servers.
+
+<br/>
+
+<a href="https://www.digitalocean.com/?refcode=0c15ef6b0280&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge" /></a>
