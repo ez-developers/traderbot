@@ -345,7 +345,8 @@ class Registration:
         language = user['language']
         message = update.message.text
         promocodes = get('promocodes')
-        locale.setlocale(locale.LC_TIME, f'{language}_{language.upper()}')
+        locale.setlocale(
+            locale.LC_TIME, f'{language}_{language.upper()}.utf-8')
 
         all_codes = []
         for code in promocodes:
