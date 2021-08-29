@@ -54,7 +54,7 @@ ONE_URL = os.getenv('ONE_URL')
 USER_DETAILS_URL = f'http://{ONE_URL}:8000/admin/app/user/'
 
 ALLOWED_HOSTS = [
-    ONE_URL, '192.168.1.123', '178.62.45.117'
+    '127.0.0.1', ONE_URL
 ]
 
 API_URL = f'http://{ONE_URL}:8000/api/'
