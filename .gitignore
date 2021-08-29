@@ -1,5 +1,6 @@
 uploads/
 static/
+PERSISTENCE
 # environments
 .env
 venv
