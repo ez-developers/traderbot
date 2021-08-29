@@ -4,7 +4,8 @@ from telegram.ext import (Updater,
                           CallbackQueryHandler,
                           MessageHandler,
                           Filters,
-                          PreCheckoutQueryHandler)
+                          PreCheckoutQueryHandler,
+                          PicklePersistence)
 from core.settings import BOT_ID
 from bot.src.registration import Registration
 from bot.src.menu import Menu
@@ -39,7 +40,8 @@ quiz = Quiz()
 
 
 def main():
-    updater = Updater(token=os.getenv("BOT_TOKEN"))
+    persistence = PicklePersistence(filename='PERSISTENCE')
+    updater = Updater(token=os.getenv("BOT_TOKEN"), persistence=persistence)
     dispatcher = updater.dispatcher
 
     quiz_conversation = ConversationHandler(
@@ -203,7 +205,8 @@ def main():
             CommandHandler('pay', profile.choose_plan),
             CommandHandler('support', menu.support)
         ],
-        per_chat=False
+        name="main_conversation",
+        persistent=True
     )
 
     dispatcher.add_handler(main_conversation)
