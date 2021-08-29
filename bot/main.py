@@ -6,7 +6,7 @@ from telegram.ext import (Updater,
                           Filters,
                           PreCheckoutQueryHandler,
                           PicklePersistence)
-from core.settings import BOT_ID
+from core.settings import BOT_ID, DEBUG
 from bot.src.registration import Registration
 from bot.src.menu import Menu
 from bot.src.profile import Profile
@@ -24,7 +24,8 @@ import logging
 
 dotenv.load_dotenv()
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.DEBUG if DEBUG else logging.INFO
 )
 
 logger = logging.getLogger(__name__)
