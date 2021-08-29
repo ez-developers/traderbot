@@ -13,4 +13,4 @@ class VideoLesson():
         video = get(f'videos/{id}')
 
         context.bot.send_message(chat_id,
-                                 f"your link:\n\n{video['url']}")
+                                 f"{video['url']}")
