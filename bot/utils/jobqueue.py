@@ -12,7 +12,7 @@ import pytz
 def run_job(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
     context.job_queue.run_daily(
-        handle_subscription, time=datetime.datetime.now(pytz.timezone(TIME_ZONE)) + datetime.timedelta(seconds=10), context=chat_id, name=str(chat_id))
+        handle_subscription, time=datetime.time(hour=0, minute=0, second=0, tzinfo=pytz.timezone(TIME_ZONE)), context=chat_id, name=str(chat_id))
 
 
 def handle_subscription(context: CallbackContext):
