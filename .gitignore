@@ -1,4 +1,5 @@
 uploads/
+static/
 # environments
 .env
 venv
