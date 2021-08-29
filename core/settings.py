@@ -50,12 +50,13 @@ INVOICE_TITLE = "THIS IS A TITLE FOR THE INVOICE"
 INVOICE_DESCRIPTION = "This is a description for the invoice"
 
 
-ONE_URL = '192.168.1.114'
+ONE_URL = os.getenv('ONE_URL')
 USER_DETAILS_URL = f'http://{ONE_URL}:8000/admin/app/user/'
 
 ALLOWED_HOSTS = [
-    'localhost', '127.0.0.1', ONE_URL, '192.168.1.123'
+    ONE_URL, '192.168.1.123', '178.62.45.117'
 ]
+
 API_URL = f'http://{ONE_URL}:8000/api/'
 API_AUTHENTICATION = HTTPBasicAuth(username=os.getenv("API_USER"),
                                    password=os.getenv("API_PASSWORD"))
