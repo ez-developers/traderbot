@@ -38,7 +38,8 @@ class Profile():
         user = get(f'users/{chat_id}')
         language = user['language']
         status = user['subscription_status']
-        locale.setlocale(locale.LC_TIME, f'{language}_{language.upper()}')
+        locale.setlocale(
+            locale.LC_ALL, f'{language}_{language.upper()}.utf-8')
         date = datetime.datetime.strptime(
             user['subscribed_until'], "%Y-%m-%d").strftime('%d %B %Y')
 
