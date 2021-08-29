@@ -5,8 +5,6 @@ from datetime import datetime, timedelta
 from core.settings import TIME_ZONE
 from pytz import timezone
 
-from markdownfield.models import MarkdownField, RenderedMarkdownField
-from markdownfield.validators import VALIDATOR_STANDARD
 
 class User(models.Model):
     class Meta:
@@ -43,11 +41,12 @@ class User(models.Model):
     def __str__(self):
         return str(self.id)
 
+
 ALLOWED_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+
 
 def get_code():
     return get_random_string(length=6, allowed_chars=ALLOWED_CHARS)
-
 
 
 def add_one_year():
@@ -124,7 +123,6 @@ class BroadcastAll(models.Model):
         upload_to="uploads/broadcast-all/%Y_%m_%d/", null=True, blank=True, verbose_name="Фото")
     date_sent = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата и время отправки")
-
 
     class Meta:
         verbose_name_plural = "Общие рассылки"
