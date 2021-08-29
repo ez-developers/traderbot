@@ -22,7 +22,7 @@ admin.site.site_header = "Администрация Trader One™"
 class UserAdmin(admin.ModelAdmin):
     list_display = ("id", "first_name", "last_name", "username",
                     "phone_number", "subscription_status", "date_joined", "subscribed_until")
-    exclude = ("number_of_subscriptions",)
+    exclude = ("number_of_subscriptions", "portfolio")
     list_display_links = ("id",)
     list_filter = ("subscribed_until", ('subscription_status',
                                         admin.BooleanFieldListFilter),)
