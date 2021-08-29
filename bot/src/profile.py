@@ -125,7 +125,7 @@ class Profile():
         user = get(f'users/{chat_id}')
         language = user['language']
         locale.setlocale(
-            locale.LC_TIME, f'{language}_{language.upper()}.utf-8')
+            locale.LC_ALL, f'{language}_{language.upper()}.utf-8')
         years_paid = context.user_data['years_paid']
         year = 365
         subscribed_until = datetime.datetime.strptime(
