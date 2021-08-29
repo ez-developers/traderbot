@@ -207,7 +207,7 @@ def main():
     )
 
     dispatcher.add_handler(main_conversation)
-    # dispatcher.add_error_handler(error_handler)
+    dispatcher.add_error_handler(error_handler)
     dispatcher.add_handler(MessageHandler(
         ReplyToMessageFilter(Filters.user(BOT_ID)), group.reply_to_user))
 
