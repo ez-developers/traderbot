@@ -4,7 +4,7 @@
 
 </div>
 
-![contributors](https://img.shields.io/badge/contributors-3-blue) ![version](https://img.shields.io/badge/version-1.0-red) ![maintainers](https://img.shields.io/badge/maintainers-ez--developers-green) ![code-quality](https://img.shields.io/badge/code--quality-89-informational) ![license](https://img.shields.io/badge/licence-MIT-orange) ![issues](https://img.shields.io/badge/issues-2-critical)
+![contributors](https://img.shields.io/badge/contributors-3-blue) ![version](https://img.shields.io/badge/version-1.0-red) ![maintainers](https://img.shields.io/badge/maintainers-ez--developers-green) ![code-quality](https://img.shields.io/badge/code--quality-89-informational) ![license](https://img.shields.io/badge/licence-MIT-orange) ![issues](https://img.shields.io/badge/issues-3-critical)
 
 **Trader One Bot™** is a telegram bot built with Telegram's [Bot API](https://core.telegram.org/bots/api) in [Python](https://python.org/) programming language.
 
