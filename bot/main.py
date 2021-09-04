@@ -206,6 +206,7 @@ def main():
             CommandHandler('pay', profile.choose_plan),
             CommandHandler('support', menu.support)
         ],
+        per_chat=False,
         name="main_conversation",
         persistent=True
     )
