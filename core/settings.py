@@ -39,7 +39,7 @@ GROUP_ID = -1001467504028
 BOT_ID = 1930302088
 
 # Bot send terms and conditions document
-DOCUMENT_FILE_ID = 'BQACAgIAAxkBAAIRpWEfth5JYlaVgZx8ydsLLwlxIQzxAALtDgACSE4BSWcHEjPZWAgaIAQ'
+DOCUMENT_FILE_ID = 'BQACAgIAAxkBAAIdi2FKq0a9mU_W0Phrjh1HzZY03MZOAAJOEQACDrUoSsXWLbVd-StlIQQ'
 
 # Should be integer (not floats/doubles)
 AMOUNT_TO_PAY = 35000
