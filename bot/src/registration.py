@@ -6,7 +6,7 @@ from telegram import (Update,
                       ReplyKeyboardRemove,
                       KeyboardButton,
                       LabeledPrice)
-from core.settings import (INVOICE_IMAGE_URL,
+from core.settings import (UZS, RUB, INVOICE_IMAGE_URL,
                            INVOICE_TITLE,
                            INVOICE_DESCRIPTION,
                            DOCUMENT_FILE_ID)
@@ -277,7 +277,7 @@ class Registration:
 
         payload = "I am paying for the course"
         provider_token = os.getenv(f'{currency}_PAYMENT')
-        price = 38000 * years if currency == "RUB" else 5000000 * years
+        price = RUB * years if currency == "RUB" else UZS * years
         prices = [LabeledPrice(b('pay', language), price * 100)]
 
         context.bot.send_message(chat_id,
