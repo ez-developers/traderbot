@@ -41,6 +41,10 @@ BOT_ID = 1930302088
 # Bot send terms and conditions document
 DOCUMENT_FILE_ID = 'BQACAgIAAxkBAAIevWFhsPkXNhukVSgi6i_AH4kDVSI7AAL0EAACtm0RS2JMddRRdFBbIQQ'
 
+# Amounts to pay in different currencies
+UZS = 5000000
+RUB = 38000
+
 # Payments Integration
 INVOICE_TITLE = "THIS IS A TITLE FOR THE INVOICE"
 INVOICE_DESCRIPTION = "This is a description for the invoice"
