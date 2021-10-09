@@ -171,9 +171,13 @@ def main():
                         MessageHandler(
                             Filters.regex(buttons('1_year')) |
                             Filters.regex(buttons('3_years')) |
-                            Filters.regex(buttons('5_years')), profile.extend_subscription)
+                            Filters.regex(buttons('5_years')), profile.choose_provider)
                     ],
                     states={
+                        "CHOOSING_PROVIDER": [
+                            CallbackQueryHandler(
+                                profile.extend_subscription, pattern='UZS|RUB')
+                        ],
                         "EXTENDING_PAY": [
                             MessageHandler(Filters.regex(
                                 buttons('cancel_pay')), profile.cancel_extending),

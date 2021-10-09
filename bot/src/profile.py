@@ -1,9 +1,7 @@
 from telegram.ext import CallbackContext
-from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, LabeledPrice
-from core.settings import (CURRENCY,
-                           AMOUNT_TO_PAY,
-                           INVOICE_TITLE,
-                           INVOICE_DESCRIPTION)
+from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, LabeledPrice, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
+from core.settings import (INVOICE_TITLE,
+                           INVOICE_DESCRIPTION, RUB, UZS)
 from bot.src.menu import Menu
 from bot.src.text import t, b
 from bot.utils.request import get, put
@@ -73,16 +71,48 @@ class Profile():
             f"{chat_id} - is extending his subscription. Returned state: {state}")
         return state
 
+    def choose_provider(self, update: Update, context: CallbackContext):
+        chat_id = update.effective_chat.id
+        language = lang(chat_id)
+        state = "CHOOSING_PROVIDER"
+        markup = [
+            [InlineKeyboardButton(b('click', language), callback_data="UZS"),
+             InlineKeyboardButton(b('yoomoney', language), callback_data="RUB")]
+        ]
+
+        context.user_data.update(
+            {
+                "numberOfYears": update.effective_message.text[0]
+            }
+        )
+
+        context.bot.send_message(chat_id,
+                                 t('proceed_to_payment', language),
+                                 reply_markup=ReplyKeyboardRemove(),
+                                 parse_mode='HTML')
+
+        context.bot.send_message(chat_id,
+                                 t('choose_provider', language),
+                                 reply_markup=InlineKeyboardMarkup(markup),
+                                 parse_mode='HTML')
+        logging.info(
+            f"{chat_id} - is choosing payment providers. Returning state: {state}")
+        return state
+
     def extend_subscription(self, update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         language = lang(chat_id)
-        years = update.effective_message.text[0]
+        years = context.user_data['numberOfYears']
+        query = update.callback_query
+        currency = query.data
         state = "EXTENDING_PAY"
 
+        query.answer()
+        query.delete_message()
+
         invoice_payload = "I am extending the subscription"
-        provider_token = os.getenv('PAYMENT_TOKEN')
-        currency = CURRENCY
-        price = AMOUNT_TO_PAY * int(years)
+        provider_token = os.getenv(f'{currency}_PAYMENT')
+        price = RUB * int(years) if currency == 'RUB' else UZS * int(years)
         prices = [LabeledPrice(b('pay', language), price * 100)]
 
         context.bot.send_message(chat_id,
