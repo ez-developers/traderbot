@@ -112,9 +112,13 @@ def main():
                 ConversationHandler(
                     entry_points=[
                         MessageHandler(Filters.regex(
-                            buttons('subscribe')), registration.subscribe),
+                            buttons('subscribe')), registration.choose_provider),
                     ],
                     states={
+                        "CHOOSING_PROVIDER": [
+                            CallbackQueryHandler(
+                                registration.subscribe, pattern='UZS|RUB')
+                        ],
                         "INITIAL_PAYING": [
                             MessageHandler(Filters.regex(buttons('cancel_pay')),
                                            registration.cancel_pay),

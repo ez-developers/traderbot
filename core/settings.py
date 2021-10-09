@@ -39,15 +39,12 @@ GROUP_ID = -1001467504028
 BOT_ID = 1930302088
 
 # Bot send terms and conditions document
-DOCUMENT_FILE_ID = 'BQACAgIAAxkBAAIdi2FKq0a9mU_W0Phrjh1HzZY03MZOAAJOEQACDrUoSsXWLbVd-StlIQQ'
-
-# Should be integer (not floats/doubles)
-AMOUNT_TO_PAY = 35000
-CURRENCY = "RUB"
+DOCUMENT_FILE_ID = 'BQACAgIAAxkBAAIevWFhsPkXNhukVSgi6i_AH4kDVSI7AAL0EAACtm0RS2JMddRRdFBbIQQ'
 
 # Payments Integration
 INVOICE_TITLE = "THIS IS A TITLE FOR THE INVOICE"
 INVOICE_DESCRIPTION = "This is a description for the invoice"
+INVOICE_IMAGE_URL = "https://telegra.ph/file/6f3ea68def8e6e602ca98.png"
 
 
 ONE_URL = os.getenv('ONE_URL')

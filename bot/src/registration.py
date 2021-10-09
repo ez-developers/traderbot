@@ -6,8 +6,7 @@ from telegram import (Update,
                       ReplyKeyboardRemove,
                       KeyboardButton,
                       LabeledPrice)
-from core.settings import (AMOUNT_TO_PAY,
-                           CURRENCY,
+from core.settings import (INVOICE_IMAGE_URL,
                            INVOICE_TITLE,
                            INVOICE_DESCRIPTION,
                            DOCUMENT_FILE_ID)
@@ -115,6 +114,7 @@ class Registration:
 
         context.bot.send_document(chat_id,
                                   DOCUMENT_FILE_ID,
+                                  filename="Публичная оферта - Trader One™",
                                   caption=t('request_agreement',
                                             lang(chat_id)),
                                   reply_markup=InlineKeyboardMarkup([
@@ -243,15 +243,41 @@ class Registration:
             f"{chat_id} - is choosing a subscription plan. Returning state: {state}")
         return state
 
+    def choose_provider(self, update: Update, context: CallbackContext):
+        chat_id = update.effective_chat.id
+        language = lang(chat_id)
+        state = "CHOOSING_PROVIDER"
+        markup = [
+            [InlineKeyboardButton(b('click', language), callback_data="UZS"),
+             InlineKeyboardButton(b('yoomoney', language), callback_data="RUB")]
+        ]
+
+        context.bot.send_message(chat_id,
+                                 t('proceed_to_payment', language),
+                                 reply_markup=ReplyKeyboardRemove(),
+                                 parse_mode='HTML')
+
+        context.bot.send_message(chat_id,
+                                 t('choose_provider', language),
+                                 reply_markup=InlineKeyboardMarkup(markup),
+                                 parse_mode='HTML')
+        logging.info(
+            f"{chat_id} - is choosing payment providers. Returning state: {state}")
+        return state
+
     def subscribe(self, update: Update, context: CallbackContext, years=1):
         chat_id = update.effective_chat.id
         language = lang(chat_id)
         state = "INITIAL_PAYING"
 
+        query = update.callback_query
+        currency = query.data
+        query.answer()
+        query.delete_message()
+
         payload = "I am paying for the course"
-        provider_token = os.getenv('PAYMENT_TOKEN')
-        currency = CURRENCY
-        price = AMOUNT_TO_PAY * years
+        provider_token = os.getenv(f'{currency}_PAYMENT')
+        price = 38000 * years if currency == "RUB" else 5000000 * years
         prices = [LabeledPrice(b('pay', language), price * 100)]
 
         context.bot.send_message(chat_id,
@@ -270,6 +296,7 @@ class Registration:
             provider_token,
             currency,
             prices,
+            photo_url=INVOICE_IMAGE_URL,
             photo_width=512,
             photo_height=512,
             photo_size=512
