@@ -56,7 +56,7 @@ PORT = os.getenv('PORT')
 USER_DETAILS_URL = f'https://{ONE_URL}:{PORT}/admin/app/user/'
 
 ALLOWED_HOSTS = [
-    '127.0.0.1', ONE_URL
+    '127.0.0.1', ONE_URL, '87.242.105.118'
 ]
 
 API_URL = f'https://{ONE_URL}:{PORT}/api/'
