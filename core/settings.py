@@ -35,19 +35,19 @@ ADMIN_IDS = [
 ]
 DEVELOPER_ID = 361516746
 DJANGO_DEVELOPER_ID = 943373513
-GROUP_ID = -1001467504028
-BOT_ID = 1930302088
+GROUP_ID = -1001585830693
+BOT_ID = 1939112596
 
 # Bot send terms and conditions document
-DOCUMENT_FILE_ID = 'BQACAgIAAxkBAAIevWFhsPkXNhukVSgi6i_AH4kDVSI7AAL0EAACtm0RS2JMddRRdFBbIQQ'
+DOCUMENT_FILE_ID = 'BQACAgIAAxkBAAMaYYHmJ05h3EN143BZ07xmCT8qiH0AAvQQAAK2bRFLzcUhB9GVuqUhBA'
 
 # Amounts to pay in different currencies
 UZS = 5000000
 RUB = 38000
 
 # Payments Integration
-INVOICE_TITLE = "THIS IS A TITLE FOR THE INVOICE"
-INVOICE_DESCRIPTION = "This is a description for the invoice"
+INVOICE_TITLE = "1 x Подписка на все портфели"
+INVOICE_DESCRIPTION = "Оплата даёт доступ на получение сигналов-обновлений от всех портфелей"
 INVOICE_IMAGE_URL = "https://telegra.ph/file/6f3ea68def8e6e602ca98.png"
 
 
@@ -56,7 +56,7 @@ PORT = os.getenv('PORT')
 USER_DETAILS_URL = f'https://{ONE_URL}:{PORT}/admin/app/user/'
 
 ALLOWED_HOSTS = [
-    '127.0.0.1', ONE_URL, '87.242.105.118'
+    '127.0.0.1', ONE_URL
 ]
 
 API_URL = f'https://{ONE_URL}:{PORT}/api/'
