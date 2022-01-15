@@ -151,7 +151,7 @@ def main():
                                menu.video_lessons),
                 MessageHandler(Filters.regex(
                     buttons('support')), menu.support),
-                quiz_conversation
+                # quiz_conversation
             ],
             "MY_PROFILE": [
                 MessageHandler(Filters.regex(buttons('back')), menu.display),
