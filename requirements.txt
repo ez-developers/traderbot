@@ -8,7 +8,7 @@ cachetools==4.2.2
 certifi==2021.10.8
 charset-normalizer==2.0.4
 distlib==0.3.2
-Django==3.2.6
+Django==3.2.14
 django-filter==2.4.0
 djangorestframework==3.12.4
 filelock==3.0.12
